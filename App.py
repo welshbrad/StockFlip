@@ -1,6 +1,4 @@
-from PIL import Image, ImageTk
 from tkinter import *
-from tkinter.ttk import Frame, Label, Style
 
 version = "0.1"
 
@@ -9,15 +7,34 @@ class MainWindow(Frame):
     bg_color = "#333"
     fg_color = "#FFF"
     padding = (10,10)
+
   
-    def __init__(self):
+    def __init__(self, master):
         super().__init__()   
+        self.master = master
+
+        self.initMenus()
         self.master.title("StockFlip - version " + version)
         self.initLogin()
-        #self.initUI()
+        #self.initMainUI()
 
+    def initMenus(self):
+        menubar = Menu(self.master)
+        
+        filemenu = Menu(menubar, tearoff=0)
+        filemenu.add_command(label="Configure User", command=options)
+        filemenu.add_command(label="Exit", command=self.master.quit)
+        menubar.add_cascade(label="File", menu=filemenu)
+        
+        
+
+        helpmenu = Menu(menubar, tearoff=0)
+        helpmenu.add_command(label="About", command=options)
+        menubar.add_cascade(label="Help", menu=helpmenu)
+
+        self.master.config(menu=menubar)
+   
     def initLogin(self):
-          
         self.master.configure(background=self.bg_color)
         title_label = Label(self.master, text="Log in to StockFlip", background=self.bg_color, foreground=self.fg_color, justify=CENTER).grid(row=0, columnspan=2, padx=self.padding, pady=self.padding)
         l1 = Label(self.master, text="Username", background=self.bg_color, foreground=self.fg_color).grid(row=1, column=0, padx=self.padding, pady=self.padding)
@@ -28,15 +45,15 @@ class MainWindow(Frame):
         e2 = Entry(self.master).grid(row=2, column=1, padx=self.padding, pady=self.padding)
         #Use this form to implement login
 
-        login_button = Button(self.master, text="Log in", command=lambda: Login()).grid(row=3, column=1, padx=self.padding, pady = self.padding, sticky=E)
+        login_button = Button(self.master, text="Log in", command=lambda: login()).grid(row=3, column=1, padx=self.padding, pady = self.padding, sticky=E)
+
         
-        
-    def initUI(self):
-        
-      
-      
-        
-        self.pack(fill=BOTH, expand=1)
+    def initMainUI(self):
+        self.counter += 1
+        t = tk.Toplevel(self)
+        t.wm_title("Window #%s" % self.counter)
+        l = tk.Label(t, text="This is window #%s" % self.counter)
+        l.pack(side="top", fill="both", expand=True, padx=100, pady=100)
       
         Style().configure("TFrame", background="#333")
    
@@ -44,14 +61,24 @@ class MainWindow(Frame):
         label1 = Label(self, text="Test text").grid(column=1, row=1, sticky=W)
         label2 = Label(self, text="Test text2").grid(column=2, row=1, sticky=E)
         
-def Login():
-    print("Hi")
+def login(Frame, user, password):
+    print("Interface with Login module here.")
+    if(user == "bw" and password == "123"):
+        print("Correct Password")
         
+    else:
+        print("Incorrect Password")
+        Frame.master.quit
         
+
+def options():
+    print ("Options Menu")
+
+
 def main():
     
     root = Tk()
-    app = MainWindow()
+    app = MainWindow(master=root)
     root.mainloop()  
 
 
