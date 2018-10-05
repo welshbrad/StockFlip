@@ -1,8 +1,15 @@
 from tkinter import *
 import os
-userData = 'UserInfo.txt'
+userData = 'UserInfo.txt'  
+
+class User():
+    def __init__(self, username):
+        self.username = username
+
 
 def CheckLogin(idEL, passEL):
+    print(idEL, passEL)
+    
     with open(userData) as f:
         data = f.readlines()
         id = data[0].rstrip()
@@ -17,21 +24,8 @@ def CheckLogin(idEL, passEL):
         else:
             a = False
         
-
-    if a == True:
-        r = Tk()
-        r.title(':D')
-        r.geometry('150x50')
-        rlbl = Label(r, text = '\nLogged In')
-        rlbl.pack()
-        r.mainloop()
-    else:
-        r = Tk()
-        r.title(':D')
-        r.geometry('150x50')
-        rlbl = Label(r, text='\nInvalid Username or Password')
-        rlbl.pack()
-        r.mainloop()
+    return a
+   
 
 def SignUp():
     global passE

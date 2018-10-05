@@ -1,11 +1,105 @@
-from tkinter import *
-import loginFile as f1
+#!/usr/bin/python3
+# -*- coding: utf-8 -*-
+
+from PyQt5.QtWidgets import *
+import sys
+import Login as login
+
 version = "0.1"
+title = "StockFlip - version " + version
 
 
+
+def center(QWidget):
+
+	qr = QWidget.frameGeometry()
+	cp = QDesktopWidget().availableGeometry().center()
+	qr.moveCenter(cp)
+	QWidget.move(qr.topLeft())
+
+
+		
+		
+class UI(QWidget):
+	mainInstance = None
+	
+	def __init__(self):
+		super().__init__()
+
+	def initUI(self):    
+		mainInstance = self
+		self.setWindowTitle(title)	
+		self.resize(300, 300)
+		center(self)
+		form = QFormLayout()
+		user_entry = QLineEdit()
+		form.addRow("Username", user_entry)
+		self.setLayout(form)   
+		self.hide()
+
+	def initLoginScreen(self):
+		self.setWindowTitle("Login | " + title)
+		self.resize(300, 300)
+		center(self)
+		
+		form = QFormLayout()
+
+		user_entry = QLineEdit()
+		form.addRow("Username", user_entry)
+
+		pass_entry = QLineEdit()
+		pass_entry.setEchoMode(QLineEdit.Password)
+		form.addRow("Password",pass_entry)
+		
+		
+		login_button = QPushButton("&Login")
+		login_button.setDefault(True)
+		login_button.setAutoDefault(True)
+		login_button.clicked.connect(lambda : enter_credentials(user_entry.text(), pass_entry.text(), login_button, self))
+		
+		pass_entry.editingFinished.connect(login_button.click)
+		form.addWidget(login_button)
+		
+		self.setLayout(form)
+		self.show()
+
+
+
+def enter_credentials(username, password, login_button, widget):
+	login_button.setEnabled(False)
+	login_button.setText("Logging in...")
+	if(login.CheckLogin(username, password)):
+		widget.hide()
+		createMainWindow()
+	else:
+		print("Fail")
+		login_button.setEnabled(True)
+		login_button.setText("Login")
+	
+def createMainWindow():
+	if UI.mainInstance is not None:
+		UI.mainInstance.QWidget.show()
+	
+	
+
+	
+def main():
+	app = QApplication(sys.argv)
+	''' '''
+	loginWindow = UI().initLoginScreen()
+	mainWindow = UI().initUI()
+	
+	sys.exit(app.exec_())
+
+if __name__ == '__main__':
+	main()  
+
+
+
+
+
+'''
 class MainWindow(Frame):
-
-    
     bg_color = "#333"
     fg_color = "#FFF"
     padding = (10,10)
@@ -13,11 +107,9 @@ class MainWindow(Frame):
   
     def __init__(self, master):
         super().__init__()   
-        self.master = master
-
         self.initMenus()
-        self.master.title("StockFlip - version " + version)
-        self.initLogin()
+        self.master.title(title)
+       
         #self.initMainUI()
 
     def initMenus(self):
@@ -36,22 +128,7 @@ class MainWindow(Frame):
 
         self.master.config(menu=menubar)
    
-    def initLogin(self):
-        global e1
-        global e2
-        self.master.configure(background=self.bg_color)
-        title_label = Label(self.master, text="Log in to StockFlip", background=self.bg_color, foreground=self.fg_color, justify=CENTER).grid(row=0, columnspan=2, padx=self.padding, pady=self.padding)
-        l1 = Label(self.master, text="Username", background=self.bg_color, foreground=self.fg_color).grid(row=1, column=0, padx=self.padding, pady=self.padding)
-        l2 = Label(self.master, text="Password", background=self.bg_color, foreground=self.fg_color).grid(row=2, column=0, padx=self.padding, pady=self.padding)
-        
-        
-        e1 = Entry(self.master)
-        e1.grid(row=1, column=1, padx=self.padding, pady=self.padding)
-        e2 = Entry(self.master, show='*')
-        e2.grid(row=2, column=1, padx=self.padding, pady=self.padding)
-        #Use this form to implement login
-        login_button = Button(self.master, text="Log in", command=lambda: login()).grid(row=3, column=1, padx=self.padding, pady = self.padding, sticky=E)
-        create_button = Button(self.master, text="Create new User", command=lambda:createUser()).grid(row=3, column=2, padx=self.padding, pady = self.padding, sticky=E)
+    
         
     def initMainUI(self):
         self.counter += 1
@@ -77,21 +154,10 @@ def login():
         #show error
 def createUser():
     f1.SignUp()
-
-
-
     
 
 def options():
     print ("Options Menu")
 
+'''
 
-def main():
-    
-    root = Tk()
-    app = MainWindow(master=root)
-    root.mainloop()  
-
-
-if __name__ == '__main__':
-    main()  
