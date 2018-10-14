@@ -3,7 +3,7 @@
 
 from PyQt5.QtWidgets import *
 import sys
-import Login as login
+import Login as loginfile
 
 version = "0.1"
 title = "StockFlip - version " + version
@@ -147,7 +147,7 @@ def login():
     idE = e1.get()
     passE = e2.get()
     #print (idE, passE)
-    a = f1.CheckLogin(idE, passE)
+    a = loginfile.CheckLogin(idE, passE)
     #if a is true
         #enter program
     #else
