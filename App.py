@@ -152,8 +152,6 @@ def login():
         #enter program
     #else
         #show error
-def createUser():
-    f1.SignUp()
     
 
 def options():
