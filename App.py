@@ -4,6 +4,7 @@
 from PyQt5.QtWidgets import *
 import sys
 import Login as loginfile
+import Companies as companies
 
 version = "0.1"
 title = "StockFlip - version " + version
@@ -83,11 +84,21 @@ def createMainWindow():
 	
 
 	
+	
+	
 def main():
 	app = QApplication(sys.argv)
 	''' '''
+	
+	#companies.display_company_list()
+	
+	
 	loginWindow = UI().initLoginScreen()
 	mainWindow = UI().initUI()
+	
+
+	
+	
 	
 	sys.exit(app.exec_())
 
@@ -96,66 +107,4 @@ if __name__ == '__main__':
 
 
 
-
-
-'''
-class MainWindow(Frame):
-    bg_color = "#333"
-    fg_color = "#FFF"
-    padding = (10,10)
-
-  
-    def __init__(self, master):
-        super().__init__()   
-        self.initMenus()
-        self.master.title(title)
-       
-        #self.initMainUI()
-
-    def initMenus(self):
-        menubar = Menu(self.master)
-        
-        filemenu = Menu(menubar, tearoff=0)
-        filemenu.add_command(label="Configure User", command=options)
-        filemenu.add_command(label="Exit", command=self.master.quit)
-        menubar.add_cascade(label="File", menu=filemenu)
-        
-        
-
-        helpmenu = Menu(menubar, tearoff=0)
-        helpmenu.add_command(label="About", command=options)
-        menubar.add_cascade(label="Help", menu=helpmenu)
-
-        self.master.config(menu=menubar)
-   
-    
-        
-    def initMainUI(self):
-        self.counter += 1
-        t = tk.Toplevel(self)
-        t.wm_title("Window #%s" % self.counter)
-        l = tk.Label(t, text="This is window #%s" % self.counter)
-        l.pack(side="top", fill="both", expand=True, padx=100, pady=100)
-      
-        Style().configure("TFrame", background="#333")
-   
-
-        label1 = Label(self, text="Test text").grid(column=1, row=1, sticky=W)
-        label2 = Label(self, text="Test text2").grid(column=2, row=1, sticky=E)
-
-def login():
-    idE = e1.get()
-    passE = e2.get()
-    #print (idE, passE)
-    a = loginfile.CheckLogin(idE, passE)
-    #if a is true
-        #enter program
-    #else
-        #show error
-    
-
-def options():
-    print ("Options Menu")
-
-'''
 

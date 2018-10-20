@@ -1,0 +1,20 @@
+import Utils as utils
+
+
+
+
+
+
+def init_companies():
+	companies = utils.get_symbols()
+	return companies
+
+companies = init_companies()
+
+
+def display_company_list():
+	for symbol in companies:
+		print(symbol)
+
+
+
