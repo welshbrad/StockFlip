@@ -8,27 +8,17 @@ class Portfolio():
 			self.username = username
 			self.credits = 0
 
-
-	'''
-	Set the stock to [quantity] at key value [symbol], independent of previous value
-	Returns True on success, else False
-	'''
 	def set_stock(self, symbol, quantity):
 		try:
 			self.owned_stocks[symbol] = quantity
 		except KeyError as e:
 			raise e
-			print("KeyErrorL " + e)
+			print("KeyError: " + e)
 			return False
 
 		assert self.owned_stocks[symbol] >= 0
 		return True
 
-
-	'''
-	Set the quantity of owned stock equal to the old quantity + [quantity] at key [symbol]
-	Returns True if successful, else False
-	'''
 	def add_stock(self, symbol, quantity):
 		if not (isinstance(symbol, str) and (isinstance(quantity, int))):
 			return False
@@ -43,8 +33,8 @@ class Portfolio():
 
 
 	'''
-	Set the quantity of owned stock equal to the old quantity - [quantity] at key [symbol]
-	Returns True if successful, else False
+	Removes [quantity] stocks (integers) from the owned_stocks dictionary at key [symbol] 
+	Returns true if successful, else false
 	'''
 	def remove_stock(self, symbol, quantity):
 		self.owned_stocks[symbol] -= quantity
@@ -71,20 +61,19 @@ class Portfolio():
 		else:
 			return False 
 
-
-	'''
-	Serialize (self) object and dump it into a file with self.username as the filename
-	'''
 	def dump_user_data(self):
 		with open(self.username + ".json", "w") as write_file:
 			json.dump(self.__dict__, write_file)
 
 
+
+
 newUser = Portfolio("Brad")
-newUser.add_stock("GOOGL", 88)
 
-newUser.add_stock("GOOGL", 88)
+def test_add_stock():	
+	assert newUser.add_stock("GOOGL", 88) == True
 
-#newUser.dump_user_data()
-
-newUser.print_portfolio()
+def test_add_stock_not_right_object_params():
+	assert newUser.add_stock("GOOGL", "asd") == False
+	assert newUser.add_stock(123, 123) == False
+	assert newUser.add_stock(123, "asd") == False

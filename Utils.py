@@ -34,16 +34,8 @@ def get_company_data_time_delta(company_code):
 	#get current time (end)
 	now = datetime.now()
 	start = now - timedelta(minutes=time_delta)
-	df = iex.get_historical_data(company_code, start=start, end=now, output_format="pandas")
+	data_list = iex.get_historical_data(company_code, start=start, end=now, output_format="pandas")
+	df = pd.DataFrame(data_list)
 	return df
 
-
-
-symbols = get_symbols()
-print(symbols.head())
-
-start = datetime(2018, 9, 20)
-end = datetime(2018, 10, 20)
-
-for symbol in symbols:
-	print(get_company_data_start_end(symbol.loc(), start, end))
+print(get_company_data_time_delta("AAPL"))

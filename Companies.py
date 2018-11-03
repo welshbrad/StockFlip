@@ -20,4 +20,8 @@ Use this to display buttons for each company list
 def display_company_list():
 	print(companies.head())
 
+def get_company_information(symbol):
+	pass
+	#companies.
+
 

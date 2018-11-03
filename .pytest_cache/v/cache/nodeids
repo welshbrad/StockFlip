@@ -1,0 +1,4 @@
+[
+  "tests/Portfolio_test.py::test_add_stock",
+  "tests/Portfolio_test.py::test_add_stock_not_right_object_params"
+]
