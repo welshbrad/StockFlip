@@ -1,110 +1,63 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
-from PyQt5.QtWidgets import *
-import sys
-import Login as loginfile
-import Companies as companies
-
 version = "0.1"
 title = "StockFlip - version " + version
 
+import sys
+from PyQt5 import uic
+from PyQt5 import QtCore, QtGui, QtWidgets #works for pyqt5
+from PyQt5.QtWidgets import *
 
+class Login_UI(QDialog):
+    def __init__(self):
+        super().__init__()
+        ui = uic.loadUi('UI/login_dialog.ui', baseinstance=self)
+        ui.LoginButton.clicked.connect(self.perform_login)
 
-def center(QWidget):
+    def perform_login(self):
+        username = self.lineEdit.text()
+        password = self.lineEdit_2.text()
+        #Login.blah blah blah
+        print("Perform login here")
+        self.accept()
+ 
+class MainApp(QWidget):
+    def __init__(self):
+        super().__init__()
+        self.title = title
+        self.left = 10
+        self.top = 10
+        self.width = 640
+        self.height = 480
+        self.initUI()
+        self.centerScreen()
+ 
+    def initUI(self):
+        self.setWindowTitle(self.title)
+        self.setGeometry(self.left, self.top, self.width, self.height)
+        #self.show()
 
-	qr = QWidget.frameGeometry()
-	cp = QDesktopWidget().availableGeometry().center()
-	qr.moveCenter(cp)
-	QWidget.move(qr.topLeft())
+    def closeEvent(self, event):
+        reply = QMessageBox.question(self, 'Quit?',
+            "Are you sure to quit?", QMessageBox.No | 
+            QMessageBox.Yes, QMessageBox.No)
+        if reply == QMessageBox.Yes:
+            event.accept()
+        else:
+            event.ignore()
 
-
-		
-		
-class UI(QWidget):
-	mainInstance = None
-	
-	def __init__(self):
-		super().__init__()
-
-	def initUI(self):    
-		mainInstance = self
-		self.setWindowTitle(title)	
-		self.resize(300, 300)
-		center(self)
-		form = QFormLayout()
-		user_entry = QLineEdit()
-		form.addRow("Username", user_entry)
-		self.setLayout(form)   
-		self.hide()
-
-	def initLoginScreen(self):
-		self.setWindowTitle("Login | " + title)
-		self.resize(300, 300)
-		center(self)
-		
-		form = QFormLayout()
-
-		user_entry = QLineEdit()
-		form.addRow("Username", user_entry)
-
-		pass_entry = QLineEdit()
-		pass_entry.setEchoMode(QLineEdit.Password)
-		form.addRow("Password",pass_entry)
-		
-		
-		login_button = QPushButton("&Login")
-		login_button.setDefault(True)
-		login_button.setAutoDefault(True)
-		login_button.clicked.connect(lambda : enter_credentials(user_entry.text(), pass_entry.text(), login_button, self))
-		
-		pass_entry.editingFinished.connect(login_button.click)
-		form.addWidget(login_button)
-		
-		self.setLayout(form)
-		self.show()
-
-
-
-def enter_credentials(username, password, login_button, widget):
-	login_button.setEnabled(False)
-	login_button.setText("Logging in...")
-	if(login.CheckLogin(username, password)):
-		widget.hide()
-		createMainWindow()
-	else:
-		print("Fail")
-		login_button.setEnabled(True)
-		login_button.setText("Login")
-	
-def createMainWindow():
-	if UI.mainInstance is not None:
-		UI.mainInstance.QWidget.show()
-	
-	
-
-	
-	
-	
-def main():
-	app = QApplication(sys.argv)
-	''' '''
-	
-	#companies.display_company_list()
-	
-	
-	loginWindow = UI().initLoginScreen()
-	mainWindow = UI().initUI()
-	
-
-	
-	
-	
-	sys.exit(app.exec_())
-
+    def centerScreen(self):
+        qr = self.frameGeometry()
+        cp = QDesktopWidget().availableGeometry().center()
+        qr.moveCenter(cp)
+        self.move(qr.topLeft())
+ 
 if __name__ == '__main__':
-	main()  
-
-
-
+    app = QtWidgets.QApplication(sys.argv)
+    login = Login_UI()
+    if login.exec_() == QtWidgets.QDialog.Accepted:
+        mainApp = MainApp()
+        mainApp.show()
+        sys.exit(app.exec_())
 

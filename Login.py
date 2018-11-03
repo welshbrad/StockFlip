@@ -21,7 +21,7 @@ def CheckLogin(idEL, passEL):
         rlbl = Label(r, text='\nInvalid Username or Password')
         rlbl.pack()
         r.mainloop()
-        return False;
+        return False
     else:
         passW = data[checkID+1].rstrip()
         pass2check = hashing(passEL)
@@ -55,7 +55,7 @@ def isValidUsername (idE):
     if (len(idE) < 4):
         return False
     else:
-        return True;
+        return True
 def isValidPassword(passE):
     while True:
         if (len(passE)<8 or len(passE)>32):
