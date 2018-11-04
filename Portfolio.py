@@ -9,7 +9,6 @@ class Portfolio():
 			self.username = username
 			self.credits = 0 #balance
 
-
 	'''
 	Set the stock to [quantity] at key value [symbol], independent of previous value
 	Returns True on success, else False

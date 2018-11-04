@@ -8,6 +8,18 @@ import json
 time_delta = 60
 
 '''
+Use this as an assertion that a decorated child method
+is indeed overriding its parent. 
+
+Usage: add @overrides([parent class name]) before child method
+'''
+def overrides(interface_class):
+    def overrider(method):
+        assert(method.__name__ in dir(interface_class))
+        return method
+    return overrider
+
+'''
 NASDAQ company listing, access from API
 Returns Pandas dataframe
 '''
