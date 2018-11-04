@@ -6,13 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-<<<<<<< HEAD
     <width>349</width>
     <height>192</height>
-=======
-    <width>460</width>
-    <height>183</height>
->>>>>>> 41915f078a5137ce4aecca9d7d892bc842755bf4
    </rect>
   </property>
   <property name="windowTitle">
@@ -23,13 +18,8 @@
     <rect>
      <x>10</x>
      <y>10</y>
-<<<<<<< HEAD
      <width>321</width>
      <height>191</height>
-=======
-     <width>440</width>
-     <height>161</height>
->>>>>>> 41915f078a5137ce4aecca9d7d892bc842755bf4
     </rect>
    </property>
    <property name="title">
@@ -86,11 +76,7 @@
      <rect>
       <x>30</x>
       <y>110</y>
-<<<<<<< HEAD
       <width>271</width>
-=======
-      <width>400</width>
->>>>>>> 41915f078a5137ce4aecca9d7d892bc842755bf4
       <height>41</height>
      </rect>
     </property>
@@ -148,10 +134,6 @@
   <tabstop>lineEdit_2</tabstop>
   <tabstop>LoginButton</tabstop>
   <tabstop>CreateAccButton</tabstop>
-<<<<<<< HEAD
-=======
-  <tabstop>ResetPassButton</tabstop>
->>>>>>> 41915f078a5137ce4aecca9d7d892bc842755bf4
  </tabstops>
  <resources/>
  <connections/>
