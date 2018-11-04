@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
-version = "2.27"
+version = "2.28"
 title = "StockFlip - version " + version
 
 import sys
@@ -10,7 +10,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets #works for pyqt5
 from PyQt5.QtWidgets import *
 from Login import Authenticator, AccountCreator
 import Portfolio as pf
-
+import ui_portfolioTile
 
 '''
 Loads and displays the UI for the account login. Valid credentials need to be passed into this UI in order to display the main window
@@ -62,11 +62,29 @@ class MainApp(QtWidgets.QMainWindow):
         self.setWindowTitle(title)
         self.show()
         self.showMaximized()
-        self.updatePortfolio()
+        self.loadPortfolio()
 
-    def updatePortfolio(self):
-        self.loggedInAsUser.setText(pf.username)    
+    def loadPortfolio(self):
+        #current workspace - adding a list of portfolio items to the portfolio seciton of the gui using custom widgets in a list view
+        #This is the scrollable list of custom tile widgets
+        scroll_area = QScrollArea(self)
+        scroll_area.setWidgetResizable(True)
+
+        self.verticalLayout_4.addWidget(scroll_area)
+        d_scroll_area_widget = QWidget()
+        scroll_area.setWidget(d_scroll_area_widget)
+        d_scroll_area_layout = QVBoxLayout(d_scroll_area_widget)
+        
+        for i in range(10):
+            pfTile = ui_portfolioTile.PortfolioTile()
+            d_scroll_area_layout.addWidget(pfTile)
+
+        self.loggedInAsUser.setText(pf.username)
         self.currentBalance.setText(str(pf.credits))    
+
+    def clicked(self, event):
+        
+        pass
 
     def closeEvent(self, event):
         reply = QMessageBox.question(self, 'Quit?',

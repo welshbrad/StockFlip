@@ -12,10 +12,11 @@ credits = 0
 total_value = 0
 
 def calculate_total_value():
+	pass
 	#stock_value = sum(list(owned_stocks.values)) 
 
 
-total_value = credits
+
 
 
 '''
