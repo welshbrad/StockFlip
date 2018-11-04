@@ -49,5 +49,3 @@ def get_company_data_time_delta(company_code):
 	data_list = iex.get_historical_data(company_code, start=start, end=now, output_format="pandas")
 	df = pd.DataFrame(data_list)
 	return df
-
-print(get_company_data_time_delta("AAPL"))

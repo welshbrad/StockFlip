@@ -31,22 +31,20 @@ class Authenticator():
     def checkCredentials(self):
         if self.isValidUsername() and self.isValidPassword():
             # Connect to the MySQL server and check username + password combo
-            # If authenticated, return true and set session token
-            print("Valid credentials") #Remove this once the above part is implemented
-            return True
+            # return true and set session token
+            #self.setSession()
+            return True, ''
         else:
             print("Invalid credentials")  #Remove this once the above part is implemented
-            return False
+            return False, self.return_string
 
     def isValidUsername(self):
-        print(self.username)
         if len(self.username) < 3 or len(self.username) > 16:
             self.return_string = "Invalid Username"
             return False
         return True
 
     def isValidPassword(self):
-        print(self.password)
         if len(self.password) < 8 or len(self.password) > 64:
             self.return_string = "Invalid Password"
             return False
@@ -68,8 +66,7 @@ class AccountCreator(Authenticator):
         if self.isValidUsername() and self.isValidPassword() and self.isValidEmail():
             #Connect to DB, create new user, setup table
             return True, 'Valid'
-        else:
-            return False, self.return_string
+        return False, self.return_string
 
     @overrides(Authenticator)
     def isValidPassword(self):
@@ -79,8 +76,7 @@ class AccountCreator(Authenticator):
             else:
                 self.return_string = "Passwords don't match"
                 return False
-        else:
-            return False
+        return False
 
     def isValidEmail(self):
         if not re.match(r'[^@]+@[^@]+\.[^@]+', self.email):

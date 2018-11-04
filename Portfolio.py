@@ -1,6 +1,10 @@
 from collections import defaultdict
 import json
 
+'''
+This is the data for the logged-in user that is loaded from the db. It contains things like balance, owned stocks, and some functions to 
+add/remove stocks for a given company
+'''
 class Portfolio():
 	def __init__(self, username=''):
 		#Try loading, if failed, then make default portfolio 

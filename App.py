@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
-version = "0.22"
+version = "1.26"
 title = "StockFlip - version " + version
 
 import sys
@@ -22,28 +22,28 @@ class Login_UI(QDialog):
         username = self.lineEdit.text()
         password = self.lineEdit_2.text()
         authenticate = Authenticator(username, password)
-        if authenticate.checkCredentials():
-            self.accept()
+        valid, message = authenticate.checkCredentials()
+        if not valid:
+            QMessageBox.about(self, "Error", message + "       ")
         else:
-            pass
-            # Invalid login
-
+            self.accept()
 
     def perform_create_account(self):
         creator = AccountCreator(self.ui.usernameLineEdit.text(), self.ui.passwordLineEdit.text(), \
                                 self.ui.confirmPasswordLineEdit.text(), self.ui.emailLineEdit.text())
         valid, message = creator.checkCredentials()
         if not valid:
-            box = QMessageBox.about(self, "Error", message + "       ")
-
+            QMessageBox.about(self, "Error", message + "       ")
+        else:
+            self.ui.accept()
         
     def create_account(self):
-        self.ui.close()
         self.ui = uic.loadUi('UI/create_account.ui')
         self.ui.setModal(True)
         self.ui.CreateAccountButton.clicked.connect(self.perform_create_account)
         self.ui.show()
-        self.ui.exec_()
+        self.ui.exec_() #== QtWidgets.QDialog.Accepted:
+
  
 class MainApp(QtWidgets.QMainWindow):
     def __init__(self):
