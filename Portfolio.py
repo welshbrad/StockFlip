@@ -7,7 +7,7 @@ add/remove stocks for a given company
 '''
 
 owned_stocks = {}
-quick_access_companies = {}
+quick_access_companies = []
 username = ''
 credits = 0
 total_value = 0
@@ -16,9 +16,9 @@ def calculate_total_value():
 	pass
 	#stock_value = sum(list(owned_stocks.values)) 
 
-
-
-
+def add_symbol_to_quick_access(symbol):
+	symbol = str(symbol)
+	quick_access_companies.append(symbol)
 
 '''
 Set the stock to [quantity] at key value [symbol], independent of previous value

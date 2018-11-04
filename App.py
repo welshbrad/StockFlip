@@ -12,6 +12,7 @@ from Login import Authenticator, AccountCreator
 from ResetPassword import resetPass
 import Portfolio as pf
 import ui_portfolioTile
+import ui_company_listing
 
 '''
 Loads and displays the UI for the account login. Valid credentials need to be passed into this UI in order to display the main window
@@ -23,7 +24,7 @@ class Login_UI(QDialog):
         self.ui = uic.loadUi('UI/login_dialog.ui', baseinstance=self)
         self.ui.LoginButton.clicked.connect(self.perform_login)
         self.ui.CreateAccButton.clicked.connect(self.create_account)
-        #self.ui.ResetPassButton.clicked.connect(self.reset_password)
+        self.ui.ResetPassButton.clicked.connect(self.reset_password)
 
     def perform_login(self):
         username = self.lineEdit.text()
@@ -78,6 +79,19 @@ class MainApp(QtWidgets.QMainWindow):
         self.show()
         self.showMaximized()
         self.loadPortfolio()
+        self.loadQuickAccessAndCompanySearch()
+
+    def loadQuickAccessAndCompanySearch(self):
+        #current workspace - adding a list of portfolio items to the portfolio seciton of the gui using custom widgets in a list view
+        #This is the scrollable list of custom tile widgets
+        for symbol in pf.quick_access_companies:
+            wid = ui_company_listing.CompanyListing(self)
+            wid.companyLabel.setText(str(symbol))
+            #wid.ownedStockLabel.setText("Shares owned: "+ str(stock))
+            wid2 = QListWidgetItem()
+            wid2.setSizeHint(QtCore.QSize(100, 100))
+            self.quickAccessList.addItem(wid2)
+            self.quickAccessList.setItemWidget(wid2, wid)
 
     def updatePortfolio(self, event):
         self.listWidget.repaint()

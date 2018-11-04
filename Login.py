@@ -57,6 +57,22 @@ class Authenticator():
         pf.username = self.username
         pf.credits = 6320
         pf.set_stock("GOOGL", 3)
+        pf.add_symbol_to_quick_access("AAPL")
+        pf.add_symbol_to_quick_access("GOOGL")
+        pf.add_symbol_to_quick_access("TSLA")
+        pf.add_symbol_to_quick_access("FB")
+        pf.add_symbol_to_quick_access("YI")
+        pf.add_symbol_to_quick_access("PIH")
+        pf.add_symbol_to_quick_access("CMCSA")
+        pf.add_symbol_to_quick_access("COST")
+        pf.add_symbol_to_quick_access("EBAY")
+        pf.add_symbol_to_quick_access("INTC")
+        pf.add_symbol_to_quick_access("NFLX")
+        pf.add_symbol_to_quick_access("QCOM")
+        pf.add_symbol_to_quick_access("STX")
+        pf.add_symbol_to_quick_access("WBA")
+        pf.add_symbol_to_quick_access("TSLA")
+        pf.add_symbol_to_quick_access("FOX")
         
 
 '''

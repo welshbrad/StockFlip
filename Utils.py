@@ -47,5 +47,8 @@ def get_company_data_time_delta(company_code):
 	now = datetime.now()
 	start = now - timedelta(minutes=time_delta)
 	data_list = iex.get_historical_data(company_code, start=start, end=now, output_format="pandas")
-	df = pd.DataFrame(data_list)
-	return df
+	return data_list
+start = datetime.strptime("01-06-2018", "%d-%m-%Y")
+end = datetime.strptime("30-06-2018", "%d-%m-%Y")
+
+print(iex.get_historical_data("AAPL", start, end, output_format='pandas'))
