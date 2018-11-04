@@ -8,31 +8,49 @@ import sys
 from PyQt5 import uic
 from PyQt5 import QtCore, QtGui, QtWidgets #works for pyqt5
 from PyQt5.QtWidgets import *
+from Login import Authenticator, AccountCreator
+
 
 class Login_UI(QDialog):
     def __init__(self):
         super().__init__()
-        ui = uic.loadUi('UI/login_dialog.ui', baseinstance=self)
-        ui.LoginButton.clicked.connect(self.perform_login)
+        self.ui = uic.loadUi('UI/login_dialog.ui', baseinstance=self)
+        self.ui.LoginButton.clicked.connect(self.perform_login)
+        self.ui.CreateAccButton.clicked.connect(self.create_account)
 
     def perform_login(self):
         username = self.lineEdit.text()
         password = self.lineEdit_2.text()
-        #Login.blah blah blah
-        print("Perform login here")
-        self.accept()
+        authenticate = Authenticator(username, password)
+        if authenticate.checkCredentials():
+            self.accept()
+        else:
+            pass
+            # Invalid login
+
+    def create_account(self):
+        self.ui.close()
+        self.ui = uic.loadUi('UI/create_account.ui')
+        self.ui.setModal(True)
+        self.ui.show()
+        creator = AccountCreator(self.ui.usernameLabel.text, self.ui.usernameLabel.text, self.ui.usernameLabel.text, self.ui.usernameLabel.text)
+        self.ui.exec_()
  
 class MainApp(QtWidgets.QMainWindow):
     def __init__(self):
         super().__init__()
-        ui = uic.loadUi('UI/main.ui', baseinstance=self)
+        uic.loadUi('UI/main.ui', baseinstance=self)
         self.initUI()
-        #self.centerScreen()
  
     def initUI(self):
         self.setWindowTitle(title)
         self.show()
         self.showMaximized()
+
+        self.updatePortfolio()
+
+    def updatePortfolio(self):
+        self.loggedInAsUser.setText("Brad")    
 
     def closeEvent(self, event):
         reply = QMessageBox.question(self, 'Quit?',

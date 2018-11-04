@@ -2,11 +2,12 @@ from collections import defaultdict
 import json
 
 class Portfolio():
-	def __init__(self, username):
+	def __init__(self, username=''):
+		#Try loading, if failed, then make default portfolio 
 		if self.load_user(username) is None:
 			self.owned_stocks = {}
 			self.username = username
-			self.credits = 0
+			self.credits = 0 #balance
 
 
 	'''
@@ -80,11 +81,11 @@ class Portfolio():
 			json.dump(self.__dict__, write_file)
 
 
-newUser = Portfolio("Brad")
-newUser.add_stock("GOOGL", 88)
+# newUser = Portfolio("Brad")
+# newUser.add_stock("GOOGL", 88)
 
-newUser.add_stock("GOOGL", 88)
+# newUser.add_stock("GOOGL", 88)
 
-#newUser.dump_user_data()
+# #newUser.dump_user_data()
 
-newUser.print_portfolio()
+# newUser.print_portfolio()

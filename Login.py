@@ -1,13 +1,74 @@
-from tkinter import *
 import hashlib
 import re
 import os
 userData = 'UserInfo.txt'
 
-def hashing(pass2hash):
-    encodedPass = pass2hash.encode('utf-8')
+
+'''
+Utility function to hash a password. Used by Authenticator and AccountCreator
+'''
+def hash_pass(password):
+    encodedPass = str(password).encode('utf-8')
     hashedPass = hashlib.md5(encodedPass).hexdigest()
     return hashedPass
+        
+
+
+'''
+Authenticator: Holds credentials and provides functions to check validity of the credentials
+'''
+class Authenticator():
+    def __init__(self, username, password):
+        self.username = username
+        self.password = password  
+        self.hashedPass = hash_pass(self.password)
+
+    '''
+    Uses username and raw password combo from the UI form and checks with the MySQL server to make sure user entered correct credentials
+    Returns True iff hashed password and username matches database combination
+    '''
+    def checkCredentials(self):
+        if self.isValidUsername() and self.isValidPassword():
+            # Connect to the MySQL server and check username + password combo
+            # If authenticated, return true and set session token
+            print("Valid credentials")
+            return True
+        print("Invalid credentials")
+        return False
+
+    def isValidUsername(self):
+        if len(self.username) < 4 or len(self.username) > 16:
+            return False
+        return True
+
+    def isValidPassword(self):
+        if len(self.password) < 8 or len(self.password) > 32:
+            return False
+        return True
+        
+class AccountCreator(Authenticator):
+    def __init__(self, username, password, re_password, email):
+        super().__init__(username, password)
+        self.re_password = re_password
+        self.email = email
+    
+        print(self.hashedPass)
+
+    def checkCredentials(self):
+        pass
+
+
+
+
+    # def isValidEmail(self):
+    #     if not re.match('\S+@\S+.\S+', self.email) or len(self.email) > 64:
+    #         return False
+    #     return True
+
+
+
+
+'''
 
 def CheckLogin(idEL, passEL):
     with open(userData) as f:
@@ -51,32 +112,7 @@ def CheckUsername(idE):
                 return x #if there is existed ID
         return -1 #if there is no-existed ID
 
-def isValidUsername (idE):
-    if (len(idE) < 4):
-        return False
-    else:
-        return True
-def isValidPassword(passE):
-    while True:
-        if (len(passE)<8 or len(passE)>32):
-            return False
-        elif not re.search("[a-z]", passE):
-            return False
-        elif not re.search("[A-Z]", passE):
-            return False
-        elif not re.search("[0-9]", passE):
-            return False
-        elif re.search("\s", passE):
-            return False
-        else:
-            return True
-        
-    
-def isValidEmail(emailE):
-    if re.match('\S+@\S+.\S+', emailE):
-        return True
-    else:
-        return False
+
 
 def SignUp():
     global passE1
@@ -181,3 +217,5 @@ def FSSignup():
                     success = Label(roots, text='Account is created sucessfully')
                     
                 success.grid(row=0,column=0,sticky=E)
+
+'''
