@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
-version = "1.26"
+version = "2.27"
 title = "StockFlip - version " + version
 
 import sys
@@ -9,7 +9,12 @@ from PyQt5 import uic
 from PyQt5 import QtCore, QtGui, QtWidgets #works for pyqt5
 from PyQt5.QtWidgets import *
 from Login import Authenticator, AccountCreator
+import Portfolio as pf
 
+
+'''
+Loads and displays the UI for the account login. Valid credentials need to be passed into this UI in order to display the main window
+'''
 
 class Login_UI(QDialog):
     def __init__(self):
@@ -34,8 +39,8 @@ class Login_UI(QDialog):
         valid, message = creator.checkCredentials()
         if not valid:
             QMessageBox.about(self, "Error", message + "       ")
-        else:
-            self.ui.accept()
+        # else:
+        #     self.ui.accept()
         
     def create_account(self):
         self.ui = uic.loadUi('UI/create_account.ui')
@@ -44,7 +49,9 @@ class Login_UI(QDialog):
         self.ui.show()
         self.ui.exec_() #== QtWidgets.QDialog.Accepted:
 
- 
+'''
+This is where the main application window is created and displayed. 
+'''
 class MainApp(QtWidgets.QMainWindow):
     def __init__(self):
         super().__init__()
@@ -55,12 +62,11 @@ class MainApp(QtWidgets.QMainWindow):
         self.setWindowTitle(title)
         self.show()
         self.showMaximized()
-
         self.updatePortfolio()
 
     def updatePortfolio(self):
-        pass
-        #self.loggedInAsUser.setText("")    
+        self.loggedInAsUser.setText(pf.username)    
+        self.currentBalance.setText(str(pf.credits))    
 
     def closeEvent(self, event):
         reply = QMessageBox.question(self, 'Quit?',

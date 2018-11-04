@@ -3,7 +3,7 @@ import re
 import os
 from Utils import overrides
 from PyQt5.QtWidgets import QMessageBox
-userData = 'UserInfo.txt'
+import Portfolio as pf
 
 '''
 Utility function to hash a password. Used by Authenticator and AccountCreator
@@ -19,7 +19,6 @@ Authenticator: Holds credentials and provides functions to check validity of the
 class Authenticator():
     def __init__(self, username, password):
         self.username = str(username)
-        print(self.username)
         self.password = str(password)  
         self.hashedPass = hash_pass(self.password)
         self.return_string = ''
@@ -32,7 +31,7 @@ class Authenticator():
         if self.isValidUsername() and self.isValidPassword():
             # Connect to the MySQL server and check username + password combo
             # return true and set session token
-            #self.setSession()
+            self.createSession()
             return True, ''
         else:
             print("Invalid credentials")  #Remove this once the above part is implemented
@@ -49,6 +48,15 @@ class Authenticator():
             self.return_string = "Invalid Password"
             return False
         return True
+
+    def createSession(self):
+        #Pull user data from DB. This data will occupy  Portfolio object
+        '''
+        Temporary portfolio object. Will be filled with DB values later
+        '''
+        pf.username = self.username
+        pf.credits = 6320
+        pf.set_stock("AAPL", 3)
         
 
 '''
