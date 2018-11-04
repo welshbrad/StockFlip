@@ -123,7 +123,7 @@
      </item>
     </layout>
    </widget>
-   <widget class="QPushButton" name="pushButton">
+   <widget class="QPushButton" name="CreateAccountButton">
     <property name="geometry">
      <rect>
       <x>130</x>
@@ -138,6 +138,13 @@
    </widget>
   </widget>
  </widget>
+ <tabstops>
+  <tabstop>usernameLineEdit</tabstop>
+  <tabstop>passwordLineEdit</tabstop>
+  <tabstop>confirmPasswordLineEdit</tabstop>
+  <tabstop>emailLineEdit</tabstop>
+  <tabstop>CreateAccountButton</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

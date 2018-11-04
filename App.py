@@ -28,12 +28,21 @@ class Login_UI(QDialog):
             pass
             # Invalid login
 
+
+    def perform_create_account(self):
+        creator = AccountCreator(self.ui.usernameLineEdit.text(), self.ui.passwordLineEdit.text(), \
+                                self.ui.confirmPasswordLineEdit.text(), self.ui.emailLineEdit.text())
+        valid, message = creator.checkCredentials()
+        if not valid:
+            box = QMessageBox.about(self, "Error", message + "       ")
+
+        
     def create_account(self):
         self.ui.close()
         self.ui = uic.loadUi('UI/create_account.ui')
         self.ui.setModal(True)
+        self.ui.CreateAccountButton.clicked.connect(self.perform_create_account)
         self.ui.show()
-        creator = AccountCreator(self.ui.usernameLabel.text, self.ui.usernameLabel.text, self.ui.usernameLabel.text, self.ui.usernameLabel.text)
         self.ui.exec_()
  
 class MainApp(QtWidgets.QMainWindow):
@@ -50,7 +59,8 @@ class MainApp(QtWidgets.QMainWindow):
         self.updatePortfolio()
 
     def updatePortfolio(self):
-        self.loggedInAsUser.setText("Brad")    
+        pass
+        #self.loggedInAsUser.setText("")    
 
     def closeEvent(self, event):
         reply = QMessageBox.question(self, 'Quit?',
