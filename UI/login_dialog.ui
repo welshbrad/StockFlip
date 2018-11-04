@@ -105,6 +105,18 @@
        </property>
       </widget>
      </item>
+     <item>
+      <widget class="QPushButton" name="ResetPassButton">
+       <property name="font">
+        <font>
+         <pointsize>12</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string>Reset Password</string>
+       </property>
+      </widget>
+     </item>
     </layout>
    </widget>
   </widget>
@@ -114,6 +126,7 @@
   <tabstop>lineEdit_2</tabstop>
   <tabstop>LoginButton</tabstop>
   <tabstop>CreateAccButton</tabstop>
+    <tabstop>ResetPassButton</tabstop>
  </tabstops>
  <resources/>
  <connections/>
