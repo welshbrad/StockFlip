@@ -10,9 +10,12 @@ import re
 import os
 userData = 'UserInfo.txt'
 #Stock Flip info
-global from_address = 'stockFlip@gmail.com' #stock flip email @ domain @gmail.com
-global from_password = 'emailPassword'
-global from_name = 'Stock Flip'
+global from_address
+from_address='stockFlip@gmail.com' #stock flip email @ domain @gmail.com
+global from_password
+from_password='emailPassword'
+global from_name
+from_email='Stock Flip'
 
 #send code for requesting password reset to the user email
 def sendCodeEmail(code, emailE, username):
