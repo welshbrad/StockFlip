@@ -167,6 +167,16 @@
            </property>
           </spacer>
          </item>
+         <item>
+          <widget class="QListWidget" name="listWidget">
+           <property name="sizeAdjustPolicy">
+            <enum>QAbstractScrollArea::AdjustToContents</enum>
+           </property>
+           <property name="resizeMode">
+            <enum>QListView::Adjust</enum>
+           </property>
+          </widget>
+         </item>
         </layout>
        </widget>
       </widget>

@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
-version = "2.28"
+version = "2.32"
 title = "StockFlip - version " + version
 
 import sys
@@ -64,27 +64,23 @@ class MainApp(QtWidgets.QMainWindow):
         self.showMaximized()
         self.loadPortfolio()
 
+    def updatePortfolio(self, event):
+        self.listWidget.repaint()
+
     def loadPortfolio(self):
-        #current workspace - adding a list of portfolio items to the portfolio seciton of the gui using custom widgets in a list view
-        #This is the scrollable list of custom tile widgets
-        scroll_area = QScrollArea(self)
-        scroll_area.setWidgetResizable(True)
-
-        self.verticalLayout_4.addWidget(scroll_area)
-        d_scroll_area_widget = QWidget()
-        scroll_area.setWidget(d_scroll_area_widget)
-        d_scroll_area_layout = QVBoxLayout(d_scroll_area_widget)
-        
-        for i in range(10):
-            pfTile = ui_portfolioTile.PortfolioTile()
-            d_scroll_area_layout.addWidget(pfTile)
-
         self.loggedInAsUser.setText(pf.username)
         self.currentBalance.setText(str(pf.credits))    
-
-    def clicked(self, event):
         
-        pass
+        #current workspace - adding a list of portfolio items to the portfolio seciton of the gui using custom widgets in a list view
+        #This is the scrollable list of custom tile widgets
+        for company, stock in pf.owned_stocks.items():
+            wid = ui_portfolioTile.PortfolioTile(self)
+            wid.companyLabel.setText(str(company))
+            wid.ownedStockLabel.setText("Shares owned: "+ str(stock))
+            wid2 = QListWidgetItem()
+            wid2.setSizeHint(QtCore.QSize(100, 40))
+            self.listWidget.addItem(wid2)
+            self.listWidget.setItemWidget(wid2, wid)
 
     def closeEvent(self, event):
         reply = QMessageBox.question(self, 'Quit?',

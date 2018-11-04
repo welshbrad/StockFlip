@@ -56,7 +56,7 @@ class Authenticator():
         '''
         pf.username = self.username
         pf.credits = 6320
-        pf.set_stock("AAPL", 3)
+        pf.set_stock("GOOGL", 3)
         
 
 '''
