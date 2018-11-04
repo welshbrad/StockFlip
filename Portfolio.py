@@ -1,5 +1,6 @@
 from collections import defaultdict
 import json
+import Utils
 
 '''
 This is the data for the logged-in user that is loaded from the db. It contains things like balance, owned stocks, and some functions to 
@@ -11,6 +12,7 @@ quick_access_companies = []
 username = ''
 credits = 0
 total_value = 0
+
 
 def calculate_total_value():
 	pass

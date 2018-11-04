@@ -276,7 +276,7 @@
            </palette>
           </property>
           <property name="autoScroll">
-           <bool>false</bool>
+           <bool>true</bool>
           </property>
           <property name="editTriggers">
            <set>QAbstractItemView::DoubleClicked|QAbstractItemView::EditKeyPressed|QAbstractItemView::SelectedClicked</set>
@@ -286,6 +286,12 @@
           </property>
           <property name="dragDropOverwriteMode">
            <bool>false</bool>
+          </property>
+          <property name="dragDropMode">
+           <enum>QAbstractItemView::InternalMove</enum>
+          </property>
+          <property name="defaultDropAction">
+           <enum>Qt::MoveAction</enum>
           </property>
           <property name="alternatingRowColors">
            <bool>true</bool>
@@ -439,7 +445,7 @@
              </font>
             </property>
             <property name="text">
-             <string>Total Value</string>
+             <string>Total Value:</string>
             </property>
            </widget>
           </item>

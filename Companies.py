@@ -15,6 +15,6 @@ companies = init_companies()
 
 def get_company_information(symbol):
 	pass
-	#companies.
+	
 
 

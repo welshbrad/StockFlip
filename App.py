@@ -13,6 +13,7 @@ from ResetPassword import resetPass
 import Portfolio as pf
 import ui_portfolioTile
 import ui_company_listing
+import Utils
 
 '''
 Loads and displays the UI for the account login. Valid credentials need to be passed into this UI in order to display the main window
@@ -86,8 +87,18 @@ class MainApp(QtWidgets.QMainWindow):
         #This is the scrollable list of custom tile widgets
         for symbol in pf.quick_access_companies:
             wid = ui_company_listing.CompanyListing(self)
+
+            stock = Utils.get_stock(symbol)
+
             wid.companyLabel.setText(str(symbol))
-            #wid.ownedStockLabel.setText("Shares owned: "+ str(stock))
+            wid.percentChangeLabel.setText(str(0)+"%")
+            wid.priceLabel.setText("$" + str(stock.get_price()))
+            wid.openLabel.setText("$" + str(stock.get_open()))
+            #wid.highLabel.setText("$" + str(stock.get_high()))
+            #wid.lowLabel.setText("$" + str(stock.get_low()))
+            wid.closeLabel.setText("$" + str(stock.get_close()))
+            wid.volumeLabel.setText(str(stock.get_volume()))
+
             wid2 = QListWidgetItem()
             wid2.setSizeHint(QtCore.QSize(100, 100))
             self.quickAccessList.addItem(wid2)

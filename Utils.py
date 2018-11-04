@@ -4,8 +4,20 @@ from datetime import timedelta
 import pandas as pd
 from iexfinance import get_available_symbols
 import json
+from iexfinance import Stock
+import requests_cache
 
-time_delta = 60
+'''
+This will create an automatic caching session key, which will be passed into all request functions to cache results
+Expiry default is 1 minute
+'''
+def create_cache_session():
+	expiry = timedelta(days=1)
+	session = requests_cache.CachedSession(cache_name='finance_cache', backend='sqlite', expire_after=expiry)
+	assert session is not None
+	return session
+
+cache_session = create_cache_session()
 
 '''
 Use this as an assertion that a decorated child method
@@ -44,11 +56,16 @@ Returns Pandas dataframe
 """
 def get_company_data_time_delta(company_code):
 	#get current time (end)
-	now = datetime.now()
-	start = now - timedelta(minutes=time_delta)
-	data_list = iex.get_historical_data(company_code, start=start, end=now, output_format="pandas")
+	#now = datetime.now()
+	#start = now - timedelta(minutes=time_delta)
+	start = datetime.strptime("01-06-2018", "%d-%m-%Y")
+	end = datetime.strptime("02-06-2018", "%d-%m-%Y")
+	data_list = iex.get_historical_data(company_code, start=start, end=end, output_format="pandas", session=cache_session)
 	return data_list
-start = datetime.strptime("01-06-2018", "%d-%m-%Y")
-end = datetime.strptime("30-06-2018", "%d-%m-%Y")
 
-print(iex.get_historical_data("AAPL", start, end, output_format='pandas'))
+def get_stock(company_code):
+	stock = Stock(company_code, session=cache_session)
+	return stock
+
+
+#print(iex.get_historical_data("AAPL", start, end, output_format='pandas'))
