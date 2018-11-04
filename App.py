@@ -23,7 +23,7 @@ class Login_UI(QDialog):
         self.ui = uic.loadUi('UI/login_dialog.ui', baseinstance=self)
         self.ui.LoginButton.clicked.connect(self.perform_login)
         self.ui.CreateAccButton.clicked.connect(self.create_account)
-        self.ui.ResetPassButton.clicked.connect(self.reset_password)
+        #self.ui.ResetPassButton.clicked.connect(self.reset_password)
 
     def perform_login(self):
         username = self.lineEdit.text()

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>329</width>
-    <height>183</height>
+    <width>349</width>
+    <height>192</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -18,8 +18,8 @@
     <rect>
      <x>10</x>
      <y>10</y>
-     <width>311</width>
-     <height>161</height>
+     <width>321</width>
+     <height>191</height>
     </rect>
    </property>
    <property name="title">
@@ -76,7 +76,7 @@
      <rect>
       <x>30</x>
       <y>110</y>
-      <width>261</width>
+      <width>271</width>
       <height>41</height>
      </rect>
     </property>
@@ -105,19 +105,27 @@
        </property>
       </widget>
      </item>
-     <item>
-      <widget class="QPushButton" name="ResetPassButton">
-       <property name="font">
-        <font>
-         <pointsize>12</pointsize>
-        </font>
-       </property>
-       <property name="text">
-        <string>Reset Password</string>
-       </property>
-      </widget>
-     </item>
     </layout>
+   </widget>
+   <widget class="QPushButton" name="ResetPassButton">
+    <property name="geometry">
+     <rect>
+      <x>120</x>
+      <y>150</y>
+      <width>101</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Calibri</family>
+      <pointsize>8</pointsize>
+      <italic>true</italic>
+     </font>
+    </property>
+    <property name="text">
+     <string>Forgot Password?</string>
+    </property>
    </widget>
   </widget>
  </widget>
@@ -126,7 +134,6 @@
   <tabstop>lineEdit_2</tabstop>
   <tabstop>LoginButton</tabstop>
   <tabstop>CreateAccButton</tabstop>
-    <tabstop>ResetPassButton</tabstop>
  </tabstops>
  <resources/>
  <connections/>

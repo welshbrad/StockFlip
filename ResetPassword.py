@@ -15,7 +15,7 @@ class resetPass():
 
     def checkCredentials(self):
         if self.isValidPassword():
-#if statement: connect to database to check for matched email and password:
+                #if statement: connect to database to check for matched email and password:
                 checkCode()
                 return True,''
             #else: return False, "Invalid username and email address"
@@ -26,13 +26,7 @@ class resetPass():
         if len(self.password) < 8 or len(self.password) > 64:
             self.return_string = 'Invalid Password'
             return False
-        else:
-            if (self.password == self.re_password):
-                return True
-            else:
-                self.return_string = "Passwords don't match"
-                return False
-        return False
+        return True
 
     def perform_check_code(self):
         codeE = self.ui.codeLineEdit.text()
