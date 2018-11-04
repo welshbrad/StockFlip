@@ -9,6 +9,7 @@ from PyQt5 import uic
 from PyQt5 import QtCore, QtGui, QtWidgets #works for pyqt5
 from PyQt5.QtWidgets import *
 from Login import Authenticator, AccountCreator
+from ResetPassword import resetPass
 import Portfolio as pf
 import ui_portfolioTile
 
@@ -22,6 +23,7 @@ class Login_UI(QDialog):
         self.ui = uic.loadUi('UI/login_dialog.ui', baseinstance=self)
         self.ui.LoginButton.clicked.connect(self.perform_login)
         self.ui.CreateAccButton.clicked.connect(self.create_account)
+        self.ui.ResetPassButton.clicked.connect(self.reset_password)
 
     def perform_login(self):
         username = self.lineEdit.text()
@@ -49,6 +51,19 @@ class Login_UI(QDialog):
         self.ui.show()
         self.ui.exec_() #== QtWidgets.QDialog.Accepted:
 
+    def perform_reset_password(self):
+        passreset = resetPass(self.ui.usernameLineEdit.text(), self.ui.passwordLineEdit.text(), \
+                                 self.ui.confirmPasswordLineEdit.text(), self.ui.emailLineEdit.text())
+        valid, message = passreset.checkCredentials()
+        if not valid:
+            QMessageBox.about(self, "Error", message + "       ")
+
+    def reset_password(self):
+        self.ui = uic.loadUi('UI/reset_password.ui')
+        self.ui.setModal(True)
+        self.ui.ResetPasswordButton.clicked.connect(self.perform_reset_password)
+        self.ui.show()
+        self.ui.exec_()
 '''
 This is where the main application window is created and displayed. 
 '''
