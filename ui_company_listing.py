@@ -88,3 +88,12 @@ class CompanyListing(QtWidgets.QWidget):
         self.label_9.setText(_translate("Form", "Low"))
         self.lowLabel.setText(_translate("Form", "0"))
 
+    def populate(self, stock, symbol):
+        self.companyLabel.setText(str(symbol))
+        self.percentChangeLabel.setText(str(stock["changePercent"])+"%")
+        self.priceLabel.setText("$" + str(stock["latestPrice"]))
+        self.openLabel.setText("$" + str(stock["open"]))
+        self.highLabel.setText("$" + str(stock["high"]))
+        self.lowLabel.setText("$" + str(stock["low"]))
+        self.closeLabel.setText("$" + str(stock["close"]))
+        self.volumeLabel.setText(str(stock["latestVolume"]))

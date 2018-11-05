@@ -36,9 +36,11 @@ NASDAQ company listing, access from API
 Returns Pandas dataframe
 '''
 def get_symbols():
-	company_list = iex.get_available_symbols(output_format='pandas')
-	company_list = pd.DataFrame(company_list)
-	return company_list
+	company_list = iex.get_available_symbols(session = cache_session)
+	symbol_list = []
+	for company in company_list:
+		symbol_list.append(company['symbol'])
+	return symbol_list
 
 '''
 Use code, (e.g. AAPL) and a time slice to get data from iexfinance API
@@ -46,7 +48,7 @@ Returns Pandas dataframe
 '''    
 def get_company_data_start_end(company_code, start, end):
 	#here, make a call to the api using a company code 
-	df = iex.get_historical_data(company_code, start=start, end=end, output_format='pandas')
+	df = iex.get_historical_data(company_code, start=start, end=end, output_format='json')
 	return df
 
 
@@ -63,9 +65,11 @@ def get_company_data_time_delta(company_code):
 	data_list = iex.get_historical_data(company_code, start=start, end=end, output_format="pandas", session=cache_session)
 	return data_list
 
+
+
 def get_stock(company_code):
-	stock = Stock(company_code, session=cache_session)
-	return stock
+	stock_reader = Stock(company_code, output_format='json', session=cache_session)
+	return stock_reader
 
 
 #print(iex.get_historical_data("AAPL", start, end, output_format='pandas'))

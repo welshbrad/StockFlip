@@ -1,4 +1,4 @@
-import Utils as utils
+import Utils
 
 '''
 Represents Singleton of company listing of information and exchange between Utils API functions.
@@ -7,14 +7,15 @@ Represents Singleton of company listing of information and exchange between Util
 '''
 Set the static companies dataframe
 '''
-def init_companies():
-	companies = utils.get_symbols()
-	return companies
 
-companies = init_companies()
+quick_access_data = None 
+
+def init_quick_access_companies(symbol_list):
+	quick_access_data = Utils.get_stock(symbol_list)
+	return quick_access_data
+
 
 def get_company_information(symbol):
 	pass
 	
-
 

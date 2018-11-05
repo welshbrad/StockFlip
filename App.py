@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
-version = "2.32"
+version = "2.46"
 title = "StockFlip - version " + version
 
 import sys
@@ -14,7 +14,7 @@ import Portfolio as pf
 import ui_portfolioTile
 import ui_company_listing
 import Utils
-
+import Companies
 '''
 Loads and displays the UI for the account login. Valid credentials need to be passed into this UI in order to display the main window
 '''
@@ -80,24 +80,74 @@ class MainApp(QtWidgets.QMainWindow):
         self.show()
         self.showMaximized()
         self.loadPortfolio()
+        
+        #Load up all the data and cache it for quick access companies
+        Companies.quick_access_data = Companies.init_quick_access_companies(pf.quick_access_companies)
+        
         self.loadQuickAccessAndCompanySearch()
+        self.loadMarketInfo()
+
+        self.loadSearchBar()
+
+    def loadMarketInfo(self):
+        pass
+
+    def on_search(self):
+        self.searchList.clear()
+        symbol = self.searchBar.text()
+
+        searchText = QListWidgetItem()
+        searchText.setText("Searching...")
+        self.searchList.addItem(searchText)
+
+        if symbol in Utils.get_symbols():
+            self.searchList.clear()
+            wid = ui_company_listing.CompanyListing(self)
+            stock = Utils.get_stock(symbol)
+            stock = stock.get_quote()
+            wid.populate(stock, symbol)
+        else:
+            self.searchList.clear()
+            item = QListWidgetItem()
+            item.setText("Symbol " + symbol + " not found.")
+            self.searchList.addItem(item)
+            return
+        wid2 = QListWidgetItem()
+        wid2.setSizeHint(QtCore.QSize(100, 100))
+
+        self.searchList.addItem(wid2)
+        self.searchList.setItemWidget(wid2, wid)
+        self.searchList.update()
+    
+    def on_add_to_quick_access(self, event):
+        assert self.searchList.count() <= 1
+        if self.searchList.count() == 0:
+            return
+        else:
+            item = self.searchList.item(0)
+            itemWidget = self.searchList.itemWidget(item)
+            self.quickAccessList.addItem(item)
+            self.quickAccessList.setItemWidget(item, itemWidget)
+            self.searchList.clear()
+            print(itemWidget.companyLabel)
+            self.quickAccessList.repaint()
+      
+    def loadSearchBar(self):
+        self.sendToQuickAccessButton.mousePressEvent = self.on_add_to_quick_access
+        self.searchButton.clicked.connect(self.on_search)
 
     def loadQuickAccessAndCompanySearch(self):
-        #current workspace - adding a list of portfolio items to the portfolio seciton of the gui using custom widgets in a list view
-        #This is the scrollable list of custom tile widgets
         for symbol in pf.quick_access_companies:
             wid = ui_company_listing.CompanyListing(self)
-
-            stock = Utils.get_stock(symbol)
-
+            stock = Companies.quick_access_data.get_quote()[symbol]
             wid.companyLabel.setText(str(symbol))
-            wid.percentChangeLabel.setText(str(0)+"%")
-            wid.priceLabel.setText("$" + str(stock.get_price()))
-            wid.openLabel.setText("$" + str(stock.get_open()))
-            #wid.highLabel.setText("$" + str(stock.get_high()))
-            #wid.lowLabel.setText("$" + str(stock.get_low()))
-            wid.closeLabel.setText("$" + str(stock.get_close()))
-            wid.volumeLabel.setText(str(stock.get_volume()))
+            wid.percentChangeLabel.setText(str(stock["changePercent"])+"%")
+            wid.priceLabel.setText("$" + str(stock["latestPrice"]))
+            wid.openLabel.setText("$" + str(stock["open"]))
+            wid.highLabel.setText("$" + str(stock["high"]))
+            wid.lowLabel.setText("$" + str(stock["low"]))
+            wid.closeLabel.setText("$" + str(stock["close"]))
+            wid.volumeLabel.setText(str(stock["latestVolume"]))
 
             wid2 = QListWidgetItem()
             wid2.setSizeHint(QtCore.QSize(100, 100))

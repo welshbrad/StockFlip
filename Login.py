@@ -57,6 +57,7 @@ class Authenticator():
         pf.username = self.username
         pf.credits = 6320
         pf.set_stock("GOOGL", 3)
+        pf.set_stock("AAPL", 140)
         pf.add_symbol_to_quick_access("AAPL")
         pf.add_symbol_to_quick_access("GOOGL")
         pf.add_symbol_to_quick_access("TSLA")
