@@ -51,7 +51,6 @@ def get_company_data_start_end(company_code, start, end):
 	df = iex.get_historical_data(company_code, start=start, end=end, output_format='json')
 	return df
 
-
 """
 Use code, (e.g. AAPL) to get data from iexfinance API from one minute ago until now
 Returns Pandas dataframe

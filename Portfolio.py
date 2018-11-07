@@ -78,13 +78,3 @@ Serialize (self) object and dump it into a file with self.username as the filena
 '''
 def dump_user_data():
 	pass
-
-
-# newUser = Portfolio("Brad")
-# newUser.add_stock("GOOGL", 88)
-
-# newUser.add_stock("GOOGL", 88)
-
-# #newUser.dump_user_data()
-
-# newUser.print_portfolio()

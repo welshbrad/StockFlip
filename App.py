@@ -93,6 +93,7 @@ class MainApp(QtWidgets.QMainWindow):
         pass
 
     def on_search(self):
+        
         self.searchList.clear()
         symbol = self.searchBar.text()
 
@@ -155,6 +156,9 @@ class MainApp(QtWidgets.QMainWindow):
             self.quickAccessList.setItemWidget(wid2, wid)
 
     def updatePortfolio(self, event):
+        sender = self.sender()
+        sender.resize(300,75)
+        self.listWidget.update()
         self.listWidget.repaint()
 
     def loadPortfolio(self):
@@ -168,9 +172,11 @@ class MainApp(QtWidgets.QMainWindow):
             wid.companyLabel.setText(str(company))
             wid.ownedStockLabel.setText("Shares owned: "+ str(stock))
             wid2 = QListWidgetItem()
-            wid2.setSizeHint(QtCore.QSize(100, 40))
+            wid2.setSizeHint(QtCore.QSize(300, 75))
             self.listWidget.addItem(wid2)
             self.listWidget.setItemWidget(wid2, wid)
+
+        self.listWidget.currentItemChanged.connect(self.updatePortfolio) 
 
     def closeEvent(self, event):
         reply = QMessageBox.question(self, 'Quit?',

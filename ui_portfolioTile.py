@@ -3,6 +3,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 
 class PortfolioTile(QtWidgets.QWidget):
     def __init__(self, parent=None):
+        self.parent = parent
         super(PortfolioTile, self).__init__(parent)
         self.setObjectName("Form")
         self.resize(300, 41)
@@ -55,6 +56,8 @@ class PortfolioTile(QtWidgets.QWidget):
         QtCore.QMetaObject.connectSlotsByName(self)
       
     def updateResize(self, event):
+        #self.parent.update()
+        #super(PortfolioTile, self).resizeEvent.emit()
         super(PortfolioTile, self).resize(300, 75)
         super(PortfolioTile, self).update()
         #super(PortfolioTile, self).mouseReleaseEvent(event)
