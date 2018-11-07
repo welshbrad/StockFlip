@@ -93,9 +93,8 @@ class MainApp(QtWidgets.QMainWindow):
         pass
 
     def on_search(self):
-        
         self.searchList.clear()
-        symbol = self.searchBar.text()
+        symbol = self.searchBar.text().upper()
 
         searchText = QListWidgetItem()
         searchText.setText("Searching...")
@@ -103,21 +102,21 @@ class MainApp(QtWidgets.QMainWindow):
 
         if symbol in Utils.get_symbols():
             self.searchList.clear()
-            wid = ui_company_listing.CompanyListing(self)
+            self.searchedWid = ui_company_listing.CompanyListing(self)
             stock = Utils.get_stock(symbol)
             stock = stock.get_quote()
-            wid.populate(stock, symbol)
+            self.searchedWid.populate(stock, symbol)
         else:
             self.searchList.clear()
             item = QListWidgetItem()
             item.setText("Symbol " + symbol + " not found.")
             self.searchList.addItem(item)
             return
-        wid2 = QListWidgetItem()
-        wid2.setSizeHint(QtCore.QSize(100, 100))
+        self.searchedItem = QListWidgetItem()
+        self.searchedItem.setSizeHint(QtCore.QSize(100, 100))
 
-        self.searchList.addItem(wid2)
-        self.searchList.setItemWidget(wid2, wid)
+        self.searchList.addItem(self.searchedItem)
+        self.searchList.setItemWidget(self.searchedItem, self.searchedWid)
         self.searchList.update()
     
     def on_add_to_quick_access(self, event):
@@ -125,13 +124,12 @@ class MainApp(QtWidgets.QMainWindow):
         if self.searchList.count() == 0:
             return
         else:
-            item = self.searchList.item(0)
-            itemWidget = self.searchList.itemWidget(item)
-            self.quickAccessList.addItem(item)
-            self.quickAccessList.setItemWidget(item, itemWidget)
+            #itemWidget = self.searchList.itemWidget(item)
+            self.quickAccessList.addItem(self.searchedItem)
+            self.quickAccessList.setItemWidget(self.searchedItem, self.searchedWid)
+           # print(itemWidget.companyLabel)
+            self.quickAccessList.update()
             self.searchList.clear()
-            print(itemWidget.companyLabel)
-            self.quickAccessList.repaint()
       
     def loadSearchBar(self):
         self.sendToQuickAccessButton.mousePressEvent = self.on_add_to_quick_access
@@ -142,7 +140,7 @@ class MainApp(QtWidgets.QMainWindow):
             wid = ui_company_listing.CompanyListing(self)
             stock = Companies.quick_access_data.get_quote()[symbol]
             wid.companyLabel.setText(str(symbol))
-            wid.percentChangeLabel.setText(str(stock["changePercent"])+"%")
+            wid.percentChangeLabel.setText(str(round(stock["changePercent"], 3))+"%")
             wid.priceLabel.setText("$" + str(stock["latestPrice"]))
             wid.openLabel.setText("$" + str(stock["open"]))
             wid.highLabel.setText("$" + str(stock["high"]))
@@ -164,13 +162,16 @@ class MainApp(QtWidgets.QMainWindow):
     def loadPortfolio(self):
         self.loggedInAsUser.setText(pf.username)
         self.currentBalance.setText(str(pf.credits))    
-        
-        #current workspace - adding a list of portfolio items to the portfolio seciton of the gui using custom widgets in a list view
-        #This is the scrollable list of custom tile widgets
-        for company, stock in pf.owned_stocks.items():
+
+        for symbol, num_stock in pf.owned_stocks.items():
+            # wid2 = QListWidgetItem()
+            # wid2.setSizeHint(QtCore.QSize(100, 100))
+            #stock = Companies.quick_access_data.get_quote()[symbol]
             wid = ui_portfolioTile.PortfolioTile(self)
-            wid.companyLabel.setText(str(company))
-            wid.ownedStockLabel.setText("Shares owned: "+ str(stock))
+            wid.companyLabel.setText(str(symbol))
+            #wid.priceLabel.setText("$" + str(stock["latestPrice"]))
+            #wid.percentChangeLabel.setText(str(round(stock["changePercent"],2))+"%")
+            wid.ownedStockLabel.setText("Shares owned: "+ str(num_stock))
             wid2 = QListWidgetItem()
             wid2.setSizeHint(QtCore.QSize(300, 75))
             self.listWidget.addItem(wid2)

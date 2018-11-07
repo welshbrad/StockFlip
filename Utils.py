@@ -12,7 +12,7 @@ This will create an automatic caching session key, which will be passed into all
 Expiry default is 1 minute
 '''
 def create_cache_session():
-	expiry = timedelta(days=1)
+	expiry = timedelta(minutes=15)
 	session = requests_cache.CachedSession(cache_name='finance_cache', backend='sqlite', expire_after=expiry)
 	assert session is not None
 	return session
@@ -64,8 +64,9 @@ def get_company_data_time_delta(company_code):
 	data_list = iex.get_historical_data(company_code, start=start, end=end, output_format="pandas", session=cache_session)
 	return data_list
 
-
-
+"""
+Yields the stock endpoint from the iexfinance iAPI, caches data
+"""
 def get_stock(company_code):
 	stock_reader = Stock(company_code, output_format='json', session=cache_session)
 	return stock_reader

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>300</width>
-    <height>40</height>
+    <height>75</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -92,7 +92,7 @@
      <x>0</x>
      <y>40</y>
      <width>301</width>
-     <height>34</height>
+     <height>44</height>
     </rect>
    </property>
    <layout class="QHBoxLayout" name="horizontalLayout_2">
@@ -109,11 +109,22 @@
      <number>5</number>
     </property>
     <item>
-     <widget class="QLabel" name="sharesOwnedLabel">
-      <property name="text">
-       <string>Shares Owned: 1500</string>
-      </property>
-     </widget>
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <item>
+       <widget class="QLabel" name="label">
+        <property name="text">
+         <string>Apple Inc.</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="sharesOwnedLabel">
+        <property name="text">
+         <string>Shares Owned: 1500</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
     </item>
     <item>
      <widget class="QPushButton" name="pushButton">
