@@ -193,7 +193,38 @@ class MainApp(QtWidgets.QMainWindow):
         cp = QDesktopWidget().availableGeometry().center()
         qr.moveCenter(cp)
         self.move(qr.topLeft())
- 
+
+    def adjust_credit(self):
+        self.ui = uic.loadUi('UI/adjust_credits.ui')
+        self.ui.setModal(True)
+        self.ui.AcceptCreditButton.clicked.connect(self.perform_adjust_credit)
+        self.ui.show()
+        self.ui.exec_()
+
+    def perform_adjust_credit(self):
+        credit = int(self.ui.amountCreditEdit.text())
+        pf.credits = credit
+        print(credit)
+        #not done yet need to connect to DB to change the credit of user
+
+    def change_password(self):
+        self.ui = uic.loadUi('UI/change_password.ui')
+        self.ui.setModal(True)
+        self.ui.currentUsername.setText(pf.username)
+        self.ui.changePasswordButton.clicked.connect(self.perform_change_password)
+        self.ui.show()
+        self.ui.exec_()
+
+    def perform_change_password(self):
+        email = self.ui.emailEdit.text()
+        newPassword = self.ui.newPasswordEdit.text()
+        confirmnewPassword = self.ui.confirmNewPasswordEdit.text()
+        passreset = resetPass(pf.username, newPassword, \
+                                 confirmPasswordEdit, email)
+        valid, message = passreset.checkCredentials()
+        if not valid:
+            QMessageBox.about(self, "Error", message + "       ")
+        
 if __name__ == '__main__':
     app = QtWidgets.QApplication(sys.argv)
     login = Login_UI()
