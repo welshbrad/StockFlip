@@ -73,6 +73,8 @@ class MainApp(QtWidgets.QMainWindow):
     def __init__(self):
         super().__init__()
         uic.loadUi('UI/main.ui', baseinstance=self)
+        self.actionAdjust_Credits.triggered.connect(self.adjust_credit)
+        self.actionChange_Password.triggered.connect(self.change_password)
         self.initUI()
  
     def initUI(self):
