@@ -75,6 +75,7 @@ class MainApp(QtWidgets.QMainWindow):
         uic.loadUi('UI/main.ui', baseinstance=self)
         self.actionAdjust_Credits.triggered.connect(self.adjust_credit)
         self.actionChange_Password.triggered.connect(self.change_password)
+        self.refreshButton.clicked.connect(self.update_credit)
         self.initUI()
  
     def initUI(self):
@@ -163,7 +164,8 @@ class MainApp(QtWidgets.QMainWindow):
 
     def loadPortfolio(self):
         self.loggedInAsUser.setText(pf.username)
-        self.currentBalance.setText(str(pf.credits))    
+        self.currentBalance.setText(str(pf.credits))
+        #self.currentBalance.command = self.update_credits
 
         for symbol, num_stock in pf.owned_stocks.items():
             # wid2 = QListWidgetItem()
@@ -206,9 +208,12 @@ class MainApp(QtWidgets.QMainWindow):
     def perform_adjust_credit(self):
         credit = int(self.ui.amountCreditEdit.text())
         pf.credits = credit
-        print(credit)
+        print('user curedit: ' + str(pf.credits))
         #not done yet need to connect to DB to change the credit of user
-
+#update credit by clicking refresh
+    def update_credit(self):
+        self.currentBalance.setText(str(pf.credits))
+        
     def change_password(self):
         self.ui = uic.loadUi('UI/change_password.ui')
         self.ui.setModal(True)
@@ -226,7 +231,7 @@ class MainApp(QtWidgets.QMainWindow):
         valid, message = passreset.checkCredentials()
         if not valid:
             QMessageBox.about(self, "Error", message + "       ")
-        
+
 if __name__ == '__main__':
     app = QtWidgets.QApplication(sys.argv)
     login = Login_UI()
