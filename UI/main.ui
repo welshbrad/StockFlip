@@ -676,6 +676,7 @@
     </property>
     <addaction name="actionAdjust_Credits"/>
     <addaction name="actionChange_Password"/>
+    <addaction name="actionReset_Account"/>
     <addaction name="actionExit"/>
    </widget>
    <addaction name="menuMenu"/>
@@ -693,6 +694,11 @@
   <action name="actionExit">
    <property name="text">
     <string>Exit</string>
+   </property>
+  </action>
+  <action name="actionReset_Account">
+   <property name="text">
+    <string>Reset Account</string>
    </property>
   </action>
  </widget>
