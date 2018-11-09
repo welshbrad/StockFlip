@@ -75,6 +75,7 @@ class MainApp(QtWidgets.QMainWindow):
         uic.loadUi('UI/main.ui', baseinstance=self)
         self.actionAdjust_Credits.triggered.connect(self.adjust_credit)
         self.actionChange_Password.triggered.connect(self.change_password)
+        self.actionReset_Account.triggered.connect(self.confirm_reset_account)
         self.refreshButton.clicked.connect(self.update_credit)
         self.initUI()
  
@@ -208,7 +209,6 @@ class MainApp(QtWidgets.QMainWindow):
     def perform_adjust_credit(self):
         credit = int(self.ui.amountCreditEdit.text())
         pf.credits = credit
-        print('user curedit: ' + str(pf.credits))
         #not done yet need to connect to DB to change the credit of user
 #update credit by clicking refresh
     def update_credit(self):
@@ -232,6 +232,19 @@ class MainApp(QtWidgets.QMainWindow):
         if not valid:
             QMessageBox.about(self, "Error", message + "       ")
 
+    def confirm_reset_account(self):
+        self.ui = uic.loadUi('UI/confirm_reset_account.ui')
+        self.ui.setModal(True)
+        self.ui.AcceptButton.clicked.connect(self.perform_reset_account)
+        #update_credit()
+        self.ui.show()
+        self.ui.exec_()
+
+    def perform_reset_account(self):
+        pf.credits = 5000
+        
+        
+        
 if __name__ == '__main__':
     app = QtWidgets.QApplication(sys.argv)
     login = Login_UI()
