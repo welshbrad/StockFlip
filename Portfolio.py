@@ -10,7 +10,7 @@ add/remove stocks for a given company
 owned_stocks = {}
 quick_access_companies = []
 username = ''
-credits = 0
+credits = 5000
 total_value = 0
 
 
