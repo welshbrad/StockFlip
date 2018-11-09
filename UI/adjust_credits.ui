@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>425</width>
-    <height>120</height>
+    <height>141</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,7 +19,7 @@
      <x>10</x>
      <y>10</y>
      <width>401</width>
-     <height>100</height>
+     <height>121</height>
     </rect>
    </property>
    <property name="title">
@@ -31,7 +31,7 @@
       <x>9</x>
       <y>19</y>
       <width>381</width>
-      <height>129</height>
+      <height>111</height>
      </rect>
     </property>
     <layout class="QFormLayout" name="formLayout">
@@ -73,8 +73,8 @@
    <widget class="QPushButton" name="AcceptCreditButton">
     <property name="geometry">
      <rect>
-      <x>50</x>
-      <y>60</y>
+      <x>30</x>
+      <y>80</y>
       <width>141</width>
       <height>30</height>
      </rect>
@@ -86,14 +86,32 @@
    <widget class="QPushButton" name="DeclineCreditButton">
     <property name="geometry">
      <rect>
-      <x>210</x>
-      <y>60</y>
+      <x>220</x>
+      <y>80</y>
       <width>141</width>
       <height>30</height>
      </rect>
     </property>
     <property name="text">
      <string>Decline</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="AmountCreditlabel_2">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>50</y>
+      <width>130</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>10</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Refresh after accept</string>
     </property>
    </widget>
   </widget>
