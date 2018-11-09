@@ -55,7 +55,7 @@ class Authenticator():
         Temporary portfolio object. Will be filled with DB values later
         '''
         pf.username = self.username
-        pf.credits = 6320
+        #pf.credits = 6320
         pf.set_stock("GOOGL", 3)
         pf.set_stock("AAPL", 140)
         pf.add_symbol_to_quick_access("AAPL")
