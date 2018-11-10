@@ -16,10 +16,10 @@ import ui_portfolioTile
 import ui_company_listing
 import Utils
 import Companies
+
 '''
 Loads and displays the UI for the account login. Valid credentials need to be passed into this UI in order to display the main window
 '''
-
 class Login_UI(QDialog):
     def __init__(self):
         super().__init__()
@@ -73,7 +73,7 @@ This is where the main application window is created and displayed.
 class MainApp(QtWidgets.QMainWindow):
     def __init__(self):
         super().__init__()
-        if 2 == 1: #if enter as member
+        if 1 == 1: #if enter as member
             uic.loadUi('UI/main.ui', baseinstance=self)
             self.actionAdjust_Credits.triggered.connect(self.adjust_credit)
             self.actionChange_Password.triggered.connect(self.change_password)
@@ -122,6 +122,7 @@ class MainApp(QtWidgets.QMainWindow):
             stock = Utils.get_stock(symbol)
             stock = stock.get_quote()
             self.searchedWid.populate(stock, symbol)
+            self.searchedSymbol = symbol
         else:
             self.searchList.clear()
             item = QListWidgetItem()
@@ -136,33 +137,25 @@ class MainApp(QtWidgets.QMainWindow):
         self.searchList.update()
     
     def on_add_to_quick_access(self, event):
-        assert self.searchList.count() <= 1
-        if self.searchList.count() == 0:
+        if self.searchList.count() != 1:
             return
-        else:
-            #itemWidget = self.searchList.itemWidget(item)
-            self.quickAccessList.addItem(self.searchedItem)
-            self.quickAccessList.setItemWidget(self.searchedItem, self.searchedWid)
-           # print(itemWidget.companyLabel)
-            self.quickAccessList.update()
-            self.searchList.clear()
+        symbol = self.searchedSymbol
+        print("symbol: ", symbol)
+        if not isinstance(symbol, str):
+            return
+        if pf.add_to_quick_access(symbol, to_beginning=True):  
+            self.loadQuickAccessAndCompanySearch()
       
     def loadSearchBar(self):
         self.sendToQuickAccessButton.mousePressEvent = self.on_add_to_quick_access
         self.searchButton.clicked.connect(self.on_search)
 
     def loadQuickAccessAndCompanySearch(self):
+        self.quickAccessList.clear()
         for symbol in pf.quick_access_companies:
             wid = ui_company_listing.CompanyListing(self)
-            stock = Companies.quick_access_data.get_quote()[symbol]
-            wid.companyLabel.setText(str(symbol))
-            wid.percentChangeLabel.setText(str(round(stock["changePercent"], 3))+"%")
-            wid.priceLabel.setText("$" + str(stock["latestPrice"]))
-            wid.openLabel.setText("$" + str(stock["open"]))
-            wid.highLabel.setText("$" + str(stock["high"]))
-            wid.lowLabel.setText("$" + str(stock["low"]))
-            wid.closeLabel.setText("$" + str(stock["close"]))
-            wid.volumeLabel.setText(str(stock["latestVolume"]))
+            stock = Utils.get_stock(symbol).get_quote()
+            wid.populate(stock, symbol)
 
             wid2 = QListWidgetItem()
             wid2.setSizeHint(QtCore.QSize(100, 100))
@@ -181,14 +174,9 @@ class MainApp(QtWidgets.QMainWindow):
         #self.currentBalance.command = self.update_credits
 
         for symbol, num_stock in pf.owned_stocks.items():
-            # wid2 = QListWidgetItem()
-            # wid2.setSizeHint(QtCore.QSize(100, 100))
-            #stock = Companies.quick_access_data.get_quote()[symbol]
+            stock = Utils.get_stock(symbol).get_quote()
             wid = ui_portfolioTile.PortfolioTile(self)
-            wid.companyLabel.setText(str(symbol))
-            #wid.priceLabel.setText("$" + str(stock["latestPrice"]))
-            #wid.percentChangeLabel.setText(str(round(stock["changePercent"],2))+"%")
-            wid.ownedStockLabel.setText("Shares owned: "+ str(num_stock))
+            wid.populate(stock, num_stock)
             wid2 = QListWidgetItem()
             wid2.setSizeHint(QtCore.QSize(300, 75))
             self.listWidget.addItem(wid2)

@@ -34,7 +34,7 @@ class PortfolioTile(QtWidgets.QWidget):
         self.percentChangeLabel.setObjectName("percentChangeLabel")
         self.horizontalLayout.addWidget(self.percentChangeLabel)
         self.horizontalLayoutWidget_2 = QtWidgets.QWidget(self)
-        self.horizontalLayoutWidget_2.setGeometry(QtCore.QRect(0, 40, 301, 34))
+        self.horizontalLayoutWidget_2.setGeometry(QtCore.QRect(0, 40, 300, 34))
         self.horizontalLayoutWidget_2.setObjectName("horizontalLayoutWidget_2")
         self.horizontalLayout_2 = QtWidgets.QHBoxLayout(self.horizontalLayoutWidget_2)
         self.horizontalLayout_2.setContentsMargins(5, 5, 5, 5)
@@ -50,17 +50,15 @@ class PortfolioTile(QtWidgets.QWidget):
         self.pushButton.setObjectName("pushButton")
         self.horizontalLayout_2.addWidget(self.pushButton)
 
-        self.mouseReleaseEvent = self.updateResize
-
         self.retranslateUi()
         QtCore.QMetaObject.connectSlotsByName(self)
       
-    def updateResize(self, event):
-        #self.parent.update()
-        #super(PortfolioTile, self).resizeEvent.emit()
-        super(PortfolioTile, self).resize(300, 75)
-        super(PortfolioTile, self).update()
-        #super(PortfolioTile, self).mouseReleaseEvent(event)
+
+    def populate(self, stock, num_owned):
+        self.priceLabel.setText(str(stock["latestPrice"]))
+        self.companyLabel.setText(str(stock["symbol"]))
+        self.ownedStockLabel.setText("Shares owned: "+ str(num_owned))
+        self.percentChangeLabel.setText(str(round(stock["changePercent"], 3))+"%")
 
     def retranslateUi(self):
         _translate = QtCore.QCoreApplication.translate

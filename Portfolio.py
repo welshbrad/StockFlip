@@ -1,6 +1,7 @@
 from collections import defaultdict
 import json
 import Utils
+import Companies
 
 '''
 This is the data for the logged-in user that is loaded from the db. It contains things like balance, owned stocks, and some functions to 
@@ -13,14 +14,23 @@ username = ''
 credits = 5000
 total_value = 0
 
+'''
+Add a str(symbol) to the list of quick access companies. to_beginning simply adds it to the front instead of the end.
+'''
+def add_to_quick_access(symbol, to_beginning=False):
+	if not isinstance(symbol, str) or len(quick_access_companies) >= 50:
+		print("Symbol not an instance of a string")
+		return False
+	if to_beginning:
+		quick_access_companies.insert(0, symbol)
+	else:
+		quick_access_companies.append(symbol)
+	return True
 
 def calculate_total_value():
 	pass
 	#stock_value = sum(list(owned_stocks.values)) 
 
-def add_symbol_to_quick_access(symbol):
-	symbol = str(symbol)
-	quick_access_companies.append(symbol)
 
 '''
 Set the stock to [quantity] at key value [symbol], independent of previous value

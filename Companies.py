@@ -8,7 +8,7 @@ Represents Singleton of company listing of information and exchange between Util
 Set the static companies dataframe
 '''
 
-quick_access_data = None 
+quick_access_data = {} 
 
 def init_quick_access_companies(symbol_list):
 	quick_access_data = Utils.get_stock(symbol_list)

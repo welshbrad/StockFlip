@@ -70,6 +70,3 @@ Yields the stock endpoint from the iexfinance iAPI, caches data
 def get_stock(company_code):
 	stock_reader = Stock(company_code, output_format='json', session=cache_session)
 	return stock_reader
-
-
-#print(iex.get_historical_data("AAPL", start, end, output_format='pandas'))
