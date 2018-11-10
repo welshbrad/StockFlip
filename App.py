@@ -10,6 +10,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets #works for pyqt5
 from PyQt5.QtWidgets import *
 from Login import Authenticator, AccountCreator
 from ResetPassword import resetPass
+import EmailJob as ej
 import Portfolio as pf
 import ui_portfolioTile
 import ui_company_listing
@@ -72,12 +73,23 @@ This is where the main application window is created and displayed.
 class MainApp(QtWidgets.QMainWindow):
     def __init__(self):
         super().__init__()
-        uic.loadUi('UI/main.ui', baseinstance=self)
-        self.actionAdjust_Credits.triggered.connect(self.adjust_credit)
-        self.actionChange_Password.triggered.connect(self.change_password)
-        self.actionReset_Account.triggered.connect(self.confirm_reset_account)
-        self.refreshButton.clicked.connect(self.update_credit)
-        self.initUI()
+        if 2 == 1: #if enter as member
+            uic.loadUi('UI/main.ui', baseinstance=self)
+            self.actionAdjust_Credits.triggered.connect(self.adjust_credit)
+            self.actionChange_Password.triggered.connect(self.change_password)
+            self.actionReset_Account.triggered.connect(self.confirm_reset_account)
+            self.refreshButton.clicked.connect(self.update_credit)
+            self.initUI()
+        else: #else if enter as admin
+            uic.loadUi('UI/main_admin.ui', baseinstance=self)
+            self.actionAdjust_Credits.triggered.connect(self.adjust_credit)
+            self.actionChange_Password.triggered.connect(self.change_password)
+            self.actionReset_Account.triggered.connect(self.confirm_reset_account)
+            self.actionDelete_User.triggered.connect(self.delete_user)
+            self.actionSend_Message_to_UserEmail.triggered.connect(self.send_message)
+            
+            self.refreshButton.clicked.connect(self.update_credit)
+            self.initUI()
  
     def initUI(self):
         self.setWindowTitle(title)
@@ -210,6 +222,7 @@ class MainApp(QtWidgets.QMainWindow):
         credit = int(self.ui.amountCreditEdit.text())
         pf.credits = credit
         #not done yet need to connect to DB to change the credit of user
+
 #update credit by clicking refresh
     def update_credit(self):
         self.currentBalance.setText(str(pf.credits))
@@ -242,7 +255,33 @@ class MainApp(QtWidgets.QMainWindow):
 
     def perform_reset_account(self):
         pf.credits = 5000
-        
+
+    def delete_user(self):
+        self.ui = uic.loadUi('UI/delete_user_panel.ui')
+        self.ui.setModal(True)
+        self.ui.AcceptDeleteButton.clicked.connect(self.perform_delete_user)
+        self.ui.show()
+        self.ui.exec_()
+
+    def perform_delete_user(self):
+        username_email = self.ui.username_emailEdit.text()
+        #print("Username "+str(username)+" is deleted!")
+        #connect to database to delete relevant username info or email Info
+
+    def send_message(self):
+        self.ui = uic.loadUi('UI/send_message.ui')
+        self.ui.setModal(True)
+        self.ui.SendButton.clicked.connect(self.perform_send_message)
+        self.ui.show()
+        self.ui.exec_()
+
+    def perform_send_message(self):
+        user = self.ui.userEdit.text()
+        email = self.ui.emailEdit.text()
+        subject = self.ui.subjectEdit.text()
+        message = self.ui.messageEdit.text()
+        print(user+'\n'+email+'\n'+subject+'\n'+message)
+        ej.sendMessage(user, email, subject, message)        
         
         
 if __name__ == '__main__':
