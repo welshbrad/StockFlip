@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Dialog</class>
+ <widget class="QDialog" name="Dialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>425</width>
+    <height>148</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <widget class="QGroupBox" name="groupBox">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>401</width>
+     <height>111</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>Delete Other Username</string>
+   </property>
+   <widget class="QWidget" name="formLayoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>9</x>
+      <y>19</y>
+      <width>381</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <layout class="QFormLayout" name="formLayout">
+     <property name="horizontalSpacing">
+      <number>5</number>
+     </property>
+     <property name="verticalSpacing">
+      <number>5</number>
+     </property>
+     <property name="leftMargin">
+      <number>5</number>
+     </property>
+     <property name="topMargin">
+      <number>5</number>
+     </property>
+     <property name="rightMargin">
+      <number>5</number>
+     </property>
+     <property name="bottomMargin">
+      <number>5</number>
+     </property>
+     <item row="0" column="0">
+      <widget class="QLabel" name="username_emailLabel">
+       <property name="font">
+        <font>
+         <pointsize>12</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string>Username or Email Address</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="QLineEdit" name="username_emailEdit"/>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QPushButton" name="AcceptDeleteButton">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>70</y>
+      <width>141</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Accept</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="DeclineDeteleButton">
+    <property name="geometry">
+     <rect>
+      <x>200</x>
+      <y>70</y>
+      <width>141</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Decline</string>
+    </property>
+   </widget>
+  </widget>
+ </widget>
+ <tabstops>
+  <tabstop>username_emailEdit</tabstop>
+  <tabstop>AcceptDeleteButton</tabstop>
+ </tabstops>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>DeclineDeteleButton</sender>
+   <signal>clicked()</signal>
+   <receiver>Dialog</receiver>
+   <slot>close()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>280</x>
+     <y>91</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>212</x>
+     <y>73</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>AcceptDeleteButton</sender>
+   <signal>clicked()</signal>
+   <receiver>Dialog</receiver>
+   <slot>close()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>110</x>
+     <y>91</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>212</x>
+     <y>73</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>
