@@ -1,7 +1,6 @@
 from collections import defaultdict
 import json
 import Utils
-import Companies
 
 '''
 This is the data for the logged-in user that is loaded from the db. It contains things like balance, owned stocks, and some functions to 

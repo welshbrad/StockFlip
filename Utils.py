@@ -35,6 +35,7 @@ def overrides(interface_class):
 NASDAQ company listing, access from API
 Returns Pandas dataframe
 '''
+
 def get_symbols():
 	company_list = iex.get_available_symbols(session = cache_session)
 	symbol_list = []
@@ -51,22 +52,11 @@ def get_company_data_start_end(company_code, start, end):
 	df = iex.get_historical_data(company_code, start=start, end=end, output_format='json')
 	return df
 
-"""
-Use code, (e.g. AAPL) to get data from iexfinance API from one minute ago until now
-Returns Pandas dataframe
-"""
-def get_company_data_time_delta(company_code):
-	#get current time (end)
-	#now = datetime.now()
-	#start = now - timedelta(minutes=time_delta)
-	start = datetime.strptime("01-06-2018", "%d-%m-%Y")
-	end = datetime.strptime("02-06-2018", "%d-%m-%Y")
-	data_list = iex.get_historical_data(company_code, start=start, end=end, output_format="pandas", session=cache_session)
-	return data_list
 
 """
 Yields the stock endpoint from the iexfinance iAPI, caches data
 """
 def get_stock(company_code):
+	#session=cache_session
 	stock_reader = Stock(company_code, output_format='json', session=cache_session)
 	return stock_reader
