@@ -951,12 +951,12 @@ selection-background-color: rgb(204, 216, 217);</string>
    <slot>click()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>596</x>
-     <y>88</y>
+     <x>718</x>
+     <y>79</y>
     </hint>
     <hint type="destinationlabel">
-     <x>674</x>
-     <y>86</y>
+     <x>798</x>
+     <y>76</y>
     </hint>
    </hints>
   </connection>
@@ -967,28 +967,12 @@ selection-background-color: rgb(204, 216, 217);</string>
    <slot>reset()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>713</x>
-     <y>84</y>
+     <x>798</x>
+     <y>76</y>
     </hint>
     <hint type="destinationlabel">
      <x>695</x>
      <y>127</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>listWidget</sender>
-   <signal>itemClicked(QListWidgetItem*)</signal>
-   <receiver>listWidget</receiver>
-   <slot>doItemsLayout()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>194</x>
-     <y>332</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>179</x>
-     <y>463</y>
     </hint>
    </hints>
   </connection>

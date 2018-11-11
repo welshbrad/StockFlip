@@ -24,6 +24,10 @@ def get_stock(symbol):
 	#Change return from 'stock' to 'stocks[symbol]' if we encounter a memory copy issue
 	return stock
 
+
+def get_price(symbol):
+	return stocks[symbol]["latestPrice"]
+
 def update_company_information():
 	global available_symbols_list 
 	available_symbols_list = Utils.get_symbols()
@@ -33,5 +37,6 @@ def update_company_information():
 		if symbol in available_symbols_list:
 			stocks[symbol] = Utils.get_stock(symbol).get_quote()
 
+	pf.total_value = pf.calculate_total_value()
 	print("Data updated")	
 

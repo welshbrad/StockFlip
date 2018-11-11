@@ -126,19 +126,6 @@
       </item>
      </layout>
     </item>
-    <item>
-     <widget class="QPushButton" name="pushButton">
-      <property name="font">
-       <font>
-        <family>MS Sans Serif</family>
-        <italic>true</italic>
-       </font>
-      </property>
-      <property name="text">
-       <string>Buy/Sell</string>
-      </property>
-     </widget>
-    </item>
    </layout>
   </widget>
  </widget>

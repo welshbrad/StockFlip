@@ -88,7 +88,6 @@ class MainApp(QtWidgets.QMainWindow):
             self.actionAdjust_Credits.triggered.connect(self.adjust_credit)
             self.actionChange_Password.triggered.connect(self.change_password)
             self.actionReset_Account.triggered.connect(self.confirm_reset_account)
-            self.refreshButton.clicked.connect(self.update_credit)
             self.initUI()
         else: #else if enter as admin
             uic.loadUi('UI/main_admin.ui', baseinstance=self)
@@ -97,8 +96,6 @@ class MainApp(QtWidgets.QMainWindow):
             self.actionReset_Account.triggered.connect(self.confirm_reset_account)
             self.actionDelete_User.triggered.connect(self.delete_user)
             self.actionSend_Message_to_UserEmail.triggered.connect(self.send_message)
-            
-            self.refreshButton.clicked.connect(self.update_credit)
             self.initUI()
  
     def initUI(self):
@@ -179,8 +176,8 @@ class MainApp(QtWidgets.QMainWindow):
 
     def loadPortfolio(self):
         self.loggedInAsUser.setText(pf.username)
-        self.currentBalance.setText(str(pf.credits))
-        #self.currentBalance.command = self.update_credits
+        self.currentBalance.setText(str(pf.num_credits))
+        self.totalValue.setText("$" + str("{:,}".format(pf.calculate_total_value())))
 
         for symbol, num_stock in pf.owned_stocks.items():
             stock = Companies.get_stock(symbol)
@@ -217,13 +214,11 @@ class MainApp(QtWidgets.QMainWindow):
 
     def perform_adjust_credit(self):
         credit = int(self.ui.amountCreditEdit.text())
-        pf.credits = credit
+        pf.num_credits = credit
+        self.currentBalance.setText(str(pf.num_credits))
+        self.currentBalance.update()
         #not done yet need to connect to DB to change the credit of user
-
-#update credit by clicking refresh
-    def update_credit(self):
-        self.currentBalance.setText(str(pf.credits))
-        
+       
     def change_password(self):
         self.ui = uic.loadUi('UI/change_password.ui')
         self.ui.setModal(True)
@@ -251,7 +246,8 @@ class MainApp(QtWidgets.QMainWindow):
         self.ui.exec_()
 
     def perform_reset_account(self):
-        pf.credits = 5000
+        pf.reset()
+        self.refreshUI()
 
     def delete_user(self):
         self.ui = uic.loadUi('UI/delete_user_panel.ui')

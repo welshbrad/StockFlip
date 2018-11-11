@@ -42,13 +42,10 @@ class PortfolioTile(QtWidgets.QWidget):
         self.ownedStockLabel = QtWidgets.QLabel(self.horizontalLayoutWidget_2)
         self.ownedStockLabel.setObjectName("label")
         self.horizontalLayout_2.addWidget(self.ownedStockLabel)
-        self.pushButton = QtWidgets.QPushButton(self.horizontalLayoutWidget_2)
         font = QtGui.QFont()
         font.setFamily("MS Sans Serif")
         font.setItalic(True)
-        self.pushButton.setFont(font)
-        self.pushButton.setObjectName("pushButton")
-        self.horizontalLayout_2.addWidget(self.pushButton)
+   
 
         self.retranslateUi()
         QtCore.QMetaObject.connectSlotsByName(self)
@@ -67,5 +64,4 @@ class PortfolioTile(QtWidgets.QWidget):
         self.priceLabel.setText(_translate("Form", "$205.00"))
         self.percentChangeLabel.setText(_translate("Form", "+2.05%"))
         self.ownedStockLabel.setText(_translate("Form", "Shares Owned: 1500"))
-        self.pushButton.setText(_translate("Form", "Buy/Sell"))
 

@@ -20,3 +20,4 @@ def update(updater_thread):
    while 1:
       time.sleep(time_delta)
       Companies.update_company_information()
+      
