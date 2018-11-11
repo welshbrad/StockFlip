@@ -1,12 +1,12 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
-version = "2.46"
+version = "1.70"
 title = "StockFlip - version " + version
 
 import sys
 from PyQt5 import uic
-from PyQt5 import QtCore, QtGui, QtWidgets #works for pyqt5
+from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import QTimer
 from PyQt5.QtWidgets import *
 from Login import Authenticator, AccountCreator
@@ -71,8 +71,6 @@ class Login_UI(QDialog):
         self.ui.ResetPasswordButton.clicked.connect(self.perform_reset_password)
         self.ui.show()
         self.ui.exec_()
-
-
 
 
 '''
