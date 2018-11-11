@@ -953,6 +953,19 @@
    </property>
   </action>
  </widget>
+ <tabstops>
+  <tabstop>searchBar</tabstop>
+  <tabstop>searchButton</tabstop>
+  <tabstop>searchList</tabstop>
+  <tabstop>tradeCombo</tabstop>
+  <tabstop>numToTrade</tabstop>
+  <tabstop>confirmButton</tabstop>
+  <tabstop>sendToQuickAccessButton</tabstop>
+  <tabstop>removeFromQuickAccessButton</tabstop>
+  <tabstop>quickAccessList</tabstop>
+  <tabstop>listWidget</tabstop>
+  <tabstop>refreshButton</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>

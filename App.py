@@ -79,6 +79,7 @@ class MainApp(QtWidgets.QMainWindow):
     def __init__(self):
         super().__init__()
         timer = QTimer(self)
+        self.company_selected = False
         #timer.timeout.connect(self.refresh_ui_data)
         #timer.start(UpdaterThread.time_delta * 1000)
 
@@ -104,8 +105,11 @@ class MainApp(QtWidgets.QMainWindow):
         self.loadPortfolio()
         self.loadQuickAccessAndCompanySearch()
         self.loadSearchBar()
+
         self.refreshButton.clicked.connect(self.refresh_ui_data)
         self.removeFromQuickAccessButton.clicked.connect(self.on_remove_quick_access)
+        self.confirmButton.clicked.connect(self.on_confirm_trade)
+
 
     #TODO -  make faster and prefer to refresh rather than just reloading with new information 
     def refresh_ui_data(self):
@@ -158,6 +162,19 @@ class MainApp(QtWidgets.QMainWindow):
             return
         if pf.add_to_quick_access(symbol, to_beginning=True):  
             self.loadQuickAccessAndCompanySearch()
+
+    def on_confirm_trade(self):
+        if self.company_selected:
+            buy_or_sell = str(tradeCombo.currentText())
+            if buy_or_sell == "Buy":
+                pass
+                #pf.buy(self.numToTrade, self.companyLabel.text())
+            if buy_or_sell == "Sell":
+                pass
+                #pf.sell(self.numToTrade, self.companyLabel.text())
+
+
+
       
     def loadSearchBar(self):
         self.sendToQuickAccessButton.mousePressEvent = self.on_add_to_quick_access
