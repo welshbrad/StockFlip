@@ -26,11 +26,14 @@ def get_stock(symbol):
 	return stock
 
 
-def get_price(symbol):
+"""
+Will cause lag from the API call. Use only when validating a trade. 
+"""
+def get_latest_price(symbol):
 	try:
-		return stocks[symbol]["latestPrice"]
+		return Utils.get_latest_stock_quote(symbol)["latestPrice"]
 	except KeyError:
-		print("Local stocks doesn't contain the symbol provided.")
+		print("Symbol not found")
 
 def update_company_information():
 	global available_symbols_list 

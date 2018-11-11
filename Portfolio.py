@@ -29,14 +29,25 @@ def add_to_quick_access(symbol, to_beginning=False):
 		quick_access_companies.append(symbol)
 	return True
 
+"""
+Uses number of credits plus the value of each stock owned to determine total value of portfolio. Returns a float
+"""
 def calculate_total_value():
 	total_value = 0
 	for symbol in owned_stocks:
-		total_value += (Companies.get_price(symbol) * owned_stocks[symbol])
+		total_value += (Companies.get_latest_price(symbol) * owned_stocks[symbol])
 	total_value += num_credits
 	return total_value
 
 total_value = calculate_total_value()
+
+"""
+Accessor for the owned_stocks dictionary. Performs existence of symbol check to save code in caller functions and for safety
+"""
+def get_num_owned(symbol):
+	if symbol in owned_stocks:
+		return owned_stocks[symbol]
+	return 0
 
 
 '''
@@ -64,12 +75,14 @@ def add_stock(symbol, quantity):
 		return False
 	try:
 		global owned_stocks
-		owned_stocks[symbol] += quantity
+		if symbol in owned_stocks:
+			owned_stocks[symbol] += quantity
+		else:
+			owned_stocks[symbol] = quantity
 	except KeyError as e:
 		raise e
 		print("KeyError: " + e)
 		return False
-	assert owned_stocks[symbol] >= 0
 	return True
 
 
@@ -82,12 +95,14 @@ def remove_stock(symbol, quantity):
 		return False
 	try:
 		global owned_stocks
-		owned_stocks[symbol] -= quantity
+		if symbol not in owned_stocks:
+			return False
 	except KeyError as e:
 		raise e
 		print("KeyError: " + e)
 		return False
-	assert owned_stocks[symbol] >= 0
+	if owned_stocks[symbol] == 0:
+		del owned_stocks[symbol]
 	return True
 
 
@@ -95,41 +110,59 @@ def remove_stock(symbol, quantity):
 Triggered by the UI, initiate a buy request, adds stock if user has the sufficient funds. Also makes sure prices are current.
 """
 def buy(symbol, quantity):
-	price_per = Utils.get_latest_stock_quote(symbol)["latestPrice"]
-	total_price = quantity * price_per
+	global num_credits
+	num_credits = float(num_credits)
+	quantity = float(quantity)
+	price_per = Companies.get_latest_price(symbol)
+	old_num_credits = num_credits
+	total_price = float(quantity) * float(price_per)
+
 	if total_price > num_credits:
 		print("Not enough credits to complete order.")
 		return False
 	else:
+		ret = 0
 		credits_after_buy = num_credits - total_price
 		if credits_after_buy < 0:
 			return False
-		lock.acquire()
+		trade_lock.acquire()
 		try:
-			numcredits = credits_after_buy
-			add_stock(symbol, quantity)
+			num_credits = credits_after_buy
+			ret = add_stock(symbol, int(quantity))
 		finally:
-			self.lock.release()
-			return True
+			trade_lock.release()
+			if ret:
+				return True
+			else:
+				num_credits = old_num_credits
 		return False
 	
 def sell(symbol, quantity):
-	price_per = Utils.get_latest_stock_quote(symbol)["latestPrice"]
-	total_price = quantity * price_per
+	global num_credits
+	quantity = float(quantity)
+	num_credits = float(num_credits)
+	price_per = Companies.get_latest_price(symbol)
+	old_num_credits = num_credits
+	total_price = float(quantity) * float(price_per)
+
 	if symbol in owned_stocks and quantity > owned_stocks[symbol]:
 		print("Can't sell more than you have.")
 		return False
 	else:
+		ret = 0
 		credits_after_sell = num_credits + total_price
 		if credits_after_sell < num_credits:
 			return False
-		lock.acquire()
+		trade_lock.acquire()
 		try:
-			numcredits = credits_after_sell
-			remove_stock(symbol, quantity)
+			num_credits = credits_after_sell
+			ret = remove_stock(symbol, int(quantity))
 		finally:
-			self.lock.release()
-			return True
+			trade_lock.release()
+			if ret:
+				return True
+			else:
+				num_credits = old_num_credits
 	return False
 
 

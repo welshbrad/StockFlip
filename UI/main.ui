@@ -392,11 +392,25 @@
             <widget class="QLabel" name="companyLabel">
              <property name="font">
               <font>
+               <pointsize>14</pointsize>
+               <weight>75</weight>
+               <bold>true</bold>
+              </font>
+             </property>
+             <property name="text">
+              <string>No Company Selected</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="companyFullNameLabel">
+             <property name="font">
+              <font>
                <pointsize>12</pointsize>
               </font>
              </property>
              <property name="text">
-              <string>Company: AAAAA</string>
+              <string/>
              </property>
             </widget>
            </item>
@@ -1016,6 +1030,38 @@
     <hint type="destinationlabel">
      <x>625</x>
      <y>419</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>quickAccessList</sender>
+   <signal>itemPressed(QListWidgetItem*)</signal>
+   <receiver>listWidget</receiver>
+   <slot>clearSelection()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>418</x>
+     <y>304</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>251</x>
+     <y>264</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>listWidget</sender>
+   <signal>itemPressed(QListWidgetItem*)</signal>
+   <receiver>quickAccessList</receiver>
+   <slot>clearSelection()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>183</x>
+     <y>357</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>497</x>
+     <y>388</y>
     </hint>
    </hints>
   </connection>

@@ -2,25 +2,29 @@
 More important:
 ===============
 
-buy/sell
-highlight active company when clicked
-restrict quick access to one of each company (no duplicates)
-string next to refresh button saying that the app refreshed
-update thread for UI
-stats
-make sure data is accurate
+    Brad:
+    =====
+    buy/sell
+    X highlight active company when clicked
+    restrict quick access to one of each company (no duplicates)
+    string next to refresh button saying that the app refreshed
+    update thread for UI
+    stats
+    make sure data is accurate
 
-database create functions
-database connect to existing application
-admin accounts
-admin ui
-test menu and make sure it cleans input
+    Vu:
+    =====
+    database create functions
+    database connect to existing application
+    admin accounts
+    admin ui
+    test menu and make sure it cleans input
 
 
 Less important:
 ===============
-restyle
-unit tests
-icon for app
-charts
-rearrange tiles when dragged
+    restyle
+    unit tests
+    icon for app
+    charts
+    rearrange tiles when dragged

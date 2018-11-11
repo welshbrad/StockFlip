@@ -110,11 +110,31 @@ class MainApp(QtWidgets.QMainWindow):
         self.removeFromQuickAccessButton.clicked.connect(self.on_remove_quick_access)
         self.confirmButton.clicked.connect(self.on_confirm_trade)
 
+        #connect the owned_stocks and quick access list widget selected item to update the currently selected company in order to update the chart and trade sections
+        self.listWidget.itemPressed.connect(lambda: self.on_select_tile(self.listWidget))
+        self.quickAccessList.itemPressed.connect(lambda: self.on_select_tile(self.quickAccessList))
+        self.searchList.itemPressed.connect(lambda: self.on_select_tile(self.searchList))
+
+
         #This company is the one that will highlighted first and display its graph first on startup. Will be changed 
         #by selecting a different tile from the search bar, the owned_stocks listWidget, or the QuickAccess listWidget
         #TODO: Handle no owned stocks (NoneType error)
-        self.active_company = list(pf.owned_stocks.keys())[0]
 
+
+    def on_select_tile(self, listWidget):
+        self.active_list_widget = listWidget
+        item = listWidget.currentItem()
+        if item is not None:
+            self.active_widget = listWidget.itemWidget(item)
+            symbol = self.active_widget.companyLabel.text()
+           
+            self.company_selected = symbol
+            #print(self.company_selected)
+            self.companyLabel.setText(self.company_selected)
+            #turn get_company_name(symbol) into Util function
+            self.companyFullNameLabel.setText(Companies.get_stock(self.company_selected)["companyName"])
+            self.priceLabel.setText("Share Price: $" + str("{:,}".format(Companies.get_stock(self.company_selected)["latestPrice"])))
+            self.numSharesOwnedLabel.setText("Shares Owned: " + str(pf.get_num_owned(self.company_selected)))
 
 
     #TODO -  make faster and prefer to refresh rather than just reloading with new information 
@@ -169,25 +189,22 @@ class MainApp(QtWidgets.QMainWindow):
             self.loadQuickAccessAndCompanySearch()
 
     def on_confirm_trade(self):
-        if self.company_selected:
-            buy_or_sell = str(tradeCombo.currentText())
-            quantity = int(numToTradeLabel.text())
-            self.onlyInt = QIntValidator()
-            self.numToTrade.setValidator(self.onlyInt)
+        if self.company_selected is not None:
+            buy_or_sell = str(self.tradeCombo.currentText())
+            quantity = int(self.numToTrade.text())
+            #check string here
             if buy_or_sell == "Buy":
-                if pf.buy(self.companyLabel.text(), self.numToTrade):
-                    pass
-                    #success dialog
+                if pf.buy(self.companyLabel.text(), self.numToTrade.text()):
+                    QMessageBox.about(self, "Success", "Trade was successful!")
+                    self.listWidget.clear()
+                    self.loadPortfolio()
                 else:
-                    pass
-                    #failure dialog
+                    QMessageBox.about(self, "Error", "Error during trade.")
             if buy_or_sell == "Sell":
-                if pf.sell(self.companyLabel.text(), self.numToTrade):
-                    pass
-                    #success dialog
+                if pf.sell(self.companyLabel.text(), self.numToTrade.text()):
+                    QMessageBox.about(self, "Success", "Trade was successful!")
                 else:
-                    pass
-                    #failure dialog
+                    QMessageBox.about(self, "Error", "Error during trade.")
       
     def loadSearchBar(self):
         self.sendToQuickAccessButton.mousePressEvent = self.on_add_to_quick_access
@@ -210,7 +227,7 @@ class MainApp(QtWidgets.QMainWindow):
 
     def loadPortfolio(self):
         self.loggedInAsUser.setText(pf.username)
-        self.currentBalance.setText(str(pf.num_credits))
+        self.currentBalance.setText("$" + str("{:,}".format(pf.num_credits)))
         self.loadTotalValue()
 
         for symbol, num_stock in pf.owned_stocks.items():
@@ -317,7 +334,8 @@ if __name__ == '__main__':
     login = Login_UI()
     if login.exec_() == QtWidgets.QDialog.Accepted:
         try:
-            Companies.update_company_information()
+            pass
+            #Companies.update_company_information()
         except:
             QMessageBox.about(mainApp, "No Connection", "You must be connected to the Internet in order to get accurate data.")
             sys.exit()
