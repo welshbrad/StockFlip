@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
-version = "1.70"
+version = "1.76"
 title = "StockFlip - version " + version
 
 import sys
@@ -19,7 +19,6 @@ import Utils
 import Companies
 import UpdaterThread
 
-threads = []
 
 '''
 Loads and displays the UI for the account login. Valid credentials need to be passed into this UI in order to display the main window
@@ -80,8 +79,8 @@ class MainApp(QtWidgets.QMainWindow):
     def __init__(self):
         super().__init__()
         timer = QTimer(self)
-        timer.timeout.connect(self.refresh_ui_data)
-        timer.start(UpdaterThread.time_delta * 1000)
+        #timer.timeout.connect(self.refresh_ui_data)
+        #timer.start(UpdaterThread.time_delta * 1000)
 
         if 1 == 1: #if enter as member
             uic.loadUi('UI/main.ui', baseinstance=self)
@@ -106,6 +105,7 @@ class MainApp(QtWidgets.QMainWindow):
         self.loadQuickAccessAndCompanySearch()
         self.loadSearchBar()
         self.refreshButton.clicked.connect(self.refresh_ui_data)
+        self.removeFromQuickAccessButton.clicked.connect(self.on_remove_quick_access)
 
     #TODO -  make faster and prefer to refresh rather than just reloading with new information 
     def refresh_ui_data(self):
@@ -141,6 +141,11 @@ class MainApp(QtWidgets.QMainWindow):
         self.searchList.setItemWidget(self.searchedItem, self.searchedWid)
         self.searchList.update()
     
+    def on_remove_quick_access(self, event):
+        for selected_item in self.quickAccessList.selectedItems():
+            #TODO: remove from the dictionary in Pd
+            self.quickAccessList.takeItem(self.quickAccessList.row(selected_item))
+
     def on_add_to_quick_access(self, event):
         if self.searchList.count() != 1:
             return
@@ -283,7 +288,6 @@ if __name__ == '__main__':
         updater = UpdaterThread.UpdaterThread(1, "updater")
         updater.daemon = True
         updater.start()
-        threads.append(updater)
 
         mainApp = MainApp()
         mainApp.show()

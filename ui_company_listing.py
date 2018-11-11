@@ -90,7 +90,7 @@ class CompanyListing(QtWidgets.QWidget):
 
     def populate(self, stock, symbol):
             self.companyLabel.setText(str(symbol))
-            self.percentChangeLabel.setText(str(round(stock["changePercent"], 3))+"%")
+            self.percentChangeLabel.setText('(' + str(round(stock["changePercent"], 3))+"%)")
             self.priceLabel.setText("$" + str(stock["latestPrice"]))
             self.openLabel.setText("$" + str(stock["open"]))
             self.highLabel.setText("$" + str(stock["high"]))

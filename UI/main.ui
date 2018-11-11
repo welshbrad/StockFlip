@@ -766,7 +766,7 @@
            <item>
             <widget class="QLabel" name="label_5">
              <property name="text">
-              <string>Add to Quick Access</string>
+              <string>Add/Remove Quick Access</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -787,6 +787,23 @@
              <property name="icon">
               <iconset>
                <normaloff>../res/arrow.png</normaloff>../res/arrow.png</iconset>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="removeFromQuickAccessButton">
+             <property name="maximumSize">
+              <size>
+               <width>25</width>
+               <height>25</height>
+              </size>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+             <property name="icon">
+              <iconset>
+               <normaloff>../res/x.png</normaloff>../res/x.png</iconset>
              </property>
             </widget>
            </item>

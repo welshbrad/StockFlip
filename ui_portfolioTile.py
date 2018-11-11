@@ -55,7 +55,7 @@ class PortfolioTile(QtWidgets.QWidget):
         self.priceLabel.setText(str(stock["latestPrice"]))
         self.companyLabel.setText(str(stock["symbol"]))
         self.ownedStockLabel.setText("Shares owned: "+ str(num_owned))
-        self.percentChangeLabel.setText(str(round(stock["changePercent"], 3))+"%")
+        self.percentChangeLabel.setText("("+str(round(stock["changePercent"], 3))+"%)")
 
     def retranslateUi(self):
         _translate = QtCore.QCoreApplication.translate
