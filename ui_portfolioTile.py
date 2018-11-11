@@ -6,7 +6,7 @@ class PortfolioTile(QtWidgets.QWidget):
         self.parent = parent
         super(PortfolioTile, self).__init__(parent)
         self.setObjectName("Form")
-        self.resize(300, 41)
+        self.resize(310, 40)
         self.setMinimumSize(QtCore.QSize(300, 40))
         self.setMaximumSize(QtCore.QSize(310, 75))
         self.horizontalLayoutWidget = QtWidgets.QWidget(self)
@@ -34,7 +34,7 @@ class PortfolioTile(QtWidgets.QWidget):
         self.percentChangeLabel.setObjectName("percentChangeLabel")
         self.horizontalLayout.addWidget(self.percentChangeLabel)
         self.horizontalLayoutWidget_2 = QtWidgets.QWidget(self)
-        self.horizontalLayoutWidget_2.setGeometry(QtCore.QRect(0, 40, 300, 34))
+        self.horizontalLayoutWidget_2.setGeometry(QtCore.QRect(0, 40, 310, 40))
         self.horizontalLayoutWidget_2.setObjectName("horizontalLayoutWidget_2")
         self.horizontalLayout_2 = QtWidgets.QHBoxLayout(self.horizontalLayoutWidget_2)
         self.horizontalLayout_2.setContentsMargins(5, 5, 5, 5)

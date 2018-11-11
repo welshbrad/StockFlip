@@ -80,7 +80,7 @@ class MainApp(QtWidgets.QMainWindow):
     def __init__(self):
         super().__init__()
         timer = QTimer(self)
-        timer.timeout.connect(self.refreshUI)
+        timer.timeout.connect(self.refresh_ui_data)
         timer.start(UpdaterThread.time_delta * 1000)
 
         if 1 == 1: #if enter as member
@@ -105,14 +105,14 @@ class MainApp(QtWidgets.QMainWindow):
         self.loadPortfolio()
         self.loadQuickAccessAndCompanySearch()
         self.loadSearchBar()
+        self.refreshButton.clicked.connect(self.refresh_ui_data)
 
     #TODO -  make faster and prefer to refresh rather than just reloading with new information 
-    def refreshUI(self):
+    def refresh_ui_data(self):
         self.listWidget.clear()
         self.loadPortfolio()
         self.quickAccessList.clear()
         self.loadQuickAccessAndCompanySearch()
-        print("Updated")
 
     def on_search(self):
         self.searchList.clear()
@@ -121,7 +121,6 @@ class MainApp(QtWidgets.QMainWindow):
         searchText = QListWidgetItem()
         searchText.setText("Searching...")
         self.searchList.addItem(searchText)
-        print(Companies.get_available_symbols())
         if symbol in Companies.get_available_symbols():
             self.searchList.clear()
             self.searchedWid = ui_company_listing.CompanyListing(self)
@@ -146,7 +145,6 @@ class MainApp(QtWidgets.QMainWindow):
         if self.searchList.count() != 1:
             return
         symbol = self.searchedSymbol
-        print("symbol: ", symbol)
         if not isinstance(symbol, str):
             return
         if pf.add_to_quick_access(symbol, to_beginning=True):  
@@ -168,16 +166,13 @@ class MainApp(QtWidgets.QMainWindow):
             self.quickAccessList.addItem(wid2)
             self.quickAccessList.setItemWidget(wid2, wid)
 
-    def updatePortfolio(self, event):
-        sender = self.sender()
-        sender.resize(300,75)
-        self.listWidget.update()
-        self.listWidget.repaint()
+    def loadTotalValue(self):
+        self.totalValue.setText("$" + str("{:,}".format(pf.calculate_total_value())))
 
     def loadPortfolio(self):
         self.loggedInAsUser.setText(pf.username)
         self.currentBalance.setText(str(pf.num_credits))
-        self.totalValue.setText("$" + str("{:,}".format(pf.calculate_total_value())))
+        self.loadTotalValue()
 
         for symbol, num_stock in pf.owned_stocks.items():
             stock = Companies.get_stock(symbol)
@@ -187,8 +182,6 @@ class MainApp(QtWidgets.QMainWindow):
             wid2.setSizeHint(QtCore.QSize(300, 75))
             self.listWidget.addItem(wid2)
             self.listWidget.setItemWidget(wid2, wid)
-
-        self.listWidget.currentItemChanged.connect(self.updatePortfolio) 
 
     def closeEvent(self, event):
         reply = QMessageBox.question(self, 'Quit?',
@@ -216,8 +209,8 @@ class MainApp(QtWidgets.QMainWindow):
         credit = int(self.ui.amountCreditEdit.text())
         pf.num_credits = credit
         self.currentBalance.setText(str(pf.num_credits))
+        self.loadTotalValue()
         self.currentBalance.update()
-        #not done yet need to connect to DB to change the credit of user
        
     def change_password(self):
         self.ui = uic.loadUi('UI/change_password.ui')
@@ -247,7 +240,10 @@ class MainApp(QtWidgets.QMainWindow):
 
     def perform_reset_account(self):
         pf.reset()
-        self.refreshUI()
+        self.listWidget.clear()
+        self.quickAccessWidget.clear()
+        self.loadPortfolio()
+        self.loadQuickAccessAndCompanySearch()
 
     def delete_user(self):
         self.ui = uic.loadUi('UI/delete_user_panel.ui')
@@ -294,6 +290,3 @@ if __name__ == '__main__':
         
         ret = app.exec_()
         sys.exit(ret)
- 
-
-
