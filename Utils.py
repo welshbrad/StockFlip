@@ -57,10 +57,23 @@ def get_company_data_start_end(company_code, start, end):
 Yields the stock endpoint from the iexfinance iAPI, caches data
 """
 def get_stock(company_code):
-	#session=cache_session
+	if not isinstance(company_code, str):
+		raise TypeError('company_code should be a str.')
+		return False
+	
 	stock_reader = Stock(company_code, output_format='json', session=cache_session)
 	return stock_reader
 
+
+"""
+Gives the LATEST stock quote, ignoring all cached data 
+"""
+def get_latest_stock_quote(company_code):
+	if not isinstance(company_code, str):
+		raise TypeError("Company_code should be a string.")
+		return False
+	stock_reader = Stock(company_code, output_format='json').get_quote()
+	return stock_reader
 
 """
 Returns all the conveniently formatted data from the API which will be used for charting. 

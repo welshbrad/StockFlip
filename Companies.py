@@ -27,7 +27,10 @@ def get_stock(symbol):
 
 
 def get_price(symbol):
-	return stocks[symbol]["latestPrice"]
+	try:
+		return stocks[symbol]["latestPrice"]
+	except KeyError:
+		print("Local stocks doesn't contain the symbol provided.")
 
 def update_company_information():
 	global available_symbols_list 

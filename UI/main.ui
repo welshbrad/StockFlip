@@ -540,6 +540,9 @@
                    <pointsize>14</pointsize>
                   </font>
                  </property>
+                 <property name="inputMethodHints">
+                  <set>Qt::ImhDigitsOnly</set>
+                 </property>
                 </widget>
                </item>
                <item>

@@ -2,7 +2,9 @@ from collections import defaultdict
 import json
 import Utils
 import Companies
+import threading
 
+trade_lock = threading.Lock()
 
 '''
 This is the data for the logged-in user that is loaded from the db. It contains things like balance, owned stocks, and some functions to 
@@ -61,6 +63,7 @@ def add_stock(symbol, quantity):
 	if not (isinstance(symbol, str) and (isinstance(quantity, int))):
 		return False
 	try:
+		global owned_stocks
 		owned_stocks[symbol] += quantity
 	except KeyError as e:
 		raise e
@@ -75,8 +78,60 @@ Set the quantity of owned stock equal to the old quantity - [quantity] at key [s
 Returns True if successful, else False
 '''
 def remove_stock(symbol, quantity):
-	owned_stocks[symbol] -= quantity
+	if not (isinstance(symbol, str) and (isinstance(quantity, int))):
+		return False
+	try:
+		global owned_stocks
+		owned_stocks[symbol] -= quantity
+	except KeyError as e:
+		raise e
+		print("KeyError: " + e)
+		return False
 	assert owned_stocks[symbol] >= 0
+	return True
+
+
+"""
+Triggered by the UI, initiate a buy request, adds stock if user has the sufficient funds. Also makes sure prices are current.
+"""
+def buy(symbol, quantity):
+	price_per = Utils.get_latest_stock_quote(symbol)["latestPrice"]
+	total_price = quantity * price_per
+	if total_price > num_credits:
+		print("Not enough credits to complete order.")
+		return False
+	else:
+		credits_after_buy = num_credits - total_price
+		if credits_after_buy < 0:
+			return False
+		lock.acquire()
+		try:
+			numcredits = credits_after_buy
+			add_stock(symbol, quantity)
+		finally:
+			self.lock.release()
+			return True
+		return False
+	
+def sell(symbol, quantity):
+	price_per = Utils.get_latest_stock_quote(symbol)["latestPrice"]
+	total_price = quantity * price_per
+	if symbol in owned_stocks and quantity > owned_stocks[symbol]:
+		print("Can't sell more than you have.")
+		return False
+	else:
+		credits_after_sell = num_credits + total_price
+		if credits_after_sell < num_credits:
+			return False
+		lock.acquire()
+		try:
+			numcredits = credits_after_sell
+			remove_stock(symbol, quantity)
+		finally:
+			self.lock.release()
+			return True
+	return False
+
 
 
 '''
@@ -92,6 +147,12 @@ Dump pf and user data into an SQLlite file
 def dump_user_data():
 	pass
 
+
+"""
+From create account screen, set up new database table
+"""
+def create_user():
+	pass
 
 def reset():
 	global owned_stocks

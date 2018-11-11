@@ -110,6 +110,12 @@ class MainApp(QtWidgets.QMainWindow):
         self.removeFromQuickAccessButton.clicked.connect(self.on_remove_quick_access)
         self.confirmButton.clicked.connect(self.on_confirm_trade)
 
+        #This company is the one that will highlighted first and display its graph first on startup. Will be changed 
+        #by selecting a different tile from the search bar, the owned_stocks listWidget, or the QuickAccess listWidget
+        #TODO: Handle no owned stocks (NoneType error)
+        self.active_company = list(pf.owned_stocks.keys())[0]
+
+
 
     #TODO -  make faster and prefer to refresh rather than just reloading with new information 
     def refresh_ui_data(self):
@@ -117,7 +123,6 @@ class MainApp(QtWidgets.QMainWindow):
         self.loadPortfolio()
         self.quickAccessList.clear()
         self.loadQuickAccessAndCompanySearch()
-        print(Companies.charts["AAPL"])
 
     def on_search(self):
         self.searchList.clear()
@@ -166,15 +171,23 @@ class MainApp(QtWidgets.QMainWindow):
     def on_confirm_trade(self):
         if self.company_selected:
             buy_or_sell = str(tradeCombo.currentText())
+            quantity = int(numToTradeLabel.text())
+            self.onlyInt = QIntValidator()
+            self.numToTrade.setValidator(self.onlyInt)
             if buy_or_sell == "Buy":
-                pass
-                #pf.buy(self.numToTrade, self.companyLabel.text())
+                if pf.buy(self.companyLabel.text(), self.numToTrade):
+                    pass
+                    #success dialog
+                else:
+                    pass
+                    #failure dialog
             if buy_or_sell == "Sell":
-                pass
-                #pf.sell(self.numToTrade, self.companyLabel.text())
-
-
-
+                if pf.sell(self.companyLabel.text(), self.numToTrade):
+                    pass
+                    #success dialog
+                else:
+                    pass
+                    #failure dialog
       
     def loadSearchBar(self):
         self.sendToQuickAccessButton.mousePressEvent = self.on_add_to_quick_access
@@ -303,8 +316,11 @@ if __name__ == '__main__':
     app = QtWidgets.QApplication(sys.argv)
     login = Login_UI()
     if login.exec_() == QtWidgets.QDialog.Accepted:
-        Companies.update_company_information()
-
+        try:
+            Companies.update_company_information()
+        except:
+            QMessageBox.about(mainApp, "No Connection", "You must be connected to the Internet in order to get accurate data.")
+            sys.exit()
         #This will continuously pull from the API and push all the data into the cache
         updater = UpdaterThread.UpdaterThread(1, "updater")
         updater.daemon = True
