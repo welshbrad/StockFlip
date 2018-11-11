@@ -142,9 +142,12 @@ class MainApp(QtWidgets.QMainWindow):
         self.searchList.update()
     
     def on_remove_quick_access(self, event):
-        for selected_item in self.quickAccessList.selectedItems():
-            #TODO: remove from the dictionary in Pd
-            self.quickAccessList.takeItem(self.quickAccessList.row(selected_item))
+        item = self.quickAccessList.currentItem()
+        if item is not None:
+            symbol = self.quickAccessList.itemWidget(item).companyLabel.text()
+            print(symbol)
+            pf.quick_access_companies.remove(symbol)
+            self.quickAccessList.takeItem(self.quickAccessList.row(item))
 
     def on_add_to_quick_access(self, event):
         if self.searchList.count() != 1:
