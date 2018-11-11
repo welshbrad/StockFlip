@@ -10,6 +10,7 @@ Set the static companies dataframe
 '''
 stocks = {}
 available_symbols_list = []
+charts = {}
 
 def get_available_symbols():
 	return available_symbols_list
@@ -36,6 +37,7 @@ def update_company_information():
 	for symbol in symbols_to_update:
 		if symbol in available_symbols_list:
 			stocks[symbol] = Utils.get_stock(symbol).get_quote()
+			charts[symbol] = Utils.get_chart_data(symbol)
 
 	pf.total_value = pf.calculate_total_value()
 	print("Data updated")	

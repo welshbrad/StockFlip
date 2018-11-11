@@ -113,6 +113,7 @@ class MainApp(QtWidgets.QMainWindow):
         self.loadPortfolio()
         self.quickAccessList.clear()
         self.loadQuickAccessAndCompanySearch()
+        print(Companies.charts["AAPL"])
 
     def on_search(self):
         self.searchList.clear()

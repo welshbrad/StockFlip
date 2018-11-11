@@ -60,3 +60,12 @@ def get_stock(company_code):
 	#session=cache_session
 	stock_reader = Stock(company_code, output_format='json', session=cache_session)
 	return stock_reader
+
+
+"""
+Returns all the conveniently formatted data from the API which will be used for charting. 
+"""
+def get_chart_data(company_code):
+	stock_reader = Stock(company_code, output_format='json', session=cache_session)
+	chart_dict = stock_reader.get_chart()
+	return chart_dict
