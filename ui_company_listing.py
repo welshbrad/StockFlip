@@ -77,20 +77,26 @@ class CompanyListing(QtWidgets.QWidget):
         self.companyLabel.setText(_translate("Form", "AAPL"))
         self.priceLabel.setText(_translate("Form", "0"))
         self.percentChangeLabel.setText(_translate("Form", "0"))
-        self.label_3.setText(_translate("Form", "Close"))
-        self.label_2.setText(_translate("Form", "High"))
+        self.label_3.setText(_translate("Form", "<font color='grey'>Close</font>"))
+        self.label_2.setText(_translate("Form", "<font color='grey'>High</font>"))
         self.highLabel.setText(_translate("Form", "0"))
-        self.label_4.setText(_translate("Form", "Volume"))
+        self.label_4.setText(_translate("Form", "<font color='grey'>Volume</font>"))
         self.openLabel.setText(_translate("Form", "0"))
         self.volumeLabel.setText(_translate("Form", "0"))
         self.closeLabel.setText(_translate("Form", "0"))
-        self.label.setText(_translate("Form", "Open"))
-        self.label_9.setText(_translate("Form", "Low"))
+        self.label.setText(_translate("Form", "<font color='grey'>Open</font>"))
+        self.label_9.setText(_translate("Form", "<font color='grey'>Low</font>"))
         self.lowLabel.setText(_translate("Form", "0"))
 
     def populate(self, stock, symbol):
             self.companyLabel.setText(str(symbol))
-            self.percentChangeLabel.setText('(' + str(round(stock["changePercent"], 3))+"%)")
+            change_perc = stock["changePercent"]*100
+            if change_perc < 0:
+                color = "red"
+            else:
+                color = "green"
+            change_perc = str(round(change_perc, 2))
+            self.percentChangeLabel.setText("<font color="+color+">"+change_perc+"%</font>")
             self.priceLabel.setText("$" + str(stock["latestPrice"]))
             self.openLabel.setText("$" + str(stock["open"]))
             self.highLabel.setText("$" + str(stock["high"]))

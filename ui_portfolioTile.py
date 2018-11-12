@@ -1,4 +1,3 @@
-
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 class PortfolioTile(QtWidgets.QWidget):
@@ -55,7 +54,13 @@ class PortfolioTile(QtWidgets.QWidget):
         self.priceLabel.setText(str(stock["latestPrice"]))
         self.companyLabel.setText(str(stock["symbol"]))
         self.ownedStockLabel.setText("Shares owned: "+ str(num_owned))
-        self.percentChangeLabel.setText("("+str(round(stock["changePercent"], 3))+"%)")
+        change_perc = stock["changePercent"]*100
+        if change_perc < 0:
+            color = "red"
+        else:
+            color = "green"
+        change_perc = str(round(change_perc, 2))
+        self.percentChangeLabel.setText("<font color="+color+">"+change_perc+"%</font>")
 
     def retranslateUi(self):
         _translate = QtCore.QCoreApplication.translate

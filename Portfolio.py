@@ -119,13 +119,12 @@ def buy(symbol, quantity):
 	total_price = round(float(quantity) * float(price_per), 2)
 
 	if total_price > num_credits:
-		print("Not enough credits to complete order.")
-		return False
+		return False, "Not enough credits."
 	else:
 		ret = 0
 		credits_after_buy = num_credits - total_price
 		if credits_after_buy < 0:
-			return False
+			return False, ''
 		trade_lock.acquire()
 		try:
 			num_credits = credits_after_buy
@@ -133,11 +132,15 @@ def buy(symbol, quantity):
 		finally:
 			trade_lock.release()
 			if ret:
-				return True
+				return True, ''
 			else:
 				num_credits = old_num_credits
-		return False
+		return False, "Error"
 	
+"""
+Triggered by the UI, initiate a buy request, removes stock and adds to num_credits if the user has enough shares to complete the request. 
+Also makes sure prices are current.
+"""
 def sell(symbol, quantity):
 	global num_credits
 	quantity = float(quantity)
@@ -146,14 +149,13 @@ def sell(symbol, quantity):
 	old_num_credits = num_credits
 	total_price = total_price = round(float(quantity) * float(price_per), 2)
 
-	if symbol in owned_stocks and quantity > owned_stocks[symbol]:
-		print("Can't sell more than you have.")
-		return False
+	if symbol not in owned_stocks or quantity > owned_stocks[symbol]:
+		return False, "You can't sell what you don't have"
 	else:
 		ret = 0
 		credits_after_sell = num_credits + total_price
 		if credits_after_sell < num_credits:
-			return False
+			return False, ''
 		trade_lock.acquire()
 		try:
 			num_credits = credits_after_sell
@@ -161,12 +163,10 @@ def sell(symbol, quantity):
 		finally:
 			trade_lock.release()
 			if ret:
-				return True
+				return True, ''
 			else:
 				num_credits = old_num_credits
-	return False
-
-
+	return False, "Error"
 
 '''
 Load a user using SQLlite

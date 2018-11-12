@@ -4,7 +4,7 @@ More important:
 
     Brad:
     =====
-    buy/sell
+    X buy/sell
     connection management
     X highlight active company when clicked
     X restrict quick access to one of each company (no duplicates)
@@ -12,6 +12,7 @@ More important:
     update thread for UI
     stats
     make sure data is accurate
+    colored percent change
 
     Vu:
     =====
@@ -26,6 +27,6 @@ Less important:
 ===============
     restyle
     unit tests
-    icon for app
+    X icon for app
     charts
     rearrange tiles when dragged

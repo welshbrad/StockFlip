@@ -140,8 +140,6 @@ class MainApp(QtWidgets.QMainWindow):
             total_price = Companies.get_stock(self.company_selected)["latestPrice"] * int(text)
             self.totalPriceLabel.setText("$" + str("{:,}".format(total_price)))
 
-
-
     def on_select_tile(self, listWidget):
         self.trade_frame.hide()
         self.active_list_widget = listWidget
@@ -169,6 +167,18 @@ class MainApp(QtWidgets.QMainWindow):
         
         #set our "last updated" label to our new delta
         self.lastUpdatedLabel.setText("Last updated: " + datetime.now().strftime('%I:%M %p '))
+
+    def trade_update(self):
+        self.listWidget.clear()
+        self.loadPortfolio()
+        self.company_selected = None
+        self.trade_frame.hide()
+        self.tradeErrorLabel.clear()
+
+        self.companyLabel.setText("No Company Selected")
+        self.companyFullNameLabel.clear()
+        self.priceLabel.clear()
+        self.numSharesOwnedLabel.clear()
 
     def on_search(self):
         self.searchList.clear()
@@ -220,24 +230,28 @@ class MainApp(QtWidgets.QMainWindow):
     def on_confirm_trade(self):
         if self.company_selected is not None:
             buy_or_sell = str(self.tradeCombo.currentText())
-            quantity = int(self.numToTrade.text())
-            #check string here
+            try:
+                quantity = int(self.numToTrade.text())
+            except:
+                self.tradeErrorLabel.setText("Shares field must contain an integer.")
+                return False
+
             if buy_or_sell == "Buy":
-                if pf.buy(self.companyLabel.text(), self.numToTrade.text()):
+                status, error = pf.buy(self.companyLabel.text(), self.numToTrade.text())
+                if status:
                     QMessageBox.about(self, "Success", "Trade was successful!")
+                    self.trade_update()
                 else:
-                    QMessageBox.about(self, "Error", "Error during trade.")
+                    self.tradeErrorLabel.setText(error)
                     return False
             if buy_or_sell == "Sell":
-                if pf.sell(self.companyLabel.text(), self.numToTrade.text()):
+                status, error = pf.sell(self.companyLabel.text(), self.numToTrade.text())
+                if status:
                     QMessageBox.about(self, "Success", "Trade was successful!")
+                    self.trade_update()
                 else:
-                    QMessageBox.about(self, "Error", "Error during trade.")
+                    self.tradeErrorLabel.setText(error)
                     return False
-            self.listWidget.clear()
-            self.loadPortfolio()
-            self.company_selected = None
-            self.trade_frame.hide()
             return True
       
     def loadSearchBar(self):
@@ -330,10 +344,7 @@ class MainApp(QtWidgets.QMainWindow):
 
     def perform_reset_account(self):
         pf.reset()
-        self.listWidget.clear()
-        self.quickAccessWidget.clear()
-        self.loadPortfolio()
-        self.loadQuickAccessAndCompanySearch()
+        self.refresh_ui_data()
 
     def delete_user(self):
         self.ui = uic.loadUi('UI/delete_user_panel.ui')
