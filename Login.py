@@ -4,7 +4,7 @@ import os
 from Utils import overrides
 from PyQt5.QtWidgets import QMessageBox
 import Portfolio as pf
-import database as db
+import database1 as db
 
 '''
 Utility function to hash a password. Used by Authenticator and AccountCreator
