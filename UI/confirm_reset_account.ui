@@ -31,7 +31,7 @@
       <x>9</x>
       <y>17</y>
       <width>381</width>
-      <height>101</height>
+      <height>106</height>
      </rect>
     </property>
     <layout class="QFormLayout" name="formLayout">
@@ -73,7 +73,7 @@
         </font>
        </property>
        <property name="text">
-        <string>Refresh after accept</string>
+        <string/>
        </property>
       </widget>
      </item>

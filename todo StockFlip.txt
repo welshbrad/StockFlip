@@ -5,14 +5,14 @@ More important:
     Brad:
     =====
     X buy/sell
-    search by company name instead of symbol
+    X search by company name instead of symbol
     connection management
     X highlight active company when clicked
     X restrict quick access to one of each company (no duplicates)
     X string next to refresh button saying that the app refreshed
     update thread for UI
     stats
-    make sure data is accurate
+    X make sure data is accurate
     X colored percent change
 
     Vu:

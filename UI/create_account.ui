@@ -68,25 +68,6 @@
      <item row="0" column="1">
       <widget class="QLineEdit" name="usernameLineEdit"/>
      </item>
-     <item row="2" column="0">
-      <widget class="QLabel" name="confirmPasswordLabel">
-       <property name="font">
-        <font>
-         <pointsize>12</pointsize>
-        </font>
-       </property>
-       <property name="text">
-        <string>Confirm Password</string>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="1">
-      <widget class="QLineEdit" name="confirmPasswordLineEdit">
-       <property name="echoMode">
-        <enum>QLineEdit::Password</enum>
-       </property>
-      </widget>
-     </item>
      <item row="1" column="0">
       <widget class="QLabel" name="passwordLabel">
        <property name="font">
@@ -106,8 +87,24 @@
        </property>
       </widget>
      </item>
-     <item row="3" column="1">
-      <widget class="QLineEdit" name="emailLineEdit"/>
+     <item row="2" column="0">
+      <widget class="QLabel" name="confirmPasswordLabel">
+       <property name="font">
+        <font>
+         <pointsize>12</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string>Confirm Password</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="1">
+      <widget class="QLineEdit" name="confirmPasswordLineEdit">
+       <property name="echoMode">
+        <enum>QLineEdit::Password</enum>
+       </property>
+      </widget>
      </item>
      <item row="3" column="0">
       <widget class="QLabel" name="emailLabel">
@@ -120,6 +117,9 @@
         <string>Email</string>
        </property>
       </widget>
+     </item>
+     <item row="3" column="1">
+      <widget class="QLineEdit" name="emailLineEdit"/>
      </item>
     </layout>
    </widget>
@@ -146,5 +146,70 @@
   <tabstop>CreateAccountButton</tabstop>
  </tabstops>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>emailLineEdit</sender>
+   <signal>returnPressed()</signal>
+   <receiver>CreateAccountButton</receiver>
+   <slot>animateClick()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>274</x>
+     <y>120</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>257</x>
+     <y>167</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>confirmPasswordLineEdit</sender>
+   <signal>returnPressed()</signal>
+   <receiver>CreateAccountButton</receiver>
+   <slot>animateClick()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>232</x>
+     <y>92</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>241</x>
+     <y>162</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>passwordLineEdit</sender>
+   <signal>returnPressed()</signal>
+   <receiver>CreateAccountButton</receiver>
+   <slot>animateClick()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>217</x>
+     <y>71</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>230</x>
+     <y>165</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>usernameLineEdit</sender>
+   <signal>returnPressed()</signal>
+   <receiver>CreateAccountButton</receiver>
+   <slot>animateClick()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>200</x>
+     <y>46</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>202</x>
+     <y>168</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>
