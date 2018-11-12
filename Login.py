@@ -1,8 +1,15 @@
+import sys
 import hashlib
 import re
 import os
+from PyQt5 import uic
+from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtCore import QTimer
+from PyQt5.QtWidgets import *
 from Utils import overrides
 from PyQt5.QtWidgets import QMessageBox
+from random import randint
+import EmailJob as ej
 import Portfolio as pf
 import database1 as db
 
@@ -128,3 +135,61 @@ class PasswordChange(Authenticator):
             else:
                 return False, "Passwords don't match"
         return False, "Invalid Password"
+
+class ResetPassword(Authenticator):
+    def __init__(self, username, password, re_password, email):
+        super().__init__(username, password)
+        self.re_password = str(re_password)
+        self.email = str(email)
+        
+    def checkCredentials(self):
+        if self.isValidUsername() and self.isValidPassword() and self.isValidEmail():
+            checkUserEmail = db.check_user_email(self.username, self.email)
+            if checkUserEmail:
+                    self.checkCode()
+                    return True, " "
+            else:
+                return False, "Invalid Username or Email Address"
+        return False, self.return_string
+
+    @overrides(Authenticator)
+    def isValidPassword(self):
+        if super().isValidPassword():
+            if (self.password == self.re_password):
+                return True
+            else:
+                self.return_string = "Passwords don't match"
+                return False
+        return False
+
+    def isValidEmail(self):
+        if not re.match(r'[^@]+@[^@]+\.[^@]+', self.email):
+            self.return_string = "Invalid Email"
+            return False, self.return_string
+        return True, " "
+
+    def perform_check_code(self):
+        codeE = self.ui.codeLineEdit.text()
+        print(code+"ok")
+        print(code +" "+ codeE)
+        print("OK5")
+        if (self.code == codeE):
+            #self.changePassword()
+            return True, " "
+        else:
+            print("Invalid Code")
+            return False, "Invalid Code"
+        
+    def checkCode(self):
+        global code
+        code = randint(10000,99999)
+        ej.sendCodeEmail(code, self.email, self.username)
+        self.ui = uic.loadUi('UI/check_code.ui')
+        self.ui.setModal(True)
+        self.ui.CheckCodeButton.clicked.connect(self.perform_check_code)
+        self.ui.show()
+        self.ui.exec_()
+        
+#hi = ResetPassword("vunguyen1", "123qweqwe", \
+#                   "123qweqwee", "vu3@mail.usf.edu")
+#valid, message = hi.checkCredentials()
