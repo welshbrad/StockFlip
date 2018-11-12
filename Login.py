@@ -55,8 +55,10 @@ class Authenticator():
 
     def createSession(self):
         credit = db.find_credits(self.username)
+        total_value = db.find_total_value(self.username)
         pf.username = self.username
         pf.num_credits = credit
+        pf.total_value = total_value
         stock = db.find_stock_of_user(pf.username)
         for i in stock:
             pf.set_stock(i[1], i[2])
@@ -113,3 +115,17 @@ class AccountCreator(Authenticator):
             self.return_string = "Invalid Email"
             return False
         return True
+
+class PasswordChange(Authenticator):
+    def __init__(self, username, password, re_password):
+        super().__init__(username, password)
+        self.re_password = str(re_password)
+
+    def isValidPassword(self):
+        if super().isValidPassword():
+            if (self.password == self.re_password):
+                return True
+            else:
+                self.return_string = "Passwords don't match"
+                return False, self.return_string
+        return False, "Invalid Passworde"
