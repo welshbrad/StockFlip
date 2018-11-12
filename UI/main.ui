@@ -1067,7 +1067,7 @@
      <x>0</x>
      <y>0</y>
      <width>870</width>
-     <height>21</height>
+     <height>26</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuMenu">
@@ -1079,7 +1079,15 @@
     <addaction name="actionReset_Account"/>
     <addaction name="actionExit"/>
    </widget>
+   <widget class="QMenu" name="menuAdmin_Menu">
+    <property name="title">
+     <string>Admin Menu</string>
+    </property>
+    <addaction name="actionDelete_User"/>
+    <addaction name="actionMessage_User"/>
+   </widget>
    <addaction name="menuMenu"/>
+   <addaction name="menuAdmin_Menu"/>
   </widget>
   <action name="actionAdjust_Credits">
    <property name="text">
@@ -1099,6 +1107,16 @@
   <action name="actionReset_Account">
    <property name="text">
     <string>Reset Account</string>
+   </property>
+  </action>
+  <action name="actionDelete_User">
+   <property name="text">
+    <string>Delete_User</string>
+   </property>
+  </action>
+  <action name="actionMessage_User">
+   <property name="text">
+    <string>Message_User_By_Email</string>
    </property>
   </action>
  </widget>
