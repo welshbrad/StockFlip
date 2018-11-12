@@ -82,7 +82,6 @@ class AccountCreator(Authenticator):
         super().__init__(username, password)
         self.re_password = str(re_password)
         self.email = str(email)
-     
     
     @overrides(Authenticator)
     def checkCredentials(self):
@@ -104,7 +103,7 @@ class AccountCreator(Authenticator):
                 db.insert_user_quick_access(self.username, "COST")
                 db.insert_user_quick_access(self.username, "EBAY")
                 db.insert_user_quick_access(self.username, "FOX")
-                return True, 'Valid'
+                return True, "Account has been created! Welcome to Stock Flip"
         return False, self.return_string
 
     @overrides(Authenticator)
@@ -131,16 +130,17 @@ class PasswordChange(Authenticator):
     def isValidPassword(self):
         if super().isValidPassword():
             if (self.password == self.re_password):
-                return True, " "
+                return True, "Password has been changed"
             else:
                 return False, "Passwords don't match"
         return False, "Invalid Password"
 
 class ResetPassword(Authenticator):
-    def __init__(self, username, password, re_password, email):
+    def __init__(self, username, password, re_password, email, code):
         super().__init__(username, password)
         self.re_password = str(re_password)
         self.email = str(email)
+        self.code = str(code)
         
     def checkCredentials(self):
         if self.isValidUsername() and self.isValidPassword() and self.isValidEmail():
@@ -169,27 +169,17 @@ class ResetPassword(Authenticator):
         return True, " "
 
     def perform_check_code(self):
-        codeE = self.ui.codeLineEdit.text()
-        print(code+"ok")
-        print(code +" "+ codeE)
-        print("OK5")
-        if (self.code == codeE):
-            #self.changePassword()
-            return True, " "
-        else:
-            print("Invalid Code")
-            return False, "Invalid Code"
+        codeE = str(self.ui.codeLineEdit.text())
+        if self.code == codeE:
+            db.update_password(self.username, self.password)
         
     def checkCode(self):
-        global code
-        code = randint(10000,99999)
-        ej.sendCodeEmail(code, self.email, self.username)
+        ej.sendCodeEmail(self.code, self.email, self.username)
         self.ui = uic.loadUi('UI/check_code.ui')
         self.ui.setModal(True)
+        print(self.code)
         self.ui.CheckCodeButton.clicked.connect(self.perform_check_code)
         self.ui.show()
         self.ui.exec_()
+
         
-#hi = ResetPassword("vunguyen1", "123qweqwe", \
-#                   "123qweqwee", "vu3@mail.usf.edu")
-#valid, message = hi.checkCredentials()

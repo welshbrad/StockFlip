@@ -9,8 +9,8 @@ from PyQt5 import uic
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import QTimer
 from PyQt5.QtWidgets import *
+from random import randint
 from Login import Authenticator, AccountCreator, PasswordChange, ResetPassword
-from ResetPassword import resetPass
 import database1 as db
 import EmailJob as ej
 import Portfolio as pf
@@ -48,8 +48,8 @@ class Login_UI(QDialog):
         valid, message = creator.checkCredentials()
         if not valid:
             QMessageBox.about(self, "Error", message + "       ")
-        # else:
-        #     self.ui.accept()
+        else:
+            QMessageBox.about(self, "Success", message + "       ")
         
     def create_account(self):
         self.ui = uic.loadUi('UI/create_account.ui')
@@ -59,8 +59,9 @@ class Login_UI(QDialog):
         self.ui.exec_() #== QtWidgets.QDialog.Accepted:
 
     def perform_reset_password(self):
+        code = randint(10000, 99999)
         resetpassword = ResetPassword(self.ui.usernameLineEdit.text(), self.ui.passwordLineEdit.text(), \
-                                      self.ui.confirmPasswordLineEdit.text(), self.ui.emailLineEdit.text())
+                                      self.ui.confirmPasswordLineEdit.text(), self.ui.emailLineEdit.text(), code)
         valid, message = resetpassword.checkCredentials()
         if not valid:
             QMessageBox.about(self, "Error", message + "       ")
@@ -351,6 +352,7 @@ class MainApp(QtWidgets.QMainWindow):
             QMessageBox.about(self, "Error", message + "       ")
         else:
             db.update_password(pf.username, newPassword)
+            QMessageBox.about(self, "Success", message + "       ")
 
     def confirm_reset_account(self):
         self.ui = uic.loadUi('UI/confirm_reset_account.ui')
