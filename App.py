@@ -380,9 +380,19 @@ class MainApp(QtWidgets.QMainWindow):
         self.ui.exec_()
 
     def perform_delete_user(self):
-        username_email = self.ui.username_emailEdit.text()
-        #print("Username "+str(username)+" is deleted!")
-        #connect to database to delete relevant username info or email Info
+        username_email = str(self.ui.username_emailEdit.text())
+        checkuser = db.check_user(username_email)
+        checkemail = db.check_email(username_email)
+        for i in checkemail:
+            print("")
+        if checkuser:
+            db.delete_user(username_email)
+        if checkemail:
+            db.delete_user(i[0])
+        else:
+            message = "Invalid Username or Email Address"
+            QMessageBox.about(self, "Error", message + "       ")
+            
 
     def send_message(self):
         self.ui = uic.loadUi('UI/send_message.ui')
