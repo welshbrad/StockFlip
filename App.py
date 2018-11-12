@@ -11,6 +11,7 @@ from PyQt5.QtCore import QTimer
 from PyQt5.QtWidgets import *
 from Login import Authenticator, AccountCreator
 from ResetPassword import resetPass
+import database as db
 import EmailJob as ej
 import Portfolio as pf
 import ui_portfolioTile
@@ -83,21 +84,8 @@ class MainApp(QtWidgets.QMainWindow):
 
         #timer.timeout.connect(self.refresh_ui_data)
         #timer.start(UpdaterThread.time_delta * 1000)
-
-        if 1 == 1: #if enter as member
-            uic.loadUi('UI/main.ui', baseinstance=self)
-            self.actionAdjust_Credits.triggered.connect(self.adjust_credit)
-            self.actionChange_Password.triggered.connect(self.change_password)
-            self.actionReset_Account.triggered.connect(self.confirm_reset_account)
-            self.initUI()
-        else: #else if enter as admin
-            uic.loadUi('UI/main_admin.ui', baseinstance=self)
-            self.actionAdjust_Credits.triggered.connect(self.adjust_credit)
-            self.actionChange_Password.triggered.connect(self.change_password)
-            self.actionReset_Account.triggered.connect(self.confirm_reset_account)
-            self.actionDelete_User.triggered.connect(self.delete_user)
-            self.actionSend_Message_to_UserEmail.triggered.connect(self.send_message)
-            self.initUI()
+        uic.loadUi('UI/main.ui', baseinstance=self)
+        self.initUI()
  
     def initUI(self):
         self.setWindowTitle(title)
@@ -110,6 +98,17 @@ class MainApp(QtWidgets.QMainWindow):
         self.refreshButton.clicked.connect(self.refresh_ui_data)
         self.removeFromQuickAccessButton.clicked.connect(self.on_remove_quick_access)
         self.confirmButton.clicked.connect(self.on_confirm_trade)
+
+        self.actionAdjust_Credits.triggered.connect(self.adjust_credit)
+        self.actionChange_Password.triggered.connect(self.change_password)
+        self.actionReset_Account.triggered.connect(self.confirm_reset_account)
+        checkRole = db.check_role(pf.username)
+        if checkRole =="admin":
+            self.actionDelete_User.triggered.connect(self.delete_user)
+            self.actionMessage_User.triggered.connect(self.send_message)
+        else:
+            self.actionDelete_User.triggered.connect(self.not_admin)
+            self.actionMessage_User.triggered.connect(self.not_admin)
 
         #connect the owned_stocks and quick access list widget selected item to update the currently selected company in order to update the chart and trade sections
         self.listWidget.itemPressed.connect(lambda: self.on_select_tile(self.listWidget))
@@ -316,6 +315,7 @@ class MainApp(QtWidgets.QMainWindow):
     def perform_adjust_credit(self):
         credit = int(self.ui.amountCreditEdit.text())
         pf.num_credits = credit
+        db.update_credit(pf.username, pf.num_credits)
         self.currentBalance.setText(str(pf.num_credits))
         self.loadTotalValue()
         self.currentBalance.update()
