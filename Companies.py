@@ -9,11 +9,11 @@ Represents Singleton of company listing of information and exchange between Util
 Set the static companies dataframe
 '''
 stocks = {}
-available_symbols_list = []
+available_symbols_dict = {}
 charts = {}
 
 def get_available_symbols():
-	return available_symbols_list
+	return list(available_symbols_dict.keys())
 
 def get_stock(symbol):
 	if symbol in stocks:
@@ -36,12 +36,12 @@ def get_latest_price(symbol):
 		print("Symbol not found")
 
 def update_company_information():
-	global available_symbols_list 
-	available_symbols_list = Utils.get_symbols()
+	global available_symbols_dict 
+	available_symbols_dict = Utils.get_symbols()
 	symbols_to_update = list(pf.owned_stocks.keys()) + pf.quick_access_companies
-	
+
 	for symbol in symbols_to_update:
-		if symbol in available_symbols_list:
+		if symbol in get_available_symbols():
 			stocks[symbol] = Utils.get_stock(symbol).get_quote()
 			charts[symbol] = Utils.get_chart_data(symbol)
 		

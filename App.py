@@ -182,21 +182,25 @@ class MainApp(QtWidgets.QMainWindow):
 
     def on_search(self):
         self.searchList.clear()
-        symbol = self.searchBar.text().upper()
+        text = self.searchBar.text()
+        symbol = Utils.symbol_from_name(text)
 
-        searchText = QListWidgetItem()
-        searchText.setText("Searching...")
-        self.searchList.addItem(searchText)
-        if symbol in Companies.get_available_symbols():
+        if text.upper() in Companies.get_available_symbols():
+            self.searchList.clear()
+            self.searchedWid = ui_company_listing.CompanyListing(self)
+            stock = Companies.get_stock(text)
+            self.searchedWid.populate(stock, text.upper())
+            self.searchedSymbol = text
+        elif symbol is not None:            
             self.searchList.clear()
             self.searchedWid = ui_company_listing.CompanyListing(self)
             stock = Companies.get_stock(symbol)
             self.searchedWid.populate(stock, symbol)
-            self.searchedSymbol = symbol
+            self.searchedSymbol = text
         else:
             self.searchList.clear()
             item = QListWidgetItem()
-            item.setText("Symbol " + symbol + " not found.")
+            item.setText("Company " + text + " not found.")
             self.searchList.addItem(item)
             self.searchedSymbol = None
             return

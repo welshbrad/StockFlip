@@ -6,6 +6,7 @@ from iexfinance import get_available_symbols
 import json
 from iexfinance import Stock
 import requests_cache
+import Companies
 
 '''
 This will create an automatic caching session key, which will be passed into all request functions to cache results
@@ -38,10 +39,11 @@ Returns Pandas dataframe
 
 def get_symbols():
 	company_list = iex.get_available_symbols(session = cache_session)
-	symbol_list = []
+
+	company_info = {}
 	for company in company_list:
-		symbol_list.append(company['symbol'])
-	return symbol_list
+		company_info[company['symbol']] = company['name']
+	return company_info
 
 '''
 Use code, (e.g. AAPL) and a time slice to get data from iexfinance API
@@ -82,3 +84,12 @@ def get_chart_data(company_code):
 	stock_reader = Stock(company_code, output_format='json', session=cache_session)
 	chart_dict = stock_reader.get_chart()
 	return chart_dict
+
+"""
+Input a company name (exact text) and return the symbol:
+"""
+def symbol_from_name(name):
+	for key, value in Companies.available_symbols_dict.items():
+		if value == name:
+			return key
+	return None

@@ -5,6 +5,7 @@ More important:
     Brad:
     =====
     X buy/sell
+    search by company name instead of symbol
     connection management
     X highlight active company when clicked
     X restrict quick access to one of each company (no duplicates)
@@ -12,7 +13,7 @@ More important:
     update thread for UI
     stats
     make sure data is accurate
-    colored percent change
+    X colored percent change
 
     Vu:
     =====
