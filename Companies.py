@@ -44,6 +44,4 @@ def update_company_information():
 		if symbol in available_symbols_list:
 			stocks[symbol] = Utils.get_stock(symbol).get_quote()
 			charts[symbol] = Utils.get_chart_data(symbol)
-
-	print("Data updated")	
-
+		

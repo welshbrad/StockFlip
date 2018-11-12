@@ -18,7 +18,7 @@ import ui_company_listing
 import Utils
 import Companies
 import UpdaterThread
-import time
+from datetime import datetime
 
 '''
 Loads and displays the UI for the account login. Valid credentials need to be passed into this UI in order to display the main window
@@ -80,6 +80,7 @@ class MainApp(QtWidgets.QMainWindow):
         super().__init__()
         timer = QTimer(self)
         self.company_selected = False
+
         #timer.timeout.connect(self.refresh_ui_data)
         #timer.start(UpdaterThread.time_delta * 1000)
 
@@ -165,6 +166,9 @@ class MainApp(QtWidgets.QMainWindow):
         self.loadPortfolio()
         self.quickAccessList.clear()
         self.loadQuickAccessAndCompanySearch()
+        
+        #set our "last updated" label to our new delta
+        self.lastUpdatedLabel.setText("Last updated: " + datetime.now().strftime('%I:%M %p '))
 
     def on_search(self):
         self.searchList.clear()

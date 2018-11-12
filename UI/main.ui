@@ -159,6 +159,21 @@
             </widget>
            </item>
            <item>
+            <widget class="QLabel" name="lastUpdatedLabel">
+             <property name="font">
+              <font>
+               <italic>true</italic>
+              </font>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item>
             <widget class="QPushButton" name="refreshButton">
              <property name="maximumSize">
               <size>
@@ -595,7 +610,7 @@
                      </font>
                     </property>
                     <property name="text">
-                     <string>$ 0000.00</string>
+                     <string>-</string>
                     </property>
                    </widget>
                   </item>
@@ -1115,22 +1130,6 @@
     <hint type="destinationlabel">
      <x>295</x>
      <y>688</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>numToTrade</sender>
-   <signal>textEdited(QString)</signal>
-   <receiver>totalPriceLabel</receiver>
-   <slot>setText(QString)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>252</x>
-     <y>632</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>264</x>
-     <y>656</y>
     </hint>
    </hints>
   </connection>
