@@ -90,5 +90,22 @@
   <tabstop>CheckCodeButton</tabstop>
  </tabstops>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>CheckCodeButton</sender>
+   <signal>clicked()</signal>
+   <receiver>Dialog</receiver>
+   <slot>close()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>210</x>
+     <y>84</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>212</x>
+     <y>59</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>
