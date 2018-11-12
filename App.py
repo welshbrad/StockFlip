@@ -216,6 +216,7 @@ class MainApp(QtWidgets.QMainWindow):
             symbol = self.quickAccessList.itemWidget(item).companyLabel.text()
             print(symbol)
             pf.quick_access_companies.remove(symbol)
+            db.remove_user_quick_access(pf.username, symbol)
             self.quickAccessList.takeItem(self.quickAccessList.row(item))
 
     def on_add_to_quick_access(self, event):
@@ -227,8 +228,10 @@ class MainApp(QtWidgets.QMainWindow):
         if symbol in pf.quick_access_companies:
             QMessageBox.about(self, "Error", "This symbol is already in your Quick Access list.")
             return
-        if pf.add_to_quick_access(symbol, to_beginning=True):  
+        if pf.add_to_quick_access(symbol, to_beginning=True):
+            db.insert_user_quick_access(pf.username, symbol)
             self.loadQuickAccessAndCompanySearch()
+            
 
     def on_confirm_trade(self):
         if self.company_selected is not None:
