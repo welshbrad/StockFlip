@@ -342,14 +342,15 @@ class MainApp(QtWidgets.QMainWindow):
         self.ui.exec_()
 
     def perform_change_password(self):
-        email = self.ui.emailEdit.text()
         newPassword = self.ui.newPasswordEdit.text()
         confirmnewPassword = self.ui.confirmNewPasswordEdit.text()
-        passreset = resetPass(pf.username, newPassword, \
-                                 confirmPasswordEdit, email)
-        valid, message = passreset.checkCredentials()
+        changePassword = PasswordChange(pf.username, newPassword, \
+                                confirmnewPassword)
+        valid, message = changePassword.isValidPassword()
         if not valid:
             QMessageBox.about(self, "Error", message + "       ")
+        else:
+            db.update_password(pf.username, newPassword)
 
     def confirm_reset_account(self):
         self.ui = uic.loadUi('UI/confirm_reset_account.ui')
@@ -362,6 +363,12 @@ class MainApp(QtWidgets.QMainWindow):
     def perform_reset_account(self):
         pf.reset()
         self.refresh_ui_data()
+
+    def not_admin(self):
+        self.ui = uic.loadUi('UI/not_admin_warning.ui')
+        self.ui.setModal(True)
+        self.ui.show()
+        self.ui.exec_()
 
     def delete_user(self):
         self.ui = uic.loadUi('UI/delete_user_panel.ui')
