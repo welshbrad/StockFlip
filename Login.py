@@ -4,6 +4,7 @@ import os
 from Utils import overrides
 from PyQt5.QtWidgets import QMessageBox
 import Portfolio as pf
+import database as db
 
 '''
 Utility function to hash a password. Used by Authenticator and AccountCreator
@@ -29,10 +30,13 @@ class Authenticator():
     '''
     def checkCredentials(self):
         if self.isValidUsername() and self.isValidPassword():
-            # Connect to the MySQL server and check username + password combo
-            # return true and set session token
-            self.createSession()
-            return True, ''
+            check = db.check_user_password(self.username, self.password)
+            if check:
+                self.createSession()
+                return True, ''
+            else:
+                self.return_string ="Invalid Username or Password"
+                return False, self.return_string
         else:
             print("Invalid credentials")  #Remove this once the above part is implemented
             return False, self.return_string
@@ -50,30 +54,15 @@ class Authenticator():
         return True
 
     def createSession(self):
-        #Pull user data from DB. This data will occupy  Portfolio object
-        '''
-        Temporary portfolio object. Will be filled with DB values later
-        '''
+        credit = db.find_credits(self.username)
         pf.username = self.username
-        pf.num_credits = 6320.50
-        pf.set_stock("GOOGL", 3)
-        pf.set_stock("AAPL", 140)
-        pf.add_to_quick_access("AAPL")
-        pf.add_to_quick_access("GOOGL")
-        pf.add_to_quick_access("TSLA")
-        pf.add_to_quick_access("FB")
-        pf.add_to_quick_access("YI")
-        pf.add_to_quick_access("PIH")
-        pf.add_to_quick_access("CMCSA")
-        pf.add_to_quick_access("COST")
-        pf.add_to_quick_access("EBAY")
-        pf.add_to_quick_access("INTC")
-        pf.add_to_quick_access("NFLX")
-        pf.add_to_quick_access("QCOM")
-        pf.add_to_quick_access("STX")
-        pf.add_to_quick_access("WBA")
-        pf.add_to_quick_access("TSLA")
-        pf.add_to_quick_access("FOX")
+        pf.num_credits = credit
+        stock = db.find_stock_of_user(pf.username)
+        for i in stock:
+            pf.set_stock(i[1], i[2])
+        quick_access = db.find_user_quick_access(pf.username)
+        for i in quick_access:
+            pf.add_to_quick_access(i[1])
         
 
 '''
@@ -89,8 +78,24 @@ class AccountCreator(Authenticator):
     @overrides(Authenticator)
     def checkCredentials(self):
         if self.isValidUsername() and self.isValidPassword() and self.isValidEmail():
-            #Connect to DB, create new user, setup table
-            return True, 'Valid'
+            checkUser = db.check_user(self.username)
+            checkEmail = db.check_email(self.email)
+            if checkUser:
+                self.return_string ="Username is already existed!"
+                return False, self.return_string
+            if checkEmail:
+                self.return_string ="Email is already used!"
+                return False, self.return_string
+            else:
+                db.insert_user(self.username, self.password, self.email, "member")
+                db.insert_UP(self.username)
+                #add some quick access stock to new user
+                db.insert_user_quick_access(self.username, "AAPL")
+                db.insert_user_quick_access(self.username, "GOOGL")
+                db.insert_user_quick_access(self.username, "COST")
+                db.insert_user_quick_access(self.username, "EBAY")
+                db.insert_user_quick_access(self.username, "FOX")
+                return True, 'Valid'
         return False, self.return_string
 
     @overrides(Authenticator)
