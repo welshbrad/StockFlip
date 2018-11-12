@@ -124,8 +124,7 @@ class PasswordChange(Authenticator):
     def isValidPassword(self):
         if super().isValidPassword():
             if (self.password == self.re_password):
-                return True
+                return True, " "
             else:
-                self.return_string = "Passwords don't match"
-                return False, self.return_string
-        return False, "Invalid Passworde"
+                return False, "Passwords don't match"
+        return False, "Invalid Password"
