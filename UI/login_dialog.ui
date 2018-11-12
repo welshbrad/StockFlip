@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>349</width>
-    <height>192</height>
+    <height>227</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,7 +19,7 @@
      <x>10</x>
      <y>10</y>
      <width>321</width>
-     <height>191</height>
+     <height>171</height>
     </rect>
    </property>
    <property name="title">
@@ -95,6 +95,9 @@
      </item>
      <item>
       <widget class="QPushButton" name="LoginButton">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
        <property name="font">
         <font>
          <pointsize>12</pointsize>
@@ -110,7 +113,7 @@
    <widget class="QPushButton" name="ResetPassButton">
     <property name="geometry">
      <rect>
-      <x>120</x>
+      <x>190</x>
       <y>150</y>
       <width>101</width>
       <height>21</height>

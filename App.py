@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
-version = "1.76"
+version = "1.84"
 title = "StockFlip - version " + version
 
 import sys
@@ -18,7 +18,7 @@ import ui_company_listing
 import Utils
 import Companies
 import UpdaterThread
-
+import time
 
 '''
 Loads and displays the UI for the account login. Valid credentials need to be passed into this UI in order to display the main window
@@ -207,6 +207,9 @@ class MainApp(QtWidgets.QMainWindow):
         symbol = self.searchedSymbol
         if not isinstance(symbol, str):
             return
+        if symbol in pf.quick_access_companies:
+            QMessageBox.about(self, "Error", "This symbol is already in your Quick Access list.")
+            return
         if pf.add_to_quick_access(symbol, to_beginning=True):  
             self.loadQuickAccessAndCompanySearch()
 
@@ -360,18 +363,18 @@ if __name__ == '__main__':
     app = QtWidgets.QApplication(sys.argv)
     login = Login_UI()
     if login.exec_() == QtWidgets.QDialog.Accepted:
+        mainApp = MainApp()
+        mainApp.show()
+        
         try:
             Companies.update_company_information()
         except:
             QMessageBox.about(mainApp, "No Connection", "You must be connected to the Internet in order to get accurate data.")
-            sys.exit()
+        
         #This will continuously pull from the API and push all the data into the cache
         updater = UpdaterThread.UpdaterThread(1, "updater")
         updater.daemon = True
         updater.start()
 
-        mainApp = MainApp()
-        mainApp.show()
-        
         ret = app.exec_()
         sys.exit(ret)
