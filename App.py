@@ -11,7 +11,7 @@ from PyQt5.QtCore import QTimer
 from PyQt5.QtWidgets import *
 from Login import Authenticator, AccountCreator
 from ResetPassword import resetPass
-import database as db
+import database1 as db
 import EmailJob as ej
 import Portfolio as pf
 import ui_portfolioTile
@@ -275,10 +275,13 @@ class MainApp(QtWidgets.QMainWindow):
 
     def loadTotalValue(self):
         self.totalValue.setText("$" + str("{:,}".format(pf.calculate_total_value())))
-
+        pf.total_value = pf.calculate_total_value()
+        db.update_total_value(pf.username, pf.total_value)
+        
     def loadPortfolio(self):
         self.loggedInAsUser.setText(pf.username)
         self.currentBalance.setText("$" + str("{:,}".format(round(pf.num_credits, 2))))
+        db.update_credit(pf.username, pf.num_credits)
         self.loadTotalValue()
 
         for symbol, num_stock in pf.owned_stocks.items():
@@ -289,7 +292,14 @@ class MainApp(QtWidgets.QMainWindow):
             wid2.setSizeHint(QtCore.QSize(300, 75))
             self.listWidget.addItem(wid2)
             self.listWidget.setItemWidget(wid2, wid)
-
+            stocklist = db.find_stock_of_user(pf.username)
+            check = False
+            for i in stocklist:
+                if symbol == i[1]:
+                    check = True
+                    db.update_stock(pf.username, symbol, num_stock)
+            if check == False:
+                db.insert_stock(pf.username, symbol, num_stock)
     def closeEvent(self, event):
         reply = QMessageBox.question(self, 'Quit?',
             "Are you sure to quit?", QMessageBox.No | 
