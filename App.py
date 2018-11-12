@@ -9,7 +9,7 @@ from PyQt5 import uic
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import QTimer
 from PyQt5.QtWidgets import *
-from Login import Authenticator, AccountCreator
+from Login import Authenticator, AccountCreator, PasswordChange
 from ResetPassword import resetPass
 import database1 as db
 import EmailJob as ej
