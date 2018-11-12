@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
-version = "1.84"
+version = "1.86"
 title = "StockFlip - version " + version
 
 import sys
@@ -368,6 +368,7 @@ if __name__ == '__main__':
     login = Login_UI()
     if login.exec_() == QtWidgets.QDialog.Accepted:
         mainApp = MainApp()
+        mainApp.setWindowIcon(QtGui.QIcon('res/icon.png'))
         mainApp.show()
         
         try:
