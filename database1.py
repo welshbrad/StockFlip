@@ -104,6 +104,13 @@ def remove_user_quick_access(name, stockName):
     c.execute('DELETE FROM UserQuickAccess where username = (?) AND stockname = (?)', (name, stockName))
     db.commit()
 
+def delete_user(inputName):
+    c.execute('DELETE FROM UserInfo where username = (?)', (inputName,))
+    c.execute('DELETE FROM UserPortfolio where username = (?)', (inputName,))
+    c.execute('DELETE FROM UserStockAmount where username = (?)', (inputName,))
+    c.execute('DELETE FROM UserQuickAccess where username = (?)', (inputName,))
+    db.commit()
+    
 #insert_user_quick_access("brad", "AAPL")
 #c.execute('DELETE FROM UserStockAmount where stockname = "GOOGL"')
 #db.commit()
