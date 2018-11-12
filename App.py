@@ -387,7 +387,7 @@ class MainApp(QtWidgets.QMainWindow):
             print("")
         if checkuser:
             db.delete_user(username_email)
-        if checkemail:
+        elif checkemail:
             db.delete_user(i[0])
         else:
             message = "Invalid Username or Email Address"
