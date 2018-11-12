@@ -9,7 +9,7 @@ from PyQt5 import uic
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import QTimer
 from PyQt5.QtWidgets import *
-from Login import Authenticator, AccountCreator, PasswordChange
+from Login import Authenticator, AccountCreator, PasswordChange, ResetPassword
 from ResetPassword import resetPass
 import database1 as db
 import EmailJob as ej
@@ -59,9 +59,9 @@ class Login_UI(QDialog):
         self.ui.exec_() #== QtWidgets.QDialog.Accepted:
 
     def perform_reset_password(self):
-        passreset = resetPass(self.ui.usernameLineEdit.text(), self.ui.passwordLineEdit.text(), \
-                                 self.ui.confirmPasswordLineEdit.text(), self.ui.emailLineEdit.text())
-        valid, message = passreset.checkCredentials()
+        resetpassword = ResetPassword(self.ui.usernameLineEdit.text(), self.ui.passwordLineEdit.text(), \
+                                      self.ui.confirmPasswordLineEdit.text(), self.ui.emailLineEdit.text())
+        valid, message = resetpassword.checkCredentials()
         if not valid:
             QMessageBox.about(self, "Error", message + "       ")
 
@@ -396,8 +396,7 @@ class MainApp(QtWidgets.QMainWindow):
         message = self.ui.messageEdit.text()
         print(user+'\n'+email+'\n'+subject+'\n'+message)
         ej.sendMessage(user, email, subject, message)        
-        
-        
+               
 if __name__ == '__main__':
     app = QtWidgets.QApplication(sys.argv)
     login = Login_UI()
