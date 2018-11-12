@@ -195,5 +195,5 @@ def reset():
 	global total_value
 	owned_stocks = {}
 	quick_access_companies = []
-	num_credits = 0
-	total_value = 0
+	num_credits = 5000
+	total_value = 5000
