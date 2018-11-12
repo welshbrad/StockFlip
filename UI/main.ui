@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1275</width>
+    <width>870</width>
     <height>754</height>
    </rect>
   </property>
@@ -85,7 +85,7 @@
     <property name="spacing">
      <number>5</number>
     </property>
-    <item row="0" column="4">
+    <item row="0" column="3">
      <spacer name="horizontalSpacer">
       <property name="orientation">
        <enum>Qt::Horizontal</enum>
@@ -1058,22 +1058,6 @@
       </layout>
      </widget>
     </item>
-    <item row="0" column="3">
-     <widget class="QFrame" name="frame_3">
-      <property name="minimumSize">
-       <size>
-        <width>400</width>
-        <height>400</height>
-       </size>
-      </property>
-      <property name="frameShape">
-       <enum>QFrame::StyledPanel</enum>
-      </property>
-      <property name="frameShadow">
-       <enum>QFrame::Raised</enum>
-      </property>
-     </widget>
-    </item>
    </layout>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
@@ -1082,8 +1066,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1275</width>
-     <height>21</height>
+     <width>870</width>
+     <height>26</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuMenu">
@@ -1095,7 +1079,15 @@
     <addaction name="actionReset_Account"/>
     <addaction name="actionExit"/>
    </widget>
+   <widget class="QMenu" name="menuAdmin_Menu">
+    <property name="title">
+     <string>Admin Menu</string>
+    </property>
+    <addaction name="actionDelete_User"/>
+    <addaction name="actionMessage_User"/>
+   </widget>
    <addaction name="menuMenu"/>
+   <addaction name="menuAdmin_Menu"/>
   </widget>
   <action name="actionAdjust_Credits">
    <property name="text">
@@ -1117,6 +1109,16 @@
     <string>Reset Account</string>
    </property>
   </action>
+  <action name="actionDelete_User">
+   <property name="text">
+    <string>Delete_User</string>
+   </property>
+  </action>
+  <action name="actionMessage_User">
+   <property name="text">
+    <string>Message_User_By_Email</string>
+   </property>
+  </action>
  </widget>
  <tabstops>
   <tabstop>searchBar</tabstop>
@@ -1134,15 +1136,15 @@
    <sender>searchBar</sender>
    <signal>returnPressed()</signal>
    <receiver>searchButton</receiver>
-   <slot>animateClick()</slot>
+   <slot>click()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>716</x>
-     <y>77</y>
+     <x>718</x>
+     <y>79</y>
     </hint>
     <hint type="destinationlabel">
-     <x>800</x>
-     <y>74</y>
+     <x>798</x>
+     <y>76</y>
     </hint>
    </hints>
   </connection>
@@ -1153,8 +1155,8 @@
    <slot>reset()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>800</x>
-     <y>74</y>
+     <x>798</x>
+     <y>76</y>
     </hint>
     <hint type="destinationlabel">
      <x>695</x>
@@ -1214,15 +1216,15 @@
    <sender>numToTrade</sender>
    <signal>returnPressed()</signal>
    <receiver>confirmButton</receiver>
-   <slot>animateClick()</slot>
+   <slot>click()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>164</x>
-     <y>629</y>
+     <x>261</x>
+     <y>622</y>
     </hint>
     <hint type="destinationlabel">
-     <x>335</x>
-     <y>608</y>
+     <x>295</x>
+     <y>688</y>
     </hint>
    </hints>
   </connection>
