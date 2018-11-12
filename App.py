@@ -115,13 +115,34 @@ class MainApp(QtWidgets.QMainWindow):
         self.quickAccessList.itemPressed.connect(lambda: self.on_select_tile(self.quickAccessList))
         self.searchList.itemPressed.connect(lambda: self.on_select_tile(self.searchList))
 
+        self.numToTrade.textChanged.connect(lambda: self.on_update_trade_text(self.numToTrade.text()))
+        self.trade_frame.hide()
+
 
         #This company is the one that will highlighted first and display its graph first on startup. Will be changed 
         #by selecting a different tile from the search bar, the owned_stocks listWidget, or the QuickAccess listWidget
         #TODO: Handle no owned stocks (NoneType error)
 
+    def setup_trade_panel(self):
+        pass
+        #This will clean things up if I populate the trade screen and handle changes here
+
+    def on_update_trade_text(self, text):
+        if self.company_selected is None:
+            return False
+        try:
+            number = int(text)
+        except Exception:
+            self.totalPriceLabel.setText("-")
+            return False
+        else:
+            total_price = Companies.get_stock(self.company_selected)["latestPrice"] * int(text)
+            self.totalPriceLabel.setText("$" + str("{:,}".format(total_price)))
+
+
 
     def on_select_tile(self, listWidget):
+        self.trade_frame.hide()
         self.active_list_widget = listWidget
         item = listWidget.currentItem()
         if item is not None:
@@ -135,6 +156,7 @@ class MainApp(QtWidgets.QMainWindow):
             self.companyFullNameLabel.setText(Companies.get_stock(self.company_selected)["companyName"])
             self.priceLabel.setText("Share Price: $" + str("{:,}".format(Companies.get_stock(self.company_selected)["latestPrice"])))
             self.numSharesOwnedLabel.setText("Shares Owned: " + str(pf.get_num_owned(self.company_selected)))
+            self.trade_frame.show()
 
 
     #TODO -  make faster and prefer to refresh rather than just reloading with new information 
@@ -196,15 +218,20 @@ class MainApp(QtWidgets.QMainWindow):
             if buy_or_sell == "Buy":
                 if pf.buy(self.companyLabel.text(), self.numToTrade.text()):
                     QMessageBox.about(self, "Success", "Trade was successful!")
-                    self.listWidget.clear()
-                    self.loadPortfolio()
                 else:
                     QMessageBox.about(self, "Error", "Error during trade.")
+                    return False
             if buy_or_sell == "Sell":
                 if pf.sell(self.companyLabel.text(), self.numToTrade.text()):
                     QMessageBox.about(self, "Success", "Trade was successful!")
                 else:
                     QMessageBox.about(self, "Error", "Error during trade.")
+                    return False
+            self.listWidget.clear()
+            self.loadPortfolio()
+            self.company_selected = None
+            self.trade_frame.hide()
+            return True
       
     def loadSearchBar(self):
         self.sendToQuickAccessButton.mousePressEvent = self.on_add_to_quick_access
@@ -227,7 +254,7 @@ class MainApp(QtWidgets.QMainWindow):
 
     def loadPortfolio(self):
         self.loggedInAsUser.setText(pf.username)
-        self.currentBalance.setText("$" + str("{:,}".format(pf.num_credits)))
+        self.currentBalance.setText("$" + str("{:,}".format(round(pf.num_credits, 2))))
         self.loadTotalValue()
 
         for symbol, num_stock in pf.owned_stocks.items():
@@ -334,8 +361,7 @@ if __name__ == '__main__':
     login = Login_UI()
     if login.exec_() == QtWidgets.QDialog.Accepted:
         try:
-            pass
-            #Companies.update_company_information()
+            Companies.update_company_information()
         except:
             QMessageBox.about(mainApp, "No Connection", "You must be connected to the Internet in order to get accurate data.")
             sys.exit()

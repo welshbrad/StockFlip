@@ -45,6 +45,5 @@ def update_company_information():
 			stocks[symbol] = Utils.get_stock(symbol).get_quote()
 			charts[symbol] = Utils.get_chart_data(symbol)
 
-	pf.total_value = pf.calculate_total_value()
 	print("Data updated")	
 

@@ -5,6 +5,7 @@ More important:
     Brad:
     =====
     buy/sell
+    connection management
     X highlight active company when clicked
     restrict quick access to one of each company (no duplicates)
     string next to refresh button saying that the app refreshed

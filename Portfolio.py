@@ -97,6 +97,7 @@ def remove_stock(symbol, quantity):
 		global owned_stocks
 		if symbol not in owned_stocks:
 			return False
+		owned_stocks[symbol] -= quantity
 	except KeyError as e:
 		raise e
 		print("KeyError: " + e)
@@ -115,7 +116,7 @@ def buy(symbol, quantity):
 	quantity = float(quantity)
 	price_per = Companies.get_latest_price(symbol)
 	old_num_credits = num_credits
-	total_price = float(quantity) * float(price_per)
+	total_price = round(float(quantity) * float(price_per), 2)
 
 	if total_price > num_credits:
 		print("Not enough credits to complete order.")
@@ -143,7 +144,7 @@ def sell(symbol, quantity):
 	num_credits = float(num_credits)
 	price_per = Companies.get_latest_price(symbol)
 	old_num_credits = num_credits
-	total_price = float(quantity) * float(price_per)
+	total_price = total_price = round(float(quantity) * float(price_per), 2)
 
 	if symbol in owned_stocks and quantity > owned_stocks[symbol]:
 		print("Can't sell more than you have.")
