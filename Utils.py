@@ -82,7 +82,7 @@ Returns all the conveniently formatted data from the API which will be used for 
 """
 def get_chart_data(company_code):
 	stock_reader = Stock(company_code, output_format='json', session=cache_session)
-	chart_dict = stock_reader.get_chart()
+	chart_dict = stock_reader.get_chart(range="1y")
 	return chart_dict
 
 """

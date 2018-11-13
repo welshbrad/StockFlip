@@ -426,10 +426,10 @@ if __name__ == '__main__':
         mainApp.setWindowIcon(QtGui.QIcon('res/icon.png'))
         mainApp.show()
         
-        try:
-            Companies.update_company_information()
-        except:
-            QMessageBox.about(mainApp, "No Connection", "You must be connected to the Internet in order to get accurate data.")
+        #try:
+        Companies.update_company_information()
+        #except:
+        #QMessageBox.about(mainApp, "No Connection", "You must be connected to the Internet in order to get accurate data.")
         
         #This will continuously pull from the API and push all the data into the cache
         updater = UpdaterThread.UpdaterThread(1, "updater")

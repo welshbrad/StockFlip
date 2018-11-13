@@ -6,7 +6,14 @@ import Utils
 
 
 def make_chart(symbol):
-        config={'showLink': False, 'scrollZoom': True}
+        buttons = list([dict(count=1,label='1m',step='month',stepmode='backward'),dict(count=6,label='6m',step='month',stepmode='backward'),dict(count=1,label='YTD',step='year',stepmode='todate'),dict(count=1,label='1y',step='year',stepmode='backward'),dict(step='all')])
+        xaxis=dict(rangeselector=dict(buttons=buttons), rangeslider=dict(visible = True), type='date', title='Date',titlefont=dict(family='Courier New, monospace',size=12,color='#7f7f7f'))
+        yaxis=dict(title='Price',titlefont=dict(family='Courier New, monospace',size=12,color='#7f7f7f'))
+        layout = go.Layout(xaxis=xaxis, yaxis=yaxis)
+
+
+        config = {'showLink': False, 'scrollZoom': True}
+
         data = Utils.get_chart_data(symbol)
 
         open_data = [day["open"] for day in data]
@@ -21,7 +28,8 @@ def make_chart(symbol):
                         low=low_data,
                         close=close_data)
         data = [trace]
-        div = offline.plot(data, include_plotlyjs=False, output_type='div', config=config)
+        figure=go.Figure(data=data,layout=layout)
+        div = offline.plot(figure, include_plotlyjs=False, output_type='div', config=config)
         return div
 
 def make_html(symbol):
