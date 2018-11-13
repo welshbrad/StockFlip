@@ -6,6 +6,7 @@ import Utils
 
 
 def make_chart(symbol):
+        config={'showLink': False, 'scrollZoom': True}
         data = Utils.get_chart_data(symbol)
 
         open_data = [day["open"] for day in data]
@@ -20,7 +21,7 @@ def make_chart(symbol):
                         low=low_data,
                         close=close_data)
         data = [trace]
-        div = offline.plot(data, include_plotlyjs=False, output_type='div')
+        div = offline.plot(data, include_plotlyjs=False, output_type='div', config=config)
         return div
 
 def make_html(symbol):
