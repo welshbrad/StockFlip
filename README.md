@@ -14,7 +14,8 @@ Python 3 back-end with PyQt5 cross-platform GUI
 pip install PyQt5  
 pip install plotly  
 pip install iexfinance  
-pip install requests-cache
+pip install requests-cache  
+pip install pandas  
 
 ## Run
 
