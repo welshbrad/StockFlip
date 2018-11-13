@@ -20,7 +20,9 @@ import Utils
 import Companies
 import UpdaterThread
 from datetime import datetime
+from PyQt5 import QtWebEngineWidgets
 
+import Grapher
 '''
 Loads and displays the UI for the account login. Valid credentials need to be passed into this UI in order to display the main window
 '''
@@ -35,7 +37,7 @@ class Login_UI(QDialog):
     def perform_login(self):
         username = self.lineEdit.text()
         password = self.lineEdit_2.text()
-        authenticate = Authenticator(username, password)
+        authenticate = Authenticator(username.lower(), password)
         valid, message = authenticate.checkCredentials()
         if not valid:
             QMessageBox.about(self, "Error", message + "       ")
@@ -92,6 +94,7 @@ class MainApp(QtWidgets.QMainWindow):
         self.setWindowTitle(title)
         self.show()
         self.showMaximized()
+
         self.loadPortfolio()
         self.loadQuickAccessAndCompanySearch()
         self.loadSearchBar()
@@ -118,15 +121,19 @@ class MainApp(QtWidgets.QMainWindow):
 
         self.numToTrade.textChanged.connect(lambda: self.on_update_trade_text(self.numToTrade.text()))
         self.trade_frame.hide()
-
-
-        #This company is the one that will highlighted first and display its graph first on startup. Will be changed 
-        #by selecting a different tile from the search bar, the owned_stocks listWidget, or the QuickAccess listWidget
-        #TODO: Handle no owned stocks (NoneType error)
+        self.company_info_panel.hide()
 
     def setup_trade_panel(self):
         pass
         #This will clean things up if I populate the trade screen and handle changes here
+
+    def update_company_info_panel(self):
+        self.company_info_symbol_label.setText(str(self.active_widget.companyLabel.text()))
+        self.company_info_name_label.setText(str(Companies.get_stock(self.company_selected)["companyName"]))
+        self.webEngineView.setHtml(Grapher.make_html(self.company_selected))
+        self.webEngineView.update()
+        self.webEngineView.show()
+        self.company_info_panel.show()
 
     def on_update_trade_text(self, text):
         if self.company_selected is None:
@@ -147,8 +154,8 @@ class MainApp(QtWidgets.QMainWindow):
         if item is not None:
             self.active_widget = listWidget.itemWidget(item)
             symbol = self.active_widget.companyLabel.text()
-           
             self.company_selected = symbol
+            self.update_company_info_panel()
             #print(self.company_selected)
             self.companyLabel.setText(self.company_selected)
             #turn get_company_name(symbol) into Util function

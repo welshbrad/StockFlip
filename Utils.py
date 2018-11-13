@@ -13,7 +13,7 @@ This will create an automatic caching session key, which will be passed into all
 Expiry default is 1 minute
 '''
 def create_cache_session():
-	expiry = timedelta(minutes=15)
+	expiry = timedelta(minutes=60)
 	session = requests_cache.CachedSession(cache_name='finance_cache', backend='sqlite', expire_after=expiry)
 	assert session is not None
 	return session

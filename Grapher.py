@@ -1,44 +1,32 @@
-import datetime
-
-import matplotlib.dates as mdates
-import matplotlib.pyplot as plt
-import pandas as pd
-from matplotlib.dates import MONDAY, DateFormatter, DayLocator, WeekdayLocator
-
-from mpl_finance import candlestick_ohlc
-
-date1 = "2004-2-1"
-date2 = "2004-4-12"
+import plotly.plotly as py
+import plotly.graph_objs as go
+import plotly.offline as offline
+from datetime import datetime
+import Utils
 
 
-mondays = WeekdayLocator(MONDAY)        # major ticks on the mondays
-alldays = DayLocator()              # minor ticks on the days
-weekFormatter = DateFormatter('%b %d')  # e.g., Jan 12
-dayFormatter = DateFormatter('%d')      # e.g., 12
+def make_chart(symbol):
+        data = Utils.get_chart_data(symbol)
 
-quotes = pd.read_csv('yahoo.csv',
-                     index_col=0,
-                     parse_dates=True,
-                     infer_datetime_format=True)
+        open_data = [day["open"] for day in data]
+        high_data = [day["high"] for day in data]
+        low_data = [day["low"] for day in data]
+        close_data = [day["close"] for day in data]
+        dates = [day["date"] for day in data]
 
-# select desired range of dates
-quotes = quotes[(quotes.index >= date1) & (quotes.index <= date2)]
+        trace = go.Candlestick(x=dates,
+                        open=open_data,
+                        high=high_data,
+                        low=low_data,
+                        close=close_data)
+        data = [trace]
+        div = offline.plot(data, include_plotlyjs=False, output_type='div')
+        return div
 
-fig, ax = plt.subplots()
-fig.subplots_adjust(bottom=0.2)
-ax.xaxis.set_major_locator(mondays)
-ax.xaxis.set_minor_locator(alldays)
-ax.xaxis.set_major_formatter(weekFormatter)
-# ax.xaxis.set_minor_formatter(dayFormatter)
-
-# plot_day_summary(ax, quotes, ticksize=3)
-candlestick_ohlc(ax, zip(mdates.date2num(quotes.index.to_pydatetime()),
-                         quotes['Open'], quotes['High'],
-                         quotes['Low'], quotes['Close']),
-                 width=0.6)
-
-ax.xaxis_date()
-ax.autoscale_view()
-plt.setp(plt.gca().get_xticklabels(), rotation=45, horizontalalignment='right')
-
-plt.show()
+def make_html(symbol):
+        html = '<html><head><meta charset="utf-8" />'
+        html += '<script src="https://cdn.plot.ly/plotly-latest.min.js"></script></head>'
+        html += '<body>'
+        html += make_chart(symbol)
+        html += '</body></html>'
+        return html
