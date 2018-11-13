@@ -9,11 +9,12 @@ Python 3 back-end with PyQt5 cross-platform GUI
 
 # Build/Run
 
-Dependencies
-    pip install PyQt5
-    pip install plotly
-    pip install iexfinance
-    pip install requests-cache
+## Dependencies
+
+pip install PyQt5
+pip install plotly
+pip install iexfinance
+pip install requests-cache
 
 Python 3.7
 
