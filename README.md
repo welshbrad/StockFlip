@@ -9,6 +9,8 @@ Python 3 back-end with PyQt5 cross-platform GUI
 
 # Build/Run
 
+Disclaimer: This application needs to have a steady Internet connection to operate effectively.  
+
 ## Dependencies
 
 pip install PyQt5  
