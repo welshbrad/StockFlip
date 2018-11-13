@@ -16,7 +16,10 @@ pip install plotly
 pip install iexfinance
 pip install requests-cache
 
+
+## Run
+
 Python 3.7
 
-
+run-> cd StockFlip/
 run-> python App.py
