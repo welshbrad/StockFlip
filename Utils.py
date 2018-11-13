@@ -82,7 +82,7 @@ Returns all the conveniently formatted data from the API which will be used for 
 """
 def get_chart_data(company_code):
 	stock_reader = Stock(company_code, output_format='json', session=cache_session)
-	chart_dict = stock_reader.get_chart(range="1y")
+	chart_dict = stock_reader.get_chart(range="5y")
 	return chart_dict
 
 """
@@ -93,3 +93,12 @@ def symbol_from_name(name):
 		if value == name:
 			return key
 	return None
+
+
+"""
+Input a company symbol and return the key stats from the API endpoint: includes price, market cap, dividends, 52 week high low, etc...
+"""
+def get_key_stats(symbol):
+	stock_reader = Stock(symbol, output_format='json', session=cache_session)
+	chart_dict = stock_reader.get_key_stats()
+	return chart_dict

@@ -123,13 +123,24 @@ class MainApp(QtWidgets.QMainWindow):
         self.trade_frame.hide()
         self.company_info_panel.hide()
 
-    def setup_trade_panel(self):
-        pass
-        #This will clean things up if I populate the trade screen and handle changes here
+    def format_dollars(self, value):
+        return "$" + str("{:,}".format(round(value),2))
 
     def update_company_info_panel(self):
         self.company_info_symbol_label.setText(str(self.active_widget.companyLabel.text()))
         self.company_info_name_label.setText(str(Companies.get_stock(self.company_selected)["companyName"]))
+
+        stats = Utils.get_key_stats(self.company_selected)
+        
+        self.markCapLabel.setText(self.format_dollars(stats["marketcap"]))
+        self.weekHighLabel.setText(self.format_dollars(stats["week52high"]))
+        self.weekLowLabel.setText(self.format_dollars(stats["week52low"]))
+        self.ytdChangePercentLabel.setText(str(round(stats["ytdChangePercent"],2))+"%")
+        self.divRateLabel.setText(self.format_dollars(stats["dividendRate"]))
+        self.divYieldLabel.setText(str(round(stats["dividendYield"], 2))+"%")
+        self.revLabel.setText(self.format_dollars(stats["revenue"]))
+        self.profitLabel.setText(self.format_dollars(stats["grossProfit"]))
+
         self.webEngineView.setHtml(Grapher.make_html(self.company_selected))
         self.webEngineView.update()
         self.webEngineView.show()
