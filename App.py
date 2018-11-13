@@ -124,7 +124,7 @@ class MainApp(QtWidgets.QMainWindow):
         self.company_info_panel.hide()
 
     def format_dollars(self, value):
-        return "$" + str("{:,}".format(round(value),2))
+        return "$" + str("{:,}".format(value))
 
     def update_company_info_panel(self):
         self.company_info_symbol_label.setText(str(self.active_widget.companyLabel.text()))
@@ -140,6 +140,14 @@ class MainApp(QtWidgets.QMainWindow):
         self.divYieldLabel.setText(str(round(stats["dividendYield"], 2))+"%")
         self.revLabel.setText(self.format_dollars(stats["revenue"]))
         self.profitLabel.setText(self.format_dollars(stats["grossProfit"]))
+
+        stock = Companies.get_stock(self.company_selected)
+        self.prc.setText(self.format_dollars(Companies.get_latest_price(self.company_selected)))
+        self.lo.setText(self.format_dollars(stock["low"]))
+        self.hi.setText(self.format_dollars(stock["high"]))
+        self.vol.setText(self.format_dollars(stock["latestVolume"]))
+        self.opn.setText(self.format_dollars(stock["open"]))
+        self.cls.setText(self.format_dollars(stock["close"]))
 
         self.webEngineView.setHtml(Grapher.make_html(self.company_selected))
         self.webEngineView.update()
