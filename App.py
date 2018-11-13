@@ -370,6 +370,8 @@ class MainApp(QtWidgets.QMainWindow):
         self.ui.exec_()
 
     def perform_reset_account(self):
+        db.rm_reset_user(pf.username)
+        db.insert_UP(pf.username)
         pf.reset()
         self.refresh_ui_data()
 
@@ -394,8 +396,8 @@ class MainApp(QtWidgets.QMainWindow):
             print("")
         if checkuser:
             db.delete_user(username_email)
-        if checkemail:
-            db.delete_user(i[0])
+        elif checkemail:
+                db.delete_user(i[0])
         else:
             message = "Invalid Username or Email Address"
             QMessageBox.about(self, "Error", message + "       ")
