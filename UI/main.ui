@@ -1466,6 +1466,25 @@
         </layout>
        </item>
        <item>
+        <widget class="QLabel" name="label_14">
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Latest News:</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="news">
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
+       <item>
         <widget class="QWebEngineView" name="webEngineView">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">

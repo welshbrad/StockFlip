@@ -140,6 +140,7 @@ class MainApp(QtWidgets.QMainWindow):
         self.divYieldLabel.setText(str(round(stats["dividendYield"], 2))+"%")
         self.revLabel.setText(self.format_dollars(stats["revenue"]))
         self.profitLabel.setText(self.format_dollars(stats["grossProfit"]))
+        self.news.setText("Test")
 
         stock = Companies.get_stock(self.company_selected)
         self.prc.setText(self.format_dollars(Companies.get_latest_price(self.company_selected)))
