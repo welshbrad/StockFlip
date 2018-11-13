@@ -123,9 +123,15 @@ class MainApp(QtWidgets.QMainWindow):
         self.trade_frame.hide()
         self.company_info_panel.hide()
 
+    """
+    Quick utility for formatting QLabel strings for money
+    """
     def format_dollars(self, value):
         return "$" + str("{:,}".format(value))
 
+    """
+    Populates the graph and detailed compoany information section of the main app
+    """
     def update_company_info_panel(self):
         if not self.company_selected:
             return
@@ -151,12 +157,14 @@ class MainApp(QtWidgets.QMainWindow):
         self.vol.setText(self.format_dollars(stock["latestVolume"]))
         self.opn.setText(self.format_dollars(stock["open"]))
         self.cls.setText(self.format_dollars(stock["close"]))
-
-        self.webEngineView.setHtml(Grapher.make_html(self.company_selected))
-        self.webEngineView.update()
-        self.webEngineView.show()
         self.company_info_panel.show()
-
+        self.webEngineView.setHtml(Grapher.make_html(self.company_selected))
+        #self.webEngineView.update()
+        #self.webEngineView.show()
+        
+    """
+    This will update the trade section text when typing in an amount into the Shares field
+    """
     def on_update_trade_text(self, text):
         if self.company_selected is None:
             return False
@@ -169,6 +177,10 @@ class MainApp(QtWidgets.QMainWindow):
             total_price = Companies.get_stock(self.company_selected)["latestPrice"] * int(text)
             self.totalPriceLabel.setText("$" + str("{:,}".format(total_price)))
 
+    """
+    When a user clicks on any company tile in the Quick access, search, or owned stocks lists, it will set an active_company widget and then populate the trade screen
+    and market info panel
+    """
     def on_select_tile(self, listWidget):
         self.trade_frame.hide()
         self.active_list_widget = listWidget
@@ -187,7 +199,9 @@ class MainApp(QtWidgets.QMainWindow):
             self.trade_frame.show()
 
 
-    #TODO -  make faster and prefer to refresh rather than just reloading with new information 
+    """
+    This is what is run when the user hits the refresh button
+    """
     def refresh_ui_data(self):
         self.listWidget.clear()
         self.loadPortfolio()
@@ -198,6 +212,9 @@ class MainApp(QtWidgets.QMainWindow):
         #set our "last updated" label to our new delta
         self.lastUpdatedLabel.setText("Last updated: " + datetime.now().strftime('%I:%M %p '))
 
+    """
+    Clear the trade section when no company selected
+    """
     def trade_update(self):
         self.listWidget.clear()
         self.loadPortfolio()
@@ -210,6 +227,9 @@ class MainApp(QtWidgets.QMainWindow):
         self.priceLabel.clear()
         self.numSharesOwnedLabel.clear()
 
+    """
+    Accepts a string, searches for a company and populates a new listWidgetItem if search is a success
+    """
     def on_search(self):
         self.searchList.clear()
         text = self.searchBar.text()
@@ -241,6 +261,9 @@ class MainApp(QtWidgets.QMainWindow):
         self.searchList.setItemWidget(self.searchedItem, self.searchedWid)
         self.searchList.update()
     
+    """
+    Select a tile and remove from quick access list widget. Triggered by the X button on the screen
+    """
     def on_remove_quick_access(self, event):
         item = self.quickAccessList.currentItem()
         if item is not None:
@@ -250,6 +273,9 @@ class MainApp(QtWidgets.QMainWindow):
             db.remove_user_quick_access(pf.username, symbol)
             self.quickAccessList.takeItem(self.quickAccessList.row(item))
 
+    """
+    Takes the searched-for widget and adds it to the Quick Access widget list. Triggered by the arrow button on the screen.
+    """
     def on_add_to_quick_access(self, event):
         if self.searchList.count() != 1:
             return
@@ -263,7 +289,9 @@ class MainApp(QtWidgets.QMainWindow):
             db.insert_user_quick_access(pf.username, symbol)
             self.loadQuickAccessAndCompanySearch()
             
-
+    """
+    Triggered by the trade button, sends field data to the portfolio trade functions for checking and processing
+    """
     def on_confirm_trade(self):
         if self.company_selected is not None:
             buy_or_sell = str(self.tradeCombo.currentText())
@@ -290,7 +318,14 @@ class MainApp(QtWidgets.QMainWindow):
                     self.tradeErrorLabel.setText(error)
                     return False
             return True
-      
+    
+    """
+
+    This section is for loading widgets and sections of the UI
+
+    """
+
+
     def loadSearchBar(self):
         self.sendToQuickAccessButton.mousePressEvent = self.on_add_to_quick_access
         self.searchButton.clicked.connect(self.on_search)
