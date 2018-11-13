@@ -127,6 +127,8 @@ class MainApp(QtWidgets.QMainWindow):
         return "$" + str("{:,}".format(value))
 
     def update_company_info_panel(self):
+        if not self.company_selected:
+            return
         self.company_info_symbol_label.setText(str(self.active_widget.companyLabel.text()))
         self.company_info_name_label.setText(str(Companies.get_stock(self.company_selected)["companyName"]))
 
@@ -191,7 +193,8 @@ class MainApp(QtWidgets.QMainWindow):
         self.loadPortfolio()
         self.quickAccessList.clear()
         self.loadQuickAccessAndCompanySearch()
-        
+        self.update_company_info_panel()
+
         #set our "last updated" label to our new delta
         self.lastUpdatedLabel.setText("Last updated: " + datetime.now().strftime('%I:%M %p '))
 

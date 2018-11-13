@@ -89,10 +89,10 @@ class AccountCreator(Authenticator):
             checkUser = db.check_user(self.username)
             checkEmail = db.check_email(self.email)
             if checkUser:
-                self.return_string ="Username is already existed!"
+                self.return_string ="Username already exists!"
                 return False, self.return_string
             if checkEmail:
-                self.return_string ="Email is already used!"
+                self.return_string ="Email is already being used!"
                 return False, self.return_string
             else:
                 db.insert_user(self.username, self.password, self.email, "member")
