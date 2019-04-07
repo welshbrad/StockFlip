@@ -2,6 +2,8 @@
 
 StockFlip is a stock market portfolio simulator for the NASDAQ market. 
 
+![alt text](https://raw.githubusercontent.com/welshbrad/StockFlip/master/IMG_0389.PNG)
+
 ## Details
 
 Uses iexTrading.com real-time market data API  
